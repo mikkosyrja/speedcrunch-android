@@ -26,7 +26,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QLocale>
 #include <QtCore/QSettings>
-#include <QApplication>
+#include <QGuiApplication>
 #include <QtGui/QFont>
 
 static Settings * s_settingsInstance = 0;
@@ -366,6 +366,15 @@ QSettings * createQSettings( const QString & KEY )
     settings = new QSettings( QSettings::NativeFormat, QSettings::UserScope, KEY, KEY );
 #endif // SPEEDCRUNCH_PORTABLE
 #endif // Q_WS_X11 || Q_WS_QWS
+
+#if defined (SAILFISH)
+    QString path = QDir::homePath()+"/.config/harbour-speedcrunch/";
+    QDir dir(path);
+    if (!dir.exists( )) {
+        dir.mkpath(".");
+    }
+    settings = new QSettings(path+"settings.ini", QSettings::NativeFormat );
+#endif
 
     return settings;
 }

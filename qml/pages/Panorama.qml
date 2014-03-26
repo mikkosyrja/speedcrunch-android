@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import QtWebKit 3.0
 
 Page {
     allowedOrientations: Orientation.Portrait
@@ -89,7 +88,7 @@ Page {
                     anchors.topMargin: 17
                     text: "functions&constants"
                     font.pixelSize: 44
-                    color: "#86e1ff"
+                    color: Theme.highlightColor
                 }
             }
             TextField{
@@ -152,14 +151,14 @@ Page {
                 }
 
                 Rectangle{
-                    height: 380
+                    height: 320
                     width: parent.width
                     color: "transparent"
                     ListView{
                         clip: true
                         id: resultsView
                         snapMode: "SnapOneItem"
-                        height: 380
+                        height: parent.height
                         width: parent.width
                         model: resultsList
                         delegate: MouseArea{
@@ -214,25 +213,26 @@ Page {
 //                            width:20
 //                            color: "blue"
 //                        }
-                        onTextChanged: {
-                            if (mn.autoCalc(text)!=="NaN") {
-                                wn.latestResult = result.text= mn.autoCalc(text)
-                            }
-                        }
+//                        onTextChanged: {
+//                            if (mn.autoCalc(text)!=="NaN") {
+//                                wn.latestResult = result.text= mn.autoCalc(text)
+//                            }
+//                        }
                         //focus: visible//myPager.index==0
                     }
                     Image {
-                        anchors { top: tf.top; topMargin: 20; right: goButton.left}
+                        anchors { top: tf.top; topMargin: 20; right: goButton.left; rightMargin: 10}
                         id: clearText
                         fillMode: Image.PreserveAspectFit
                         smooth: true;
                         visible: tf.text
                         source: "clear.png"
-                        height: 20
-                        width: 20
+                        height: 25
+                        width: 25
                         MouseArea {
                             id: clear
                             anchors.fill: parent
+                            anchors.margins: -10
                             z: 10
                             onClicked: {
                                 tf.text = ""
@@ -259,7 +259,7 @@ Page {
                     enableKeys: false
                     focus: false
                     z: 10
-                    startIndex: 0
+                    startIndex: -1
                     spacing: 20
                     height : 400
                     indicator: pageIndicatorBars
@@ -310,7 +310,7 @@ Page {
                             CalcButton {text: "acos"; isFunction: true}
                             CalcButton {text: "atan"; isFunction: true}
                             CalcButton {text: "√"; value: "sqrt()"}
-                            CalcButton {image: "cube_root.png"; /*text: "∛"; */ value:"^-3"; onCallback: {tf.cursorPosition -= 3}}
+                            CalcButton {image: "cube_root.png"; /*text: "∛"; */ value:"^(1/3)"; onCallback: {tf.cursorPosition -= 3}}
                             CalcButton {text: "("}
                             CalcButton {text: "!"}
                             CalcButton {text: "e"}
@@ -346,6 +346,7 @@ Page {
                         }
 
                         }
+                        Component.onCompleted: buttonsPager.goToPage(0);
                     }
 //                    Button {
 //                        anchors.horizontalCenter: parent.horizontalCenter
@@ -360,6 +361,7 @@ Page {
 //                        enabled: result.text.length
 //                        onClicked: mn.setClipboard(result.text)
 //                    }
+
             }
             Row{
                 id: pageIndicatorBars
@@ -402,7 +404,7 @@ Page {
                         anchors.topMargin: 17
                         text: "settings&help"
                         font.pixelSize: 44
-                        color: "#86e1ff"
+                        color: Theme.highlightColor
                     }
                 }
                 Column{
@@ -505,10 +507,14 @@ Page {
     }
 
     function go(){
-        if (mn.calc(tf.text) !== "")
+        wn.latestResultExpr = tf.text
+        if (mn.calc(tf.text) !== ""){
+            wn.latestResult = mn.calc(tf.text);
             resultsList.append({"text": tf.text + " = " + mn.calc(tf.text), "value" : mn.calc(tf.text), "steps" : tf.text})
-        else
+        } else {
+            wn.latestResult = "";
             resultsList.append({"text": tf.text, "value" : tf.text, "steps": tf.text})
+        }
 //        tf.forceActiveFocus()
         resultsView.positionViewAtEnd()
     }

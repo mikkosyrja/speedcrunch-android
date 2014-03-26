@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     // To display the view, call "show()" (will show fullscreen on device).
 
     manager mn;
-    qmlRegisterType<manager>("Manager", 1, 0, "Manager");
+    qmlRegisterType<manager>("harbour.speedcrunch.Manager", 1, 0, "Manager");
 //    view->rootContext()->setContextProperty("mn",&mn );
 
     return SailfishApp::main(argc, argv);

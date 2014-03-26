@@ -6,14 +6,40 @@
 #         - desktop icon filename must be changed
 #         - desktop filename must be changed
 #         - icon definition filename in desktop file must be changed
-TARGET = speedcrunch
+TARGET = harbour-speedcrunch
 
-CONFIG += sailfishapp
-QT += webkit
-QT += widgets
+#CONFIG += sailfishapp
+
+# Start of temporary fix for the icon for the Nov 2013 harbour requirements by (thanks to AgileArtem :))
+# QML files and folders
+QT += quick qml
+CONFIG += link_pkgconfig
+PKGCONFIG += sailfishapp
+INCLUDEPATH += /usr/include/sailfishapp
+
+TARGETPATH = /usr/bin
+target.path = $$TARGETPATH
+
+DEPLOYMENT_PATH = /usr/share/$$TARGET
+qml.files = qml
+qml.path = $$DEPLOYMENT_PATH
+
+desktop.files = harbour-speedcrunch.desktop
+desktop.path = /usr/share/applications
+
+icon.files = harbour-speedcrunch.png
+icon.path = /usr/share/icons/hicolor/86x86/apps
+
+# moving mixpanel to harbour.wikipedia.Mixpanel location to satisfy new harbour requirements
+# qml.files/path will deploy a copy to the old location, but it's ok, it's not going to be used
+mixpanel.files = qml/components/Mixpanel/src/Mixpanel
+mixpanel.path = $$DEPLOYMENT_PATH/qml/components/harbour/wikipedia
+
+INSTALLS += target icon desktop mixpanel qml
+# End of nov 2013 fix
 DEFINES += SAILFISH
 
-SOURCES += src/speedcrunch.cpp \
+SOURCES += \
     math/floatcommon.c \
     math/floatconst.c \
     math/floatconvert.c \
@@ -39,21 +65,21 @@ SOURCES += src/speedcrunch.cpp \
     core/settings.cpp \
     bison/bisonparser.cpp \
     bison/exprparser.c \
-    src/manager.cpp
+    src/manager.cpp \
+    src/harbour-speedcrunch.cpp
 
-OTHER_FILES += qml/speedcrunch.qml \
+OTHER_FILES += \
     qml/cover/CoverPage.qml \
-    rpm/speedcrunch.spec \
-    rpm/speedcrunch.yaml \
-    speedcrunch.desktop \
+    harbour-speedcrunch.desktop \
     qml/pages/Pager.qml \
-    src/bison/exprparser.y \
     qml/pages/Panorama.qml \
     qml/pages/CalcButton.qml \
     qml/pages/KeyboardButton.qml \
     qml/pages/Backspace.qml \
     qml/pages/erase_to_the_left.svg \
-    qml/pages/cube_root.svg
+    qml/pages/cube_root.svg \
+    qml/harbour-speedcrunch.qml \
+    rpm/harbour-speedcrunch.yaml
 
 HEADERS += \
     math/floatcommon.h \

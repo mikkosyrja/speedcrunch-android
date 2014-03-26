@@ -31,12 +31,13 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
-import Manager 1.0
+import harbour.speedcrunch.Manager 1.0
 
 ApplicationWindow
 {
     initialPage: Qt.resolvedUrl("pages/Panorama.qml")
     id: wn
+    property string latestResultExpr: ""
     property string latestResult: ""
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     Manager{

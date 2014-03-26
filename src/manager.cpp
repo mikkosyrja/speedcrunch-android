@@ -1,7 +1,7 @@
 #include "manager.h"
 #include <QFile>
 #include <QDir>
-#include <QApplication>
+#include <QGuiApplication>
 #if !defined(Q_WS_SIMULATOR) && !defined(SAILFISH)
 #include <MGConfItem>
 #endif
@@ -12,7 +12,7 @@ manager::manager()
 {
     evl = Evaluator::instance();
     settings = Settings::instance();
-    clipboard = QApplication::clipboard();
+    clipboard = QGuiApplication::clipboard();
 }
 
 QString manager::autoCalc(const QString &input){

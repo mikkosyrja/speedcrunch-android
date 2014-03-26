@@ -1,5 +1,4 @@
-import QtQuick 1.1
-import "UIConstants.js" as UI
+import QtQuick 2.0
 
 Button {
     id: keyboardButton

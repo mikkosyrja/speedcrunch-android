@@ -29,6 +29,7 @@ Rectangle {
         snapMode: ListView.SnapOneItem;
         flickDeceleration: 500
         currentIndex: startIndex
+        boundsBehavior: Flickable.StopAtBounds
         highlightFollowsCurrentItem: true
         highlightRangeMode: ListView.StrictlyEnforceRange
         preferredHighlightBegin: 0; preferredHighlightEnd: 0

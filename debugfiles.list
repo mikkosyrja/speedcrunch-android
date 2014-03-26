@@ -1,8 +1,8 @@
 %dir /usr/lib/debug
 %dir /usr/lib/debug/.build-id
-%dir /usr/lib/debug/.build-id/12
+%dir /usr/lib/debug/.build-id/5f
 %dir /usr/lib/debug/usr
 %dir /usr/lib/debug/usr/bin
-/usr/lib/debug/.build-id/12/3173cb3d58f87fa4d9776ad5ec8be5ce7d2b6f.debug
-/usr/lib/debug/.build-id/12/3173cb3d58f87fa4d9776ad5ec8be5ce7d2b6f
-/usr/lib/debug/usr/bin/speedcrunch.debug
+/usr/lib/debug/.build-id/5f/6687ea8be0c20cb2702166ed4eb978b633715d
+/usr/lib/debug/.build-id/5f/6687ea8be0c20cb2702166ed4eb978b633715d.debug
+/usr/lib/debug/usr/bin/harbour-speedcrunch.debug

@@ -32,12 +32,42 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    Label {
-        id: label
+    Image{
+        source:"../coverdia.png"
         anchors.centerIn: parent
-        text: wn.latestResult
+        anchors.horizontalCenterOffset: -40
+        anchors.verticalCenterOffset: -50
+//        anchors.horizontalCenter: parent.horizontalCenter
+//        opacity: label.text==""?1:0.2
+        width: 300
+        height: 300
+        fillMode: Image.PreserveAspectFit
     }
 
+    Label {
+        id: label
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        anchors.right: parent.right
+        wrapMode: Text.WrapAnywhere
+        font.pixelSize: 30
+        color: Theme.highlightColor
+        text: wn.latestResultExpr==""?"":wn.latestResultExpr + " ="
+    }
+    Label {
+        anchors.top: label.bottom;
+        anchors.topMargin: 15
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        anchors.right: parent.right
+        width: parent.width
+        truncationMode: TruncationMode.Fade
+        id: labelResult
+        font.pixelSize: 60
+        text: wn.latestResult
+    }
     CoverActionList {
         id: coverAction
 

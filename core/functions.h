@@ -20,6 +20,7 @@
 #ifndef CORE_FUNCTIONS_H
 #define CORE_FUNCTIONS_H
 
+#include <QObject>
 #include <QtCore/QStringList>
 #include <QtCore/QVector>
 

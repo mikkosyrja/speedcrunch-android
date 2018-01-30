@@ -930,8 +930,7 @@ Function * Functions::function( const QString & identifier ) const
 QStringList Functions::names() const
 {
     QStringList result = d->functions.keys();
-    std::transform( result.begin(), result.end(), result.begin(),
-                    std::mem_fun_ref(&QString::toLower) );
+	std::transform(result.begin(), result.end(), result.begin(), [](const QString& s) { return s.toLower(); });
     return result;
 }
 

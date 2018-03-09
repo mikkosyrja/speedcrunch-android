@@ -1,6 +1,7 @@
 #ifndef MANAGER_H
 #define MANAGER_H
-#include <QObject>                 //IMP
+
+#include <QObject>				//IMP
 #include <QString>
 #include <QStringList>
 #include "core/evaluator.h"
@@ -8,29 +9,31 @@
 #include <QDebug>
 #include <QClipboard>
 
-class manager : public QObject     //IMP
+class Manager : public QObject	//IMP
 {
-    Q_OBJECT                       //IMP
-private:
-    Evaluator * evl;
-    Settings * settings;
-    QClipboard *clipboard;
+	Q_OBJECT					//IMP
 
 public:
+	Manager();
 
-    Q_INVOKABLE QString autoCalc(const QString&);
-    Q_INVOKABLE QString calc(const QString&);
-    Q_INVOKABLE void loadLayouts();
-    Q_INVOKABLE void restoreLayouts();
-    Q_INVOKABLE QString getFunctions(QString);
-    Q_INVOKABLE void setABC();
-    Q_INVOKABLE void setNumbers();
-    Q_INVOKABLE void setAngleModeRadian();
-    Q_INVOKABLE void setAngleModeDegree();
-    Q_INVOKABLE QString getAngleMode();
-    Q_INVOKABLE void setClipboard(QString);
+	Q_INVOKABLE QString autoCalc(const QString&);
+	Q_INVOKABLE QString calculate(const QString&);
+	Q_INVOKABLE void loadLayouts();
+	Q_INVOKABLE void restoreLayouts();
+	Q_INVOKABLE QString getFunctions(QString filter);
+	Q_INVOKABLE void setABC();
+	Q_INVOKABLE void setNumbers();
+	Q_INVOKABLE void setAngleMode(QString mode);
+	Q_INVOKABLE QString getAngleMode() const;
+	Q_INVOKABLE void setPrecision(QString precision);
+	Q_INVOKABLE QString getPrecision() const;
+	Q_INVOKABLE void setClipboard(QString text);
 
-    manager();
+
+private:
+	Evaluator* evaluator;
+	Settings* settings;
+	QClipboard* clipboard;
 };
 
 #endif // MANAGER_H

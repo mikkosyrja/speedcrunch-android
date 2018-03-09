@@ -1,523 +1,646 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 
-Page {
-    allowedOrientations: Orientation.Portrait
-        Row{
-            id: bullets
-            width: 100
-            height: 30
-            z: 10
-            spacing: 20
-            anchors.top: parent.top;
-            anchors.left: parent.left
-            anchors.topMargin: 30
-            anchors.leftMargin: 30
-            Switch{
-                width: 20
-                height: 20
-                opacity: .5
-                onClicked: myPager.goToPage(0)
-            }
-            Switch{
-                width: 20
-                height: 20
-                checked: true
-                opacity: .5
-                onClicked: myPager.goToPage(1)
-            }
-            Switch{
-                width: 20
-                height: 20
-                opacity: .5
-                onClicked: myPager.goToPage(2)
-            }
-        }
-        MouseArea{
-            id: captureClicks
-            anchors.fill: bullets
-            onClicked: mouse.accepted = true
-            preventStealing: true
-            z:10
-        }
+Page
+{
+	property int statusmargin: window.height / 16
+	property int buttonmargin: window.width / 50
+	property int helpmargin: buttonmargin * 2
 
-    Pager {
-        property bool firstTime : true
-        id: myPager
-        isHorizontal: true
-        anchors.fill: parent
-        model: pagesModel
-        color: "transparent"
-        enableKeys: true
-        focus: true
-        indicator: bullets
-        startIndex: 1
-        Timer {
-            id: pagertimer
-            interval: 100; running: false; repeat: false
-            onTriggered: {
-                if (parent.index==1) {
-                    if (parent.firstTime) parent.firstTime = false; else mn.setNumbers()
-//                    tf.forceActiveFocus()
-                }
-                if (parent.index==0) mn.setABC()
-            }
-        }
-        onIndexChanged: {
-            pagertimer.running = true
-        }
-    }
+	property int buttoncolumns: 5	//## more with tablet
+	property int buttonrows: 4
 
-    VisualItemModel {
-        id: pagesModel
-///////////////////////////////page 1
-        Rectangle {
-            width: wn.width
-            height: wn.height
-            color: "transparent"
-            Rectangle{
-                id: header1
-                height: 72
-                anchors.top: parent.top
-                width: parent.width
-                color: "transparent"
-                Text {
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-                    anchors.rightMargin: 20
-                    anchors.topMargin: 17
-                    text: "functions&constants"
-                    font.pixelSize: 44
-                    color: Theme.highlightColor
-                }
-            }
-            TextField{
-                id: searchFunctions
-                placeholderText: "search"
-                inputMethodHints: Qt.ImhNoPredictiveText;
-                width: parent.width
-                anchors.top: header1.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            ListView{
-                id: funcsnconsts
-                clip: true
-                width: parent.width
-                anchors.top: searchFunctions.bottom
-                anchors.bottom: parent.bottom
-                model: {eval(mn.getFunctions(searchFunctions.text))}
-                delegate: Rectangle{
-                    property bool isCurrentItem: ListView.isCurrentItem
-                    color: "transparent"
-                    height: 50
-                    width: parent.width
-                    Text{
-                        id:textitem
-                        color: "white"
-                        text:modelData.name
-                        width: parent.width -40
-                        font.pixelSize: 30
-                        font.weight: parent.isCurrentItem ?Font.Bold: Font.Light
-                        anchors.centerIn: parent
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                funcsnconsts.currentIndex = index;
-                                var parenthesis = modelData.func?"()":""
-                                tf.text = tf.text + modelData.val + parenthesis
-                                if (modelData.func) tf.cursorPosition = tf.text.length -1
-                                myPager.goToPage(1)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-///////////////////////////////page 2
-        Rectangle{
-            width: wn.width
-            height: wn.height
-            color: "transparent"
-            Column{
-                anchors.fill: parent
-                anchors.margins: 10
-                ListModel{
-                    id: resultsList
-                }
-                Rectangle{
-                    height: 70
-                    width: parent.width
-                    color: "transparent"
-                }
+	property int fontsizebig: statusmargin * 2 / 3
+	property int fontsizesmall: statusmargin / 2
+	property int fontsizetiny: statusmargin / 3
+	property int lineheight: fontsizesmall * 1.3	//##
+	property int settingheight: statusmargin * 1.3	//##
 
-                Rectangle{
-                    height: 320
-                    width: parent.width
-                    color: "transparent"
-                    ListView{
-                        clip: true
-                        id: resultsView
-                        snapMode: "SnapOneItem"
-                        height: parent.height
-                        width: parent.width
-                        model: resultsList
-                        delegate: MouseArea{
-                            height: 40
-                            width: parent.width
-                            Text{
-                                id: li
-                                text:model.text
-                                color: "white"
-                                font.pixelSize: 30
-                            }
-                            onClicked: {
-                                if (mouse.wasHeld)
-                                    tf.text = tf.text + model.value
-                                else
-                                    tf.text = tf.text + "(" +model.steps + ")"
-                                mouse.accepted = true;
-//                                tf.forceActiveFocus()
-                            }
-                        }
-                    }
-                    ScrollDecorator{
-                        flickable: resultsView
-                    }
-                }
-                Text{
-                    id: result
-                    color: "white"
-                    font.pointSize: 30
-                    height: 70
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.leftMargin: 30
-                    anchors.rightMargin: 30
-                }
-                Item{
-                    width: parent.width
-                    height: tf.height
-                    TextField{
-                        id: tf
-                        anchors.left: parent.left
-                        anchors.right: clearText.left
-                        inputMethodHints:  Qt.ImhPreferNumbers;//Qt.ImhNoPredictiveText;
-                        placeholderText: "expression"
-                        Keys.onReturnPressed: { go();}
-//                        Rectangle{
-//                            anchors.left:parent.left
-//                            anchors.top:parent.top
-//                            anchors.leftMargin: tf.positionToRectangle(4).x
-//                            anchors.topMargin: tf.positionToRectangle(4).y
-//                            height: 20
-//                            width:20
-//                            color: "blue"
-//                        }
-//                        onTextChanged: {
-//                            if (mn.autoCalc(text)!=="NaN") {
-//                                wn.latestResult = result.text= mn.autoCalc(text)
-//                            }
-//                        }
-                        //focus: visible//myPager.index==0
-                    }
-                    Image {
-                        anchors { top: tf.top; topMargin: 20; right: goButton.left; rightMargin: 10}
-                        id: clearText
-                        fillMode: Image.PreserveAspectFit
-                        smooth: true;
-                        visible: tf.text
-                        source: "clear.png"
-                        height: 25
-                        width: 25
-                        MouseArea {
-                            id: clear
-                            anchors.fill: parent
-                            anchors.margins: -10
-                            z: 10
-                            onClicked: {
-                                tf.text = ""
-//                                  tf.forceActiveFocus()
-                            }
-                        }
-                        z: 10
-                    }
-                    Button {
-                        id: goButton
-                        text: "Go"
-                        anchors.top: tf.top
-                        anchors.topMargin: -10
-                        anchors.right: parent.right
-                        width: 70
-                        onClicked: { go();  }
-                    }
-                }
-                Pager {
-                    property bool firstTime : true
-                    id: buttonsPager
-                    isHorizontal: true
-                    color: "transparent"
-                    enableKeys: false
-                    focus: false
-                    z: 10
-                    startIndex: -1
-                    spacing: 20
-                    height : 400
-                    indicator: pageIndicatorBars
-                    width: parent.width
-                    model: VisualItemModel {
-                        // Page 1
-                        Grid{
-                            id: buttonsPage0
-                            columns: 5
-                            rows: 4
-                            width: parent.parent.width
-                            spacing: 15
-                            height: parent.height
-                            CalcButton {text: "7"}
-                            CalcButton {text: "8"}
-                            CalcButton {text: "9"}
-                            CalcButton {text: "+"}
-                            Backspace {}
-                            CalcButton {text: "4"}
-                            CalcButton {text: "5"}
-                            CalcButton {text: "6"}
-                            CalcButton {text: "-"}
-                            CalcButton {text: "("}
-                            CalcButton {text: "1"}
-                            CalcButton {text: "2"}
-                            CalcButton {text: "3"}
-                            CalcButton {text: "*"}
-                            CalcButton {text: ")"}
-                            CalcButton {text: "."}
-                            CalcButton {text: "0"}
-                            CalcButton {text: "000"}
-                            CalcButton {text: "/"}
-                            CalcButton {text: "^"}
-                        }
-                        //Page 2
-                        Grid{
-                            columns: 5
-                            rows: 4
-                            width: buttonsPage0.width
-                            spacing: 15
-                            height: parent.height
-                            CalcButton {text: "sin"; isFunction: true }
-                            CalcButton {text: "cos"; isFunction: true}
-                            CalcButton {text: "tan"; isFunction: true}
-                            CalcButton {text: "pi"}
-                            Backspace {}
-                            CalcButton {text: "asin"; isFunction: true}
-                            CalcButton {text: "acos"; isFunction: true}
-                            CalcButton {text: "atan"; isFunction: true}
-                            CalcButton {text: "√"; value: "sqrt()"}
-                            CalcButton {image: "cube_root.png"; /*text: "∛"; */ value:"^(1/3)"; onCallback: {tf.cursorPosition -= 3}}
-                            CalcButton {text: "("}
-                            CalcButton {text: "!"}
-                            CalcButton {text: "e"}
-                            CalcButton {text: "%"}
-                            CalcButton {text: ")"}
-                            CalcButton {text: "x="}
-                            CalcButton {text: "home"
-                                        special: true
-                                        onRunFunction: tf.cursorPosition = 0
-                                        }
-                            CalcButton {text: "←"
-                                        special: true
-                                        onRunFunction: {
-//                                            tf.forceActiveFocus();
-//                                            mn.hideKeyboard();
-                                            tf.cursorPosition--
-                                        }}
-                            CalcButton {text: "→";
-                                        special: true
-                                        onRunFunction: {
-//                                            tf.forceActiveFocus();
-//                                            mn.hideKeyboard();
-                                            tf.cursorPosition++
-                                        }}
-                            CalcButton {text: "end"
-                                        special: true
-                                        onRunFunction: {
-//                                            tf.forceActiveFocus();
-                                            mn.hideKeyboard();
-                                            tf.cursorPosition = tf.text.length
-                                        }}
-                            //←↑→↓
-                        }
+	property int resultheight: lineheight
+	property int keyboardheight: window.height * 45 / 100	//## is 45% always true?
+	property int historyheight: window.height - keyboardheight - textfield.height - statusmargin - resultheight
 
-                        }
-                        Component.onCompleted: buttonsPager.goToPage(0);
-                    }
-//                    Button {
-//                        anchors.horizontalCenter: parent.horizontalCenter
-//                        width: 400
-//                        text: "clear till"
-//                        onClicked: resultsList.clear()
-//                    }
-//                    Button {
-//                        anchors.horizontalCenter: parent.horizontalCenter
-//                        width: 400
-//                        text: "copy result"
-//                        enabled: result.text.length
-//                        onClicked: mn.setClipboard(result.text)
-//                    }
+	property int buttonwidth: (width - buttonmargin) / buttoncolumns - buttonmargin
+	property int bulletwidth: window.width / 20
 
-            }
-            Row{
-                id: pageIndicatorBars
-                width: childrenRect.width
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 20
-                height: 10
-                z: 10
-                spacing: 10
-                Switch{
-                    width: 20
-                    height: 20
-                    opacity: .5
-                    enabled: false;
-                }
-                Switch{
-                    width: 20
-                    height: 20
-                    opacity: .5
-                    enabled: false;
-                }
-            }
-        }
-//////////////////////////////////////// page 3
-        Rectangle {
-            width: wn.width
-            height: wn.height
-            color: "transparent"
-            Column {
-                anchors.fill: parent
-                Rectangle{
-                    height: 90
-                    width: parent.width
-                    color: "transparent"
-                    Text {
-                        anchors.right: parent.right
-                        anchors.top: parent.top
-                        anchors.rightMargin: 20
-                        anchors.topMargin: 17
-                        text: "settings&help"
-                        font.pixelSize: 44
-                        color: Theme.highlightColor
-                    }
-                }
-                Column{
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    Switch{
-                        id: angleUnits
-                        onClicked: {
-                            if (checked){
-                                mn.setAngleModeDegree()
-                                result.text= mn.autoCalc(tf.text)
-                                console.log(mn.getAngleMode()=='d')
-                            } else {
-                                mn.setAngleModeRadian()
-                                result.text= mn.autoCalc(tf.text)
-                            }
-                        }
-                        checked: {return (mn.getAngleMode() == 'd')}
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-                    Label{
-                        text: angleUnits.checked?"degrees":"radians"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-                }
-                Rectangle{
-                    color: "transparent"
-                    height: 40
-                    width: parent.width
-                }
+	allowedOrientations: Orientation.Portrait
 
-                Text{
-                    text: "Tips:"
-                    width: parent.width - 60
-                    color: "white"
-                    font.pixelSize: 40
-                    anchors.left: parent.left;
-                    anchors.leftMargin: 30
-                }
-                Text{
-                    text: "Swipe left/right on the keypad for more functions."
-                    color: "white"
-                    width: parent.width - 90
-                    font.pixelSize: 30
-                    wrapMode: "WordWrap"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                Text{
-                    text: "Tap on the expression to edit it with the full keyboard, for advanced formulas."
-                    color: "white"
-                    width: parent.width - 90
-                    font.pixelSize: 30
-                    wrapMode: "WordWrap"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                Text{
-                    text: "When you want to go back to basic mode, slide the keyboard down."
-                    width: parent.width - 90
-                    font.pixelSize: 30
-                    wrapMode: "WordWrap"
-                    color: "white"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                Rectangle{
-                    color: "transparent"
-                    height: 20
-                    width: parent.width
-                }
-                Text{
-                    text: "Tap on any function in the functions page to insert it to the running expression."
-                    color: "white"
-                    width: parent.width - 90
-                    font.pixelSize: 30
-                    wrapMode: "WordWrap"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                Rectangle{
-                    color: "transparent"
-                    height: 20
-                    width: parent.width
-                }
-                Text{
-                    text: "Tap on any result on the till to insert it to the running expression."
-                    width: parent.width - 90
-                    font.pixelSize: 30
-                    wrapMode: "WordWrap"
-                    color: "white"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                Rectangle{
-                    color: "transparent"
-                    height: 20
-                    width: parent.width
-                }
-            }
-        }
-    }
-    Component.onCompleted: {
-//        tf.forceActiveFocus();
+	Row		// screen indicators
+	{
+		id: header
+		spacing: bulletwidth / 2
+		anchors.top: parent.top;
+		anchors { left: parent.left; leftMargin: spacing }
+		height: statusmargin
+		z: 10
+		Switch
+		{
+			width: bulletwidth
+			anchors.verticalCenter: parent.verticalCenter
+			onClicked: screen.goToPage(0)
+		}
+		Switch
+		{
+			width: bulletwidth
+			anchors.verticalCenter: parent.verticalCenter
+			checked: true
+			onClicked: screen.goToPage(1)
+		}
+		Switch
+		{
+			width: bulletwidth
+			anchors.verticalCenter: parent.verticalCenter
+			onClicked: screen.goToPage(2)
+		}
+	}
+	Pager	// screen pager
+	{
+		id: screen
+		isHorizontal: true
+		anchors.fill: parent
+		model: pages
+		color: "transparent"
+		enableKeys: true
+		focus: true
+		indicator: header
+		startIndex: 1
 
-    }
+		Timer
+		{
+			id: screentimer
+			interval: 250; running: false; repeat: false
+			onTriggered:
+			{
+//				if ( parent.index == 1 )
+				if ( screen.index == 1 )
+				{
+//					manager.setNumbers()
+					textfield.softwareInputPanelEnabled = false
+					textfield.forceActiveFocus()
+				}
+//				if ( parent.index == 0 )
+//					manager.setABC()
+			}
+		}
 
-    function go(){
-        wn.latestResultExpr = tf.text
-        if (mn.calc(tf.text) !== ""){
-            wn.latestResult = mn.calc(tf.text);
-            resultsList.append({"text": tf.text + " = " + mn.calc(tf.text), "value" : mn.calc(tf.text), "steps" : tf.text})
-        } else {
-            wn.latestResult = "";
-            resultsList.append({"text": tf.text, "value" : tf.text, "steps": tf.text})
-        }
-//        tf.forceActiveFocus()
-        resultsView.positionViewAtEnd()
-    }
+		onIndexChanged: { screentimer.running = true }
+	}
 
+	VisualItemModel
+	{
+		id: pages
+		Rectangle	/////////////////////////////// page 1
+		{
+			width: window.width
+			height: window.height
+			color: "transparent"
+			Rectangle
+			{
+				id: header1
+//				anchors.top: parent.top
+				width: parent.width
+				height: statusmargin
+				color: "transparent"
+				Text
+				{
+					anchors { right: parent.right; rightMargin: bulletwidth / 2 }
+					anchors.verticalCenter: parent.verticalCenter
+					text: "Functions"		//%%
+					font.pixelSize: fontsizebig
+					color: Theme.highlightColor
+				}
+			}
+			TextField
+			{
+				id: searchFunctions
+				placeholderText: "search"
+				inputMethodHints: Qt.ImhNoPredictiveText;
+				width: parent.width
+				anchors.top: header1.bottom
+				anchors.horizontalCenter: parent.horizontalCenter
+			}
+			ListView
+			{
+				id: functions
+				clip: true
+				width: parent.width
+				anchors.top: searchFunctions.bottom
+				anchors.bottom: parent.bottom
+				model: { eval(manager.getFunctions(searchFunctions.text)) }
+				delegate: Rectangle
+				{
+					property bool isCurrentItem: ListView.isCurrentItem
+					color: "transparent"
+					width: parent.width
+					height: lineheight
+					Text
+					{
+						id:textitem
+						color: "white"
+						text: modelData.name
+						width: parent.width - 40	//##
+						font.pixelSize: fontsizesmall
+						font.weight: (parent.isCurrentItem ? Font.Bold: Font.Light)
+						anchors.centerIn: parent
+						MouseArea
+						{
+							anchors.fill: parent
+							onClicked:
+							{
+								functions.currentIndex = index;
+								var value = modelData.val + (modelData.func ? "()" : "")
+								var text = textfield.text
+								var pos = textfield.cursorPosition
+								textfield.text = text.substring(0, pos) + value + text.substring(pos, text.length)
+								textfield.cursorPosition = pos + value.length
+								if ( modelData.func )
+									textfield.cursorPosition--
+								screen.goToPage(1)
+								mouse.accepted = true;
+							}
+						}
+					}
+				}
+			}
+		}
+		Rectangle	/////////////////////////////// page 2
+		{
+			width: window.width
+			height: window.height
+			color: "transparent"
+			Column
+			{
+				anchors.fill: parent
+				anchors.margins: 10
+				ListModel { id: resultsList }
+				Rectangle	// page indicator
+				{
+					id: header2
+//					anchors.top: parent.top
+					width: parent.width
+					height: statusmargin
+					color: "transparent"
+					Text
+					{
+						anchors { right: parent.right; rightMargin: bulletwidth / 2 }
+						anchors.verticalCenter: parent.verticalCenter
+						text: "SpeedCrunch"
+						font.pixelSize: fontsizebig
+						color: Theme.highlightColor
+					}
+				}
+//				Rectangle { height: 100 }	// margin
+				Rectangle	// history list
+				{
+//					anchors.topMargin: 100
+//					anchors.bottomMargin: 100
+					height: historyheight
+					width: parent.width
+					color: "transparent"
+					ListView
+					{
+						clip: true
+						id: resultsview
+						snapMode: "SnapOneItem"
+						height: parent.height
+						width: parent.width
+						model: resultsList
+						delegate: Rectangle
+						{
+							property bool isCurrentItem: ListView.isCurrentItem
+							color: "transparent"
+							width: parent.width
+							height: lineheight
+							Text
+							{
+								id: resultitem
+								color: "white"
+								text: model.text
+								width: parent.width - 40	//##
+								font.pixelSize: fontsizesmall
+								font.weight: (parent.isCurrentItem ? Font.Bold: Font.Light)
+								anchors.centerIn: parent
+								MouseArea
+								{
+									anchors.fill: parent
+									onClicked:
+									{
+										var text = textfield.text
+										var pos = textfield.cursorPosition
+										textfield.text = text.substring(0, pos) + model.value + text.substring(pos, text.length)
+										textfield.cursorPosition = pos + model.value.length
+									}
+									onPressAndHold: { textfield.text = model.steps }
+								}
+							}
+						}
+					}
+					ScrollDecorator { flickable: resultsview }
+				}
+				Item	// result line
+				{
+					width: parent.width
+					height: resultheight
+					Text	// autocalc result, currently just empty placeholder
+					{
+						id: result
+//						text: "xxx"
+//						color: "yellow"
+						font.pixelSize: fontsizesmall * 2 / 3
+						width: parent.width
+						anchors { left: parent.left; leftMargin: buttonmargin * 2 }
+						anchors.verticalCenter: parent.verticalCenter
+					}
+				}
+				Item	// edit line
+				{
+					width: parent.width
+					height: textfield.height
+					TextField	// edit field
+					{
+						id: textfield
+						anchors.left: parent.left
+						anchors.right: cleartext.left
+						inputMethodHints:  Qt.ImhPreferNumbers
+						placeholderText: "expression"
+						softwareInputPanelEnabled: false
+						Keys.onReturnPressed: { evaluate(); }
+						onClicked:
+						{
+							textfield.softwareInputPanelEnabled = true
+//							parent.forceActiveFocus()
+							textfield.forceActiveFocus()
+//							InputMethod.show()
+						}
+						onFocusChanged:		// keep focus after keyboard close
+						{
+							if ( textfield.softwareInputPanelEnabled )
+							{
+								textfield.softwareInputPanelEnabled = false
+								textfield.forceActiveFocus()
+							}
+						}
+						onTextChanged:
+						{
+//							if (manager.autoCalc(text)!=="NaN")
+//								window.latestResult = result.text= manager.autoCalc(text)
+						}
+					}
+					Image	// clear button
+					{
+						id: cleartext
+						anchors { right: evaluatebutton.left; rightMargin: buttonmargin }
+						anchors.verticalCenter: evaluatebutton.verticalCenter
+						fillMode: Image.PreserveAspectFit
+						smooth: true;
+						visible: textfield.text
+						source: "clear.png"		//## too small in xperia
+						height: buttonheight
+						width: buttonwidth / 2
+						MouseArea
+						{
+							id: cleararea
+							anchors.fill: parent
+							anchors.margins: -10
+							onClicked:
+							{
+								textfield.text = ""
+								textfield.forceActiveFocus()
+							}
+						}
+					}
+					Button	// evaluate button
+					{
+						id: evaluatebutton
+						text: "="
+						anchors { top: textfield.top; topMargin: buttonmargin }
+						anchors.right: parent.right
+						width: buttonwidth
+						onClicked: { evaluate(); }
+					}
+				}
+				Pager	// keyboard pager
+				{
+					id: keyboard
+					isHorizontal: true
+					color: "transparent"
+					enableKeys: false
+					focus: false
+
+					anchors.top: textfield.bottom
+//					anchors.bottom: footer.top
+
+					startIndex: -1
+					indicator: footer
+					width: parent.width
+					height: keyboardheight - statusmargin
+					spacing: buttonmargin
+					model: VisualItemModel
+					{
+						Grid	// Page 1
+						{
+							rows: buttonrows
+							columns: buttoncolumns
+							width: parent.parent.width
+							height: parent.parent.height
+							spacing: parent.parent.spacing
+
+	CalcButton { text: "7" } CalcButton { text: "8" } CalcButton { text: "9" } CalcButton { text: "+" } Backspace { }
+	CalcButton { text: "4" } CalcButton { text: "5" } CalcButton { text: "6" } CalcButton { text: "-" } CalcButton { text: "(" }
+	CalcButton { text: "1" } CalcButton { text: "2" } CalcButton { text: "3" } CalcButton { text: "*" } CalcButton { text: ")" }
+	CalcButton { text: "." } CalcButton { text: "0" } CalcButton { text: "000" } CalcButton { text: "/" } CalcButton { text: "^" }
+
+						}
+						Grid	// Page 2
+						{
+							rows: buttonrows
+							columns: buttoncolumns
+							width: parent.parent.width
+							height: parent.parent.height
+							spacing: parent.parent.spacing
+
+	CalcButton { text: "sin"; isFunction: true } CalcButton { text: "cos"; isFunction: true } CalcButton { text: "tan"; isFunction: true }
+		CalcButton { text: "pi"} Backspace { }
+	CalcButton { text: "asin"; isFunction: true } CalcButton { text: "acos"; isFunction: true } CalcButton { text: "atan"; isFunction: true }
+		CalcButton { text: "√"; value: "sqrt()" } CalcButton { image: "cube_root.png"; /*text: "∛"; */ value:"^(1/3)"; onCallback: { textfield.cursorPosition -= 3 } }
+	CalcButton { text: "(" } CalcButton { text: "!" } CalcButton { text: "e" } CalcButton { text: "%" } CalcButton { text: ")" }
+	CalcButton { text: "x=" } CalcButton { text: "home"; special: true;	onRunFunction: textfield.cursorPosition = 0 }
+		CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
+		CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
+		CalcButton { text: "end"; special: true; onRunFunction: { textfield.cursorPosition = textfield.text.length } }
+
+						}
+					}
+					Component.onCompleted: keyboard.goToPage(0);
+				}
+//				Button
+//				{
+//					anchors.horizontalCenter: parent.horizontalCenter
+//					width: 400
+//					text: "clear till"
+//					onClicked: resultsList.clear()
+//				}
+//				Button
+//				{
+//					anchors.horizontalCenter: parent.horizontalCenter
+//					width: 400
+//					text: "copy result"
+//					enabled: result.text.length
+//					onClicked: manager.setClipboard(result.text)
+//				}
+			}
+			Row		// footer
+			{
+				id: footer
+				spacing: bulletwidth / 2
+				anchors.bottom: parent.bottom
+				anchors { left: parent.left; leftMargin: spacing }
+				height: statusmargin
+				Switch
+				{
+					width: bulletwidth
+					anchors.verticalCenter: parent.verticalCenter
+					onClicked: keyboard.goToPage(0)
+				}
+				Switch
+				{
+					width: bulletwidth
+					anchors.verticalCenter: parent.verticalCenter
+					onClicked: keyboard.goToPage(1)
+				}
+			}
+		}
+		Rectangle	/////////////////////////////// page 3
+		{
+			width: window.width
+			height: window.height
+			color: "transparent"
+			Column
+			{
+				anchors.fill: parent
+//				spacing: buttonmargin
+				Rectangle
+				{
+					id: header3
+					anchors.top: parent.top
+					width: parent.width
+					height: statusmargin
+					color: "transparent"
+					Text
+					{
+						anchors { right: parent.right; rightMargin: bulletwidth / 2 }
+						anchors.verticalCenter: parent.verticalCenter
+						text: "Settings"	//%%
+						font.pixelSize: fontsizebig
+						color: Theme.highlightColor
+					}
+				}
+				Rectangle
+				{
+					id: angleunitsetting
+					color: "transparent"
+					anchors.top: header3.bottom
+					width: parent.width
+					height: settingheight
+					z: 20
+					ComboBox
+					{
+						id: angleunitlist
+						label: "Angle Unit"		//%%
+						menu: ContextMenu
+						{
+							MenuItem { text: "Degree" }		//%%
+							MenuItem { text: "Radian" }		//%%
+//							MenuItem { text: "Gradian" }	//%%
+						}
+						onCurrentIndexChanged:
+						{
+							if ( currentIndex == 0 ) { manager.setAngleMode("d") }
+							else if ( currentIndex == 1 ) { manager.setAngleMode("r") }
+//							else if ( currentIndex == 2 ) { manager.setAngleMode("g") }
+						}
+						function setAngleUnit(unit)
+						{
+							if ( unit == "d" ) currentIndex = 0
+							else if ( unit == "r" ) currentIndex = 1
+//							else if ( unit == "g" ) currentIndex = 2
+						}
+					}
+				}
+				Rectangle
+				{
+					id: precisionsetting
+					color: "transparent"
+					anchors.top: angleunitsetting.bottom
+					width: parent.width
+					height: settingheight
+					z: 10
+					ComboBox
+					{
+						id: precisionlist
+						label: "Precision"	//%%
+						menu: ContextMenu
+						{
+							MenuItem { text: "Automatic" }	//%%
+							MenuItem { text: "0" } MenuItem { text: "1" }
+							MenuItem { text: "2" } MenuItem { text: "3" }
+							MenuItem { text: "4" } MenuItem { text: "6" }
+							MenuItem { text: "8" } MenuItem { text: "12" }
+						}
+						onCurrentIndexChanged:
+						{
+							if ( currentIndex == 0 )
+								manager.setPrecision("")
+							else
+								manager.setPrecision(currentItem.text)
+						}
+						function setPrecision(precision)
+						{
+							if ( precision == "0" ) currentIndex = 1
+							else if ( precision == "1" ) currentIndex = 2
+							else if ( precision == "2" ) currentIndex = 3
+							else if ( precision == "3" ) currentIndex = 4
+							else if ( precision == "4" ) currentIndex = 5
+							else if ( precision == "6" ) currentIndex = 6
+							else if ( precision == "8" ) currentIndex = 7
+							else if ( precision == "12" ) currentIndex = 8
+							else currentIndex = 0;
+						}
+					}
+				}
+/*
+				Rectangle
+				{
+					id: expressionsetting
+					color: "transparent"
+					anchors.top: precisionsetting.bottom
+					width: parent.width
+					height: settingheight
+					TextSwitch
+					{
+						id: expressionswitch
+						checked: true
+						text: "Leave Last Expression"	//%%
+//						description: "Leave Last Expression"
+					}
+				}
+				Rectangle
+				{
+					id: historysetting
+					color: "transparent"
+					anchors.top: decimalsetting.bottom
+					width: parent.width
+					height: settingheight
+					TextSwitch
+					{
+						id: historyswitch
+						checked: true
+						text: "Save History on Exit"	//%%
+//						description: "Save History on Exit"
+					}
+				}
+*/
+				Text
+				{
+					id: helptitle
+					text: "Tips:"
+					width: parent.width
+					color: "white"
+					font.pixelSize: fontsizesmall
+					anchors { left: parent.left; leftMargin: helpmargin }
+					anchors.top: precisionsetting.bottom
+				}
+				Column
+				{
+					anchors { top: helptitle.bottom; topMargin: 20 }
+					spacing: buttonmargin
+					Text
+					{
+						text: "Swipe left/right on the keypad for more functions."
+						color: "white"
+						width: parent.width - (helpmargin * 3)
+						font.pixelSize: fontsizetiny
+						wrapMode: Text.WordWrap
+						anchors.horizontalCenter: parent.horizontalCenter
+					}
+					Text
+					{
+						text: "Tap on the expression twice to edit it with the full\nkeyboard, for advanced formulas."
+						color: "white"
+						width: parent.width - (helpmargin * 3)
+						font.pixelSize: fontsizetiny
+						wrapMode: Text.WordWrap
+						anchors.horizontalCenter: parent.horizontalCenter
+					}
+					Text
+					{
+						text: "When you want to go back to basic mode,\nslide the keyboard down."
+						width: parent.width - (helpmargin * 3)
+						font.pixelSize: fontsizetiny
+						wrapMode: Text.WordWrap
+						color: "white"
+						anchors.horizontalCenter: parent.horizontalCenter
+					}
+					Text
+					{
+						text: "Tap on any function in the functions page to insert\nit to the running expression."
+						color: "white"
+						width: parent.width - (helpmargin * 3)
+						font.pixelSize: fontsizetiny
+						wrapMode: Text.WordWrap
+						anchors.horizontalCenter: parent.horizontalCenter
+					}
+					Text
+					{
+						text: "Tap on any result on the history to insert\nresult value to the running expression."
+						width: parent.width - (helpmargin * 3)
+						font.pixelSize: fontsizetiny
+						wrapMode: Text.WordWrap
+						color: "white"
+						anchors.horizontalCenter: parent.horizontalCenter
+					}
+					Text
+					{
+						text: "Tap and hold on any result expression on the history\nto replace the running expression with it."
+						width: parent.width - (helpmargin * 3)
+						font.pixelSize: fontsizetiny
+						wrapMode: Text.WordWrap
+						color: "white"
+						anchors.horizontalCenter: parent.horizontalCenter
+					}
+				}
+			}
+		}
+	}
+
+	Component.onCompleted:
+	{
+		textfield.softwareInputPanelEnabled = false
+		textfield.forceActiveFocus()
+
+		angleunitlist.setAngleUnit(manager.getAngleMode())
+		precisionlist.setPrecision(manager.getPrecision())
+	}
+
+	function evaluate()
+	{
+		if ( textfield.text != "" )
+		{
+			window.latestResultExpr = textfield.text
+//			result.text = textfield.text
+			if ( manager.calculate(textfield.text) !== "" )
+			{
+				window.latestResult = manager.calculate(textfield.text);
+				resultsList.append({"text": textfield.text + " = " + manager.calculate(textfield.text), "value" : manager.calculate(textfield.text), "steps" : textfield.text})
+			}
+			else
+			{
+				window.latestResult = "";
+				resultsList.append({"text": textfield.text, "value" : textfield.text, "steps": textfield.text})
+			}
+			resultsview.positionViewAtEnd()
+			resultsview.currentIndex = resultsview.count - 1
+			textfield.text = ""
+		}
+	}
 }
-

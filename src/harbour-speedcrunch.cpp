@@ -7,14 +7,14 @@
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the Jolla Ltd nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
+	* Redistributions of source code must retain the above copyright
+	  notice, this list of conditions and the following disclaimer.
+	* Redistributions in binary form must reproduce the above copyright
+	  notice, this list of conditions and the following disclaimer in the
+	  documentation and/or other materials provided with the distribution.
+	* Neither the name of the Jolla Ltd nor the
+	  names of its contributors may be used to endorse or promote products
+	  derived from this software without specific prior written permission.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -39,19 +39,19 @@
 
 int main(int argc, char *argv[])
 {
-    // SailfishApp::main() will display "qml/template.qml", if you need more
-    // control over initialization, you can use:
-    //
-    //   - SailfishApp::application(int, char *[]) to get the QGuiApplication *
-    //   - SailfishApp::createView() to get a new QQuickView * instance
-    //   - SailfishApp::pathTo(QString) to get a QUrl to a resource file
-    //
-    // To display the view, call "show()" (will show fullscreen on device).
+	// SailfishApp::main() will display "qml/template.qml", if you need more
+	// control over initialization, you can use:
+	//
+	//   - SailfishApp::application(int, char *[]) to get the QGuiApplication *
+	//   - SailfishApp::createView() to get a new QQuickView * instance
+	//   - SailfishApp::pathTo(QString) to get a QUrl to a resource file
+	//
+	// To display the view, call "show()" (will show fullscreen on device).
 
-    manager mn;
-    qmlRegisterType<manager>("harbour.speedcrunch.Manager", 1, 0, "Manager");
-//    view->rootContext()->setContextProperty("mn",&mn );
+	Manager manager;
+	qmlRegisterType<Manager>("harbour.speedcrunch.Manager", 1, 0, "Manager");
+//	view->rootContext()->setContextProperty("mn",&mn );
 
-    return SailfishApp::main(argc, argv);
+	return SailfishApp::main(argc, argv);
 }
 

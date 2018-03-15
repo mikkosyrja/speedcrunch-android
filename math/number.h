@@ -32,6 +32,8 @@
 #ifndef _NUMBER_H_
 #define _NUMBER_H_
 
+#include <limits.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif 

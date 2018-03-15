@@ -1,7 +1,7 @@
 // This file is part of the SpeedCrunch project
 // Copyright (C) 2004-2006 Ariya Hidayat <ariya@kde.org>
 // Copyright (C) 2007, 2009 Wolf Lammen
-// Copyright (C) 2007-2009 Helder Correia <helder.pereira.correia@gmail.com>
+// Copyright (C) 2007-2009, 2013, 2014 @heldercorreia
 // Copyright (C) 2009 Andreas Scherer <andreas_coder@freenet.de>
 // Copyright (C) 2011 Enrico Rós <enrico.ros@gmail.com>
 //
@@ -21,1009 +21,1173 @@
 // Boston, MA 02110-1301, USA.
 
 #include "core/functions.h"
+
 #include "core/settings.h"
 #include "math/hmath.h"
+#include "math/cmath.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QHash>
+#include <QCoreApplication>
+#include <QHash>
 
 #include <algorithm>
+#include <functional>
 #include <cfloat>
 #include <cmath>
 #include <numeric>
 
-static Functions * s_functionsInstance = 0;
+#define FUNCTION_INSERT(ID) insert(new Function(#ID, function_ ## ID, this))
+#define FUNCTION_USAGE(ID, USAGE) find(#ID)->setUsage(QString::fromLatin1(USAGE));
+#define FUNCTION_USAGE_TR(ID, USAGE) find(#ID)->setUsage(USAGE);
+#define FUNCTION_NAME(ID, NAME) find(#ID)->setName(NAME)
 
-// FIXME destructor seems not to be called
+#define ENSURE_MINIMUM_ARGUMENT_COUNT(i) \
+    if (args.count() < i) { \
+        f->setError(InvalidParamCount); \
+        return CMath::nan(InvalidParamCount); \
+    }
+
+#define ENSURE_ARGUMENT_COUNT(i) \
+    if (args.count() != (i)) { \
+        f->setError(InvalidParamCount); \
+        return CMath::nan(InvalidParamCount); \
+    }
+
+#define ENSURE_EITHER_ARGUMENT_COUNT(i, j) \
+    if (args.count() != (i) && args.count() != (j)) { \
+        f->setError(InvalidParamCount); \
+        return CMath::nan(InvalidParamCount); \
+    }
+
+#define ENSURE_SAME_DIMENSION() \
+    for(int i=0; i<args.count()-1; ++i) { \
+        if(!args.at(i).sameDimension(args.at((i)+1))) \
+            return DMath::nan(InvalidDimension);\
+    }
+
+#define ENSURE_REAL_ARGUMENT(i) \
+    if (!args[i].isReal()) { \
+        f->setError(OutOfDomain); \
+        return CMath::nan(); \
+    }
+
+#define ENSURE_REAL_ARGUMENTS() \
+    for (int i = 0; i < args.count(); i++) { \
+        ENSURE_REAL_ARGUMENT(i); \
+    }
+
+#define CONVERT_ARGUMENT_ANGLE(angle) \
+    if (Settings::instance()->angleUnit == 'd') { \
+        if (angle.isReal()) \
+            angle = DMath::deg2rad(angle); \
+        else { \
+            f->setError(OutOfDomain); \
+            return DMath::nan(); \
+        } \
+    } \
+    else if (Settings::instance()->angleUnit == 'g') { \
+        if (angle.isReal()) \
+            angle = DMath::gon2rad(angle); \
+        else { \
+            f->setError(OutOfDomain); \
+            return DMath::nan(); \
+        } \
+    }
+
+#define CONVERT_RESULT_ANGLE(result) \
+    if (Settings::instance()->angleUnit == 'd') \
+        result = DMath::rad2deg(result); \
+    else if (Settings::instance()->angleUnit == 'g') \
+        result = DMath::rad2gon(result);
+
+static FunctionRepo* s_FunctionRepoInstance = 0;
+
+// FIXME: destructor seems not to be called
 static void s_deleteFunctions()
 {
-    delete s_functionsInstance;
+    delete s_FunctionRepoInstance;
 }
 
-struct Function::Private
+Quantity Function::exec(const Function::ArgumentList& args)
 {
-    int argc;
-    QString error;
-    QString identifier;
-    QString name;
-    FunctionPtr ptr;
-
-    Private() : argc( 0 ), error(), identifier(), name(), ptr( 0 ) {}
-    const HNumber& checkErrorResult( const HNumber & );
-};
-
-const HNumber& Function::Private::checkErrorResult( const HNumber & n )
-{
-    if (error.isEmpty())
-	{
-        switch ( n.error() )
-        {
-            case NoOperand:
-                error = Functions::tr("function %1 does not take NaN as an argument");
-                break;
-            case EvalUnstable:
-                error = Functions::tr("computation in %1 is unstable and exceeds the limitations of SpeedCrunch");
-                break;
-            case Underflow:
-                error = Functions::tr("underflow: tiny result of %1 is out of SpeedCrunch's number range");
-                break;
-            case Overflow:
-                error = Functions::tr("overflow: huge result of %1 is out of SpeedCrunch's number range");
-                break;
-            case ZeroDivide:
-                error = Functions::tr("function %1 is infinite for submitted argument(s)");
-                break;
-            case OutOfDomain:
-                error = Functions::tr("function %1 is not defined for submitted argument(s)");
-                break;
-            case OutOfLogicRange:
-                error = Functions::tr("logic overflow: result of %1 exceeds maximum of 256 bits");
-                break;
-            case OutOfIntegerRange:
-                error = Functions::tr("integer overflow: result of %1 exceeds maximum limit for integers");
-                break;
-            case TooExpensive:
-                error = Functions::tr("too time consuming computation in %1 was rejected");
-                break;
-            case BadLiteral:
-            case InvalidPrecision:
-            case InvalidParam:
-                error = Functions::tr("bug: internal error in %1 that should never occur");
-                break;
-            default:;
-        }
-        if (!error.isEmpty())
-            error = error.arg(identifier);
-    }
-    return n;
+    if (!m_ptr)
+        return CMath::nan();
+    setError(Success);
+    Quantity result = (*m_ptr)(this, args);
+    if(result.error())
+        setError(result.error());
+    return result;
 }
 
-Function::Function( const QString & identifier, FunctionPtr ptr, int argc, QObject * parent )
-    : QObject( parent ), d( new Function::Private )
+Quantity function_abs(Function* f, const Function::ArgumentList& args)
 {
-    d->identifier = identifier;
-    d->ptr = ptr;
-    d->argc = argc;
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::abs(args.at(0));
 }
 
-Function::Function( const QString & identifier, FunctionPtr ptr, QObject * parent )
-    : QObject( parent ), d( new Function::Private )
+Quantity function_average(Function* f, const Function::ArgumentList& args)
 {
-    d->identifier = identifier;
-    d->ptr = ptr;
-    d->argc = -1;
+    /* TODO : complex mode switch for this function */
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    return std::accumulate(args.begin()+1, args.end(), *args.begin()) / Quantity(args.count());
 }
 
-Function::~Function()
+Quantity function_absdev(Function* f, const Function::ArgumentList& args)
 {
+    /* TODO : complex mode switch for this function */
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    Quantity mean = function_average(f, args);
+    if (mean.isNan())
+        return mean;   // pass the error along
+    Quantity acc = 0;
+    for (int i = 0; i < args.count(); ++i)
+        acc += DMath::abs(args.at(i) - mean);
+    return acc / Quantity(args.count());
 }
 
-QString Function::name() const
+Quantity function_int(Function* f, const Function::ArgumentList& args)
 {
-    return d->name;
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::integer(args[0]);
 }
 
-void Function::setName( const QString & name )
+Quantity function_trunc(Function* f, const Function::ArgumentList& args)
 {
-    d->name = name;
-}
-
-QString Function::error() const
-{
-    return d->error;
-}
-
-QString Function::identifier() const
-{
-    return d->identifier;
-}
-
-HNumber Function::exec( const QVector<HNumber> & args )
-{
-    d->error = QString();
-    if ( ! d->ptr ) {
-        setError( Functions::tr("cannot execute function") );
-        return HMath::nan();
-    }
-
-    if ( d->argc >= 0 && args.count() != d->argc ) {
-        setError( Functions::tr("function %1 accepts %n argument(s)", "", d->argc).arg(identifier()) );
-        return HMath::nan();
-    }
-
-    return d->checkErrorResult((*d->ptr)( this, args ));
-}
-
-void Function::setError( const QString & error )
-{
-    d->error = error;
-}
-
-struct Functions::Private
-{
-    Functions * p;
-    QHash<QString, Function *> functions;
-    void createBuiltInFunctions();
-
-    static HNumber abs( Function *, const QVector<HNumber> & args );
-    static HNumber absdev( Function *, const QVector<HNumber> & args );
-    static HNumber acos( Function *, const QVector<HNumber> & args );
-    static HNumber and_( Function *, const QVector<HNumber> & args );
-    static HNumber arcosh( Function *, const QVector<HNumber> & args );
-    static HNumber arsinh( Function *, const QVector<HNumber> & args );
-    static HNumber artanh( Function *, const QVector<HNumber> & args );
-    static HNumber ashl( Function *, const QVector<HNumber> & args );
-    static HNumber ashr( Function *, const QVector<HNumber> & args );
-    static HNumber asin( Function *, const QVector<HNumber> & args );
-    static HNumber atan( Function *, const QVector<HNumber> & args );
-    static HNumber average( Function *, const QVector<HNumber> & args );
-    static HNumber bin( Function *, const QVector<HNumber> & args );
-    static HNumber binomcdf( Function *, const QVector<HNumber> & args );
-    static HNumber binommean( Function *, const QVector<HNumber> & args );
-    static HNumber binompmf( Function *, const QVector<HNumber> & args );
-    static HNumber binomvar( Function *, const QVector<HNumber> & args );
-    static HNumber cbrt( Function *, const QVector<HNumber>& args );
-    static HNumber ceil( Function *, const QVector<HNumber> & args );
-    static HNumber cos( Function *, const QVector<HNumber> & args );
-    static HNumber cosh( Function *, const QVector<HNumber> & args );
-    static HNumber cot( Function *, const QVector<HNumber> & args );
-    static HNumber csc( Function *, const QVector<HNumber> & args );
-    static HNumber dec( Function *, const QVector<HNumber> & args );
-    static HNumber degrees( Function *, const QVector<HNumber> & args );
-    static HNumber erfc( Function *, const QVector<HNumber> & args );
-    static HNumber erf( Function *, const QVector<HNumber> & args );
-    static HNumber exp( Function *, const QVector<HNumber>& args );
-    static HNumber floor( Function *, const QVector<HNumber> & args );
-    static HNumber frac( Function *, const QVector<HNumber> & args );
-    static HNumber Gamma( Function *, const QVector<HNumber> & args );
-    static HNumber gcd( Function *, const QVector<HNumber>& args );
-    static HNumber geomean( Function *, const QVector<HNumber> & args );
-    static HNumber hex( Function *, const QVector<HNumber> & args );
-    static HNumber hypercdf( Function *, const QVector<HNumber> & args );
-    static HNumber hypermean( Function *, const QVector<HNumber> & args );
-    static HNumber hyperpmf( Function *, const QVector<HNumber> & args );
-    static HNumber hypervar( Function *, const QVector<HNumber> & args );
-    static HNumber idiv( Function *, const QVector<HNumber> & args );
-    static HNumber integer( Function *, const QVector<HNumber> & args );
-    static HNumber lg( Function *, const QVector<HNumber>& args );
-    static HNumber ln( Function *, const QVector<HNumber>& args );
-    static HNumber lnGamma( Function *, const QVector<HNumber> & args );
-    static HNumber log( Function *, const QVector<HNumber> & args );
-    static HNumber mask( Function *, const QVector<HNumber> & args );
-    static HNumber max( Function *, const QVector<HNumber> & args );
-    static HNumber median( Function *, const QVector<HNumber> & args );
-    static HNumber min( Function *, const QVector<HNumber> & args );
-    static HNumber mod( Function *, const QVector<HNumber> & args );
-    static HNumber nCr( Function *, const QVector<HNumber> & args );
-    static HNumber not_( Function *, const QVector<HNumber> & args );
-    static HNumber nPr( Function *, const QVector<HNumber> & args );
-    static HNumber oct( Function *, const QVector<HNumber> & args );
-    static HNumber or_( Function *, const QVector<HNumber> & args );
-    static HNumber poicdf( Function *, const QVector<HNumber> & args );
-    static HNumber poimean( Function *, const QVector<HNumber> & args );
-    static HNumber poipmf( Function *, const QVector<HNumber> & args );
-    static HNumber poivar( Function *, const QVector<HNumber> & args );
-    static HNumber product( Function *, const QVector<HNumber> & args );
-    static HNumber radians( Function *, const QVector<HNumber> & args );
-    static HNumber round( Function *, const QVector<HNumber>& args );
-    static HNumber sec( Function *, const QVector<HNumber> & args );
-    static HNumber sign( Function *, const QVector<HNumber> & args );
-    static HNumber sin( Function *, const QVector<HNumber> & args );
-    static HNumber sinh( Function *, const QVector<HNumber> & args );
-    static HNumber sqrt( Function *, const QVector<HNumber> & args );
-    static HNumber stddev( Function *, const QVector<HNumber> & args );
-    static HNumber sum( Function *, const QVector<HNumber> & args );
-    static HNumber tan( Function *, const QVector<HNumber> & args );
-    static HNumber tanh( Function *, const QVector<HNumber> & args );
-    static HNumber trunc( Function *, const QVector<HNumber> & args );
-    static HNumber unmask( Function *, const QVector<HNumber> & args );
-    static HNumber variance( Function *, const QVector<HNumber> & args );
-    static HNumber xor_( Function *, const QVector<HNumber> & args );
-};
-
-HNumber Functions::Private::abs( Function *, const QVector<HNumber> & args )
-{
-    return HMath::abs( args.at(0) );
-}
-
-HNumber Functions::Private::absdev( Function * f, const QVector<HNumber> &args )
-{
-    if ( args.count() < 1 )
-        return HMath::nan();
-
-    HNumber mean = average( f, args );
-    if ( mean.isNan() )
-        return HMath::nan();
-
-    HNumber acc = 0;
-    for ( int i = 0; i < args.count(); i++ )
-        acc += HMath::abs( args.at(i) - mean );
-
-    return acc / HNumber( args.count() );
-}
-
-HNumber Functions::Private::integer( Function *, const QVector<HNumber> & args )
-{
-    return HMath::integer( args.at(0) );
-}
-
-HNumber Functions::Private::trunc( Function * f, const QVector<HNumber> & args )
-{
-    int nArgs = args.count();
-
-    if ( nArgs != 1 && nArgs != 2 ) {
-        f->setError( Functions::tr("function requires 1 or 2 arguments") );
-        return HMath::nan();
-    }
-
-    HNumber num = args.at( 0 );
-
-    if ( nArgs == 2 ) {
-        int prec = 0;
-        HNumber argprec = args.at( 1 );
-        if ( argprec != 0 ) {
-            if ( ! argprec.isInteger() ) {
-                f->setError( Functions::tr("function undefined for specified arguments") );
-                return HMath::nan();
+    /* TODO : complex mode switch for this function */
+    ENSURE_EITHER_ARGUMENT_COUNT(1, 2);
+    Quantity num = args.at(0);
+    if (args.count() == 2) {
+        Quantity argprec = args.at(1);
+        if (argprec != 0) {
+            if (!argprec.isInteger()) {
+                f->setError(OutOfDomain);
+                return DMath::nan();
             }
-            if ( (prec = argprec.toInt()) != 0 )
-                return HMath::trunc( num, prec );
-            // the 2. parameter exceeds the integer limits
-            if ( argprec < 0 )
-                return HNumber( 0 );
-
+            int prec = argprec.numericValue().toInt();
+            if (prec)
+                return DMath::trunc(num, prec);
+            // The second parameter exceeds the integer limits.
+            if (argprec < 0)
+                return Quantity(0);
             return num;
         }
     }
-
-    return HMath::trunc( num );
+    return DMath::trunc(num);
 }
 
-HNumber Functions::Private::frac( Function *, const QVector<HNumber> & args )
+Quantity function_frac(Function* f, const Function::ArgumentList& args)
 {
-    return HMath::frac( args.at(0) );
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::frac(args[0]);
 }
 
-HNumber Functions::Private::floor( Function *, const QVector<HNumber> & args )
+Quantity function_floor(Function* f, const Function::ArgumentList& args)
 {
-    return HMath::floor( args.at(0) );
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::floor(args[0]);
 }
 
-HNumber Functions::Private::ceil( Function *, const QVector<HNumber> & args )
+Quantity function_ceil(Function* f, const Function::ArgumentList& args)
 {
-    return HMath::ceil( args.at(0) );
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::ceil(args[0]);
 }
 
-HNumber Functions::Private::gcd( Function * f, const QVector<HNumber> & args )
+Quantity function_gcd(Function* f, const Function::ArgumentList& args)
 {
-    int nArgs = args.count();
-
-    if ( nArgs < 2 ) {
-        f->setError( Functions::tr("function requires at least 2 arguments") );
-        return HMath::nan();
-    }
-
-    for ( int i = 0; i < args.count(); i++ )
-        if ( ! args.at(i).isInteger() ) {
-            f->setError( Functions::tr("function requires integer arguments") );
-            return HMath::nan();
+    /* TODO : complex mode switch for this function */
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    for (int i = 0; i < args.count(); ++i)
+        if (!args[i].isInteger()) {
+            f->setError(OutOfDomain);
+            return DMath::nan();
         }
-
-    return std::accumulate( args.begin() + 1, args.end(), args.at(0), HMath::gcd );
+    return std::accumulate(args.begin() + 1, args.end(), args.at(0), DMath::gcd);
 }
 
-HNumber Functions::Private::round( Function * f, const QVector<HNumber> & args )
+Quantity function_round(Function* f, const Function::ArgumentList& args)
 {
-    int nArgs = args.count();
-
-    if ( nArgs != 1 && nArgs != 2 ) {
-        f->setError( Functions::tr("function requires 1 or 2 arguments") );
-        return HMath::nan();
-    }
-
-    HNumber num = args.at( 0 );
-
-    if ( nArgs == 2 ) {
-        int prec = 0;
-        HNumber argprec = args.at( 1 );
-        if ( argprec != 0 ) {
-            if ( ! argprec.isInteger() ) {
-                f->setError( Functions::tr("function undefined for specified arguments") );
-                return HMath::nan();
+    /* TODO : complex mode switch for this function */
+    ENSURE_EITHER_ARGUMENT_COUNT(1, 2);
+    Quantity num = args.at(0);
+    if (args.count() == 2) {
+        Quantity argPrecision = args.at(1);
+        if (argPrecision != 0) {
+            if (!argPrecision.isInteger()) {
+                f->setError(OutOfDomain);
+                return DMath::nan();
             }
-            if ( (prec = argprec.toInt()) != 0 )
-                return HMath::round( num, prec );
-            // the 2. parameter exceeds the integer limits
-            if ( argprec < 0 )
-                return HNumber( 0 );
-
+            int prec = argPrecision.numericValue().toInt();
+            if (prec)
+                return DMath::round(num, prec);
+            // The second parameter exceeds the integer limits.
+            if (argPrecision < 0)
+                return Quantity(0);
             return num;
         }
     }
-
-    return HMath::round( num );
+    return DMath::round(num);
 }
 
-HNumber Functions::Private::sqrt( Function *, const QVector<HNumber> & args )
+Quantity function_sqrt(Function* f, const Function::ArgumentList& args)
 {
-    return HMath::sqrt( args.at( 0 ) );
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::sqrt(args[0]);
 }
 
-HNumber Functions::Private::stddev( Function * f, const QVector<HNumber> & args )
+Quantity function_variance(Function* f, const Function::ArgumentList& args)
 {
-    return args.count() < 1 ? HMath::nan() : HMath::sqrt( variance( f, args ));
-}
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
 
-HNumber Functions::Private::cbrt( Function *, const QVector<HNumber> & args )
-{
-    return HMath::cbrt( args.at(0) );
-}
+    Quantity mean = function_average(f, args);
+    if (mean.isNan())
+        return mean;
 
-HNumber Functions::Private::exp( Function *, const QVector<HNumber> & args )
-{
-    return HMath::exp( args.at(0) );
-}
-
-HNumber Functions::Private::ln( Function *, const QVector<HNumber> & args )
-{
-    return HMath::ln( args.at( 0 ) );
-}
-
-HNumber Functions::Private::log( Function *, const QVector<HNumber> & args )
-{
-    return HMath::log( args.at( 0 ) );
-}
-
-HNumber Functions::Private::lg( Function *, const QVector<HNumber> & args )
-{
-    return HMath::lg( args.at( 0 ) );
-}
-
-HNumber Functions::Private::sin( Function *, const QVector<HNumber> & args )
-{
-    HNumber angle = args.at( 0 );
-
-    if ( Settings::instance()->angleUnit == 'd' )
-        angle = HMath::deg2rad( angle );
-
-    return HMath::sin( angle );
-}
-
-HNumber Functions::Private::cos( Function *, const QVector<HNumber> & args )
-{
-    HNumber angle = args.at( 0 );
-
-    if ( Settings::instance()->angleUnit == 'd' )
-        angle = HMath::deg2rad( angle );
-
-	return HMath::cos( angle );
-}
-
-HNumber Functions::Private::tan( Function *, const QVector<HNumber> & args )
-{
-    HNumber angle = args.at( 0 );
-
-    if ( Settings::instance()->angleUnit == 'd' )
-        angle = HMath::deg2rad( angle );
-
-    return HMath::tan( angle );
-}
-
-HNumber Functions::Private::cot( Function *, const QVector<HNumber> & args )
-{
-    HNumber angle = args.at( 0 );
-
-    if ( Settings::instance()->angleUnit == 'd' )
-        angle = HMath::deg2rad( angle );
-
-    return HMath::cot( angle );
-}
-
-HNumber Functions::Private::sec( Function *, const QVector<HNumber> & args )
-{
-    HNumber angle = args.at( 0 );
-
-    if ( Settings::instance()->angleUnit == 'd' )
-        angle = HMath::deg2rad( angle );
-
-    return HMath::sec( angle );
-}
-
-HNumber Functions::Private::csc( Function *, const QVector<HNumber> & args )
-{
-
-    HNumber angle = args.at( 0 );
-
-    if ( Settings::instance()->angleUnit == 'd' )
-        angle = HMath::deg2rad( angle );
-
-    return HMath::csc( angle );
-}
-
-HNumber Functions::Private::asin( Function *, const QVector<HNumber> & args )
-{
-    HNumber result = HMath::asin( args.at( 0 ) );
-
-    if ( Settings::instance()->angleUnit == 'd' )
-        result = HMath::rad2deg( result );
-
-    return result;
-}
-
-HNumber Functions::Private::acos( Function *, const QVector<HNumber> & args )
-{
-    HNumber result = HMath::acos( args.at( 0 ) );
-
-    if ( Settings::instance()->angleUnit == 'd' )
-        result = HMath::rad2deg( result );
-
-    return result;
-}
-
-HNumber Functions::Private::atan( Function *, const QVector<HNumber> & args )
-{
-    HNumber result = HMath::atan( args.at( 0 ) );
-
-    if ( Settings::instance()->angleUnit == 'd' )
-        result = HMath::rad2deg( result );
-
-    return result;
-}
-
-HNumber Functions::Private::sinh( Function *, const QVector<HNumber> & args )
-{
-    return HMath::sinh( args.at(0) );
-}
-
-HNumber Functions::Private::cosh( Function *, const QVector<HNumber> & args )
-{
-    return HMath::cosh( args.at(0) );
-}
-
-HNumber Functions::Private::tanh( Function *, const QVector<HNumber> & args )
-{
-    return HMath::tanh( args.at(0) );
-}
-
-HNumber Functions::Private::arsinh( Function *, const QVector<HNumber> & args )
-{
-    return HMath::arsinh( args.at(0) );
-}
-
-HNumber Functions::Private::arcosh( Function *, const QVector<HNumber> & args )
-{
-    return HMath::arcosh( args.at(0) );
-}
-
-HNumber Functions::Private::artanh( Function *, const QVector<HNumber> & args )
-{
-    return HMath::artanh( args.at(0) );
-}
-
-HNumber Functions::Private::erf( Function *, const QVector<HNumber> & args )
-{
-    return HMath::erf( args.at(0) );
-}
-
-HNumber Functions::Private::erfc( Function *, const QVector<HNumber> & args )
-{
-    return HMath::erfc( args.at(0) );
-}
-
-HNumber Functions::Private::Gamma( Function *, const QVector<HNumber> & args )
-{
-    return HMath::gamma( args.at(0) );
-}
-
-HNumber Functions::Private::lnGamma( Function *, const QVector<HNumber> & args )
-{
-    return HMath::lnGamma( args.at(0) );
-}
-
-HNumber Functions::Private::sign( Function *, const QVector<HNumber> & args )
-{
-    return HMath::sign( args.at(0) );
-}
-
-HNumber Functions::Private::nCr( Function *, const QVector<HNumber> & args )
-{
-    // arg 0: n; arg 1: r
-    return HMath::nCr( args.at(0), args.at(1) );
-}
-
-HNumber Functions::Private::nPr( Function *, const QVector<HNumber> & args )
-{
-    // arg 0: n; arg 1: r
-    return HMath::nPr( args.at(0), args.at(1) );
-}
-
-HNumber Functions::Private::degrees( Function *, const QVector<HNumber> & args )
-{
-    return HMath::rad2deg( args.at(0) );
-}
-
-HNumber Functions::Private::radians( Function *, const QVector<HNumber> & args )
-{
-    return HMath::deg2rad( args.at(0) );
-}
-
-HNumber Functions::Private::max( Function * f, const QVector<HNumber> & args )
-{
-    if ( args.count() < 1 ) {
-        f->setError( Functions::tr("function requires at least 1 argument") );
-        return HMath::nan();
+    Quantity acc(DMath::real(args[0] - mean)*DMath::real(args[0] - mean)
+            + DMath::imag(args[0] - mean)*DMath::imag(args[0] - mean));
+    for (int i = 1; i < args.count(); ++i) {
+        Quantity q(args[i] - mean);
+        acc += DMath::real(q)*DMath::real(q) + DMath::imag(q)*DMath::imag(q);
     }
 
-    return *std::max_element( args.begin(), args.end() );
+    return acc / Quantity(args.count());
 }
 
-HNumber Functions::Private::median(Function *, const QVector<HNumber> & args)
+Quantity function_stddev(Function* f, const Function::ArgumentList& args)
 {
-    const int nArgs = args.count();
-    if ( nArgs < 1 )
-        return HMath::nan();
-
-    QVector<HNumber> sortedArgs = args;
-    qSort(sortedArgs);
-
-    if ((nArgs & 1) == 1)
-        return sortedArgs.at( (nArgs - 1) / 2 );
-
-    const int centerLeft = nArgs / 2 - 1;
-    return ( sortedArgs.at( centerLeft ) + sortedArgs.at( centerLeft + 1 ) ) / HNumber( 2 );
+    /* TODO : complex mode switch for this function */
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    return DMath::sqrt(function_variance(f, args));
 }
 
-HNumber Functions::Private::min( Function * f, const QVector<HNumber> & args )
+Quantity function_cbrt(Function* f, const Function::ArgumentList& args)
 {
-    if ( args.count() < 1 ) {
-        f->setError( Functions::tr("function requires at least 1 argument") );
-        return HMath::nan();
-    }
-
-    return *std::min_element( args.begin(), args.end() );
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::cbrt(args[0]);
 }
 
-HNumber Functions::Private::sum( Function *, const QVector<HNumber> & args )
+Quantity function_exp(Function* f, const Function::ArgumentList& args)
 {
-    return args.count() < 1 ? HNumber( 0 )
-        : std::accumulate( args.begin(), args.end(), HNumber(0) );
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::exp(args[0]);
 }
 
-HNumber Functions::Private::product( Function *, const QVector<HNumber> & args )
+Quantity function_ln(Function* f, const Function::ArgumentList& args)
 {
-    return args.count() < 1 ? HNumber( 1 )
-        : std::accumulate( args.begin(), args.end(), HNumber(1), std::multiplies<HNumber>() );
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::ln(args[0]);
 }
 
-HNumber Functions::Private::average( Function *, const QVector<HNumber> & args )
+Quantity function_lg(Function* f, const Function::ArgumentList& args)
 {
-    return args.count() < 1 ? HNumber( "NaN" )
-        : std::accumulate( args.begin(), args.end(), HNumber(0) ) / HNumber( args.count() );
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::lg(args[0]);
 }
 
-HNumber Functions::Private::geomean( Function *, const QVector<HNumber> & args )
+Quantity function_lb(Function* f, const Function::ArgumentList& args)
 {
-    if ( args.count() < 1 )
-        return HNumber( "NaN" );
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::lb(args[0]);
+}
 
-    HNumber result = std::accumulate( args.begin(), args.end(), HNumber(1),
-                                      std::multiplies<HNumber>() );
+Quantity function_log(Function* f, const Function::ArgumentList& args)
+{
+     /* TODO : complex mode switch for this function */
+     ENSURE_ARGUMENT_COUNT(2);
+     return DMath::log(args.at(0), args.at(1));
+}
 
-    if ( result <= HNumber(0) )
-        return HNumber( "NaN" );
+Quantity function_real(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::real(args.at(0));
+}
 
-    if ( args.count() == 1 )
+Quantity function_imag(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::imag(args.at(0));
+}
+
+Quantity function_conj(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::conj(args.at(0));
+}
+
+Quantity function_phase(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity angle = DMath::phase(args.at(0));
+    CONVERT_RESULT_ANGLE(angle);
+    return angle;
+}
+
+
+Quantity function_sin(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity angle = args.at(0);
+    CONVERT_ARGUMENT_ANGLE(angle);
+    return DMath::sin(angle);
+}
+
+Quantity function_cos(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity angle = args.at(0);
+    CONVERT_ARGUMENT_ANGLE(angle);
+    return DMath::cos(angle);
+}
+
+Quantity function_tan(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity angle = args.at(0);
+    CONVERT_ARGUMENT_ANGLE(angle);
+    return DMath::tan(angle);
+}
+
+Quantity function_cot(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity angle = args.at(0);
+    CONVERT_ARGUMENT_ANGLE(angle);
+    return DMath::cot(angle);
+}
+
+Quantity function_sec(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity angle = args.at(0);
+    CONVERT_ARGUMENT_ANGLE(angle);
+    return DMath::sec(angle);
+}
+
+Quantity function_csc(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity angle = args.at(0);
+    CONVERT_ARGUMENT_ANGLE(angle);
+    return DMath::csc(angle);
+}
+
+Quantity function_arcsin(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity result;
+    result = DMath::arcsin(args.at(0));
+    CONVERT_RESULT_ANGLE(result);
+    return result;
+}
+
+Quantity function_arccos(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity result;
+    result = DMath::arccos(args.at(0));
+    CONVERT_RESULT_ANGLE(result);
+    return result;
+}
+
+Quantity function_arctan(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity result;
+    result = DMath::arctan(args.at(0));
+    CONVERT_RESULT_ANGLE(result);
+    return result;
+}
+
+Quantity function_arctan2(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(2);
+    Quantity result;
+    result = DMath::arctan2(args.at(0), args.at(1));
+    CONVERT_RESULT_ANGLE(result);
+    return result;
+}
+
+Quantity function_sinh(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::sinh(args[0]);
+}
+
+Quantity function_cosh(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::cosh(args[0]);
+}
+
+Quantity function_tanh(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::tanh(args[0]);
+}
+
+Quantity function_arsinh(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::arsinh(args[0]);
+}
+
+Quantity function_arcosh(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::arcosh(args[0]);
+}
+
+Quantity function_artanh(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::artanh(args[0]);
+}
+
+Quantity function_erf(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::erf(args[0]);
+}
+
+Quantity function_erfc(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::erfc(args[0]);
+}
+
+Quantity function_gamma(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::gamma(args[0]);
+}
+
+Quantity function_lngamma(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    ENSURE_REAL_ARGUMENT(0);
+    return DMath::lnGamma(args[0]);
+}
+
+Quantity function_sgn(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::sgn(args[0]);
+}
+
+Quantity function_ncr(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::nCr(args.at(0), args.at(1));
+}
+
+Quantity function_npr(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::nPr(args.at(0), args.at(1));
+}
+
+Quantity function_degrees(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::rad2deg(args[0]);
+}
+
+Quantity function_radians(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::deg2rad(args[0]);
+}
+
+Quantity function_gradians(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::rad2gon(args[0]);
+}
+
+Quantity function_max(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    ENSURE_REAL_ARGUMENTS()
+    ENSURE_SAME_DIMENSION()
+    return *std::max_element(args.begin(), args.end());
+}
+
+Quantity function_median(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    ENSURE_REAL_ARGUMENTS()
+    ENSURE_SAME_DIMENSION()
+
+    Function::ArgumentList sortedArgs = args;
+    std::sort(sortedArgs.begin(), sortedArgs.end());
+
+    if ((args.count() & 1) == 1)
+        return sortedArgs.at((args.count() - 1) / 2);
+
+    const int centerLeft = args.count() / 2 - 1;
+    return (sortedArgs.at(centerLeft) + sortedArgs.at(centerLeft + 1)) / Quantity(2);
+}
+
+Quantity function_min(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    ENSURE_REAL_ARGUMENTS()
+    ENSURE_SAME_DIMENSION()
+    return *std::min_element(args.begin(), args.end());
+}
+
+Quantity function_sum(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    return std::accumulate(args.begin(), args.end(), Quantity(0));
+}
+
+Quantity function_product(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    return std::accumulate(args.begin(), args.end(), Quantity(1), std::multiplies<Quantity>());
+}
+
+Quantity function_geomean(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+
+    Quantity result = std::accumulate(args.begin(), args.end(), Quantity(1),
+        std::multiplies<Quantity>());
+
+    if (result <= Quantity(0))
+        return DMath::nan(OutOfDomain);
+
+    if (args.count() == 1)
         return result;
 
-    if ( args.count() == 2 )
-        return HMath::sqrt( result );
+    if (args.count() == 2)
+        return DMath::sqrt(result);
 
-    return HMath::exp( HMath::ln(result) / HNumber(args.count()) );
+    return  DMath::raise(result, Quantity(1)/Quantity(args.count()));
 }
 
-HNumber Functions::Private::dec( Function *, const QVector<HNumber> & args )
+Quantity function_dec(Function* f, const Function::ArgumentList& args)
 {
-    return HNumber( args.at(0) ).setFormat( 'g' );
+    ENSURE_ARGUMENT_COUNT(1);
+    return Quantity(args.at(0)).setFormat(Quantity::Format::Decimal() + Quantity(args.at(0)).format());
 }
 
-HNumber Functions::Private::hex( Function *, const QVector<HNumber> & args )
+Quantity function_hex(Function* f, const Function::ArgumentList& args)
 {
-    return HNumber( args.at(0) ).setFormat( 'h' );
+    ENSURE_ARGUMENT_COUNT(1);
+    return Quantity(args.at(0)).setFormat(Quantity::Format::Fixed() + Quantity::Format::Hexadecimal() + Quantity(args.at(0)).format());
 }
 
-HNumber Functions::Private::oct( Function *, const QVector<HNumber> & args )
+Quantity function_oct(Function* f, const Function::ArgumentList& args)
 {
-    return HNumber( args.at(0) ).setFormat( 'o' );
+    ENSURE_ARGUMENT_COUNT(1);
+    return Quantity(args.at(0)).setFormat(Quantity::Format::Fixed() + Quantity::Format::Octal() + Quantity(args.at(0)).format());
 }
 
-HNumber Functions::Private::bin( Function *, const QVector<HNumber> & args )
+Quantity function_bin(Function* f, const Function::ArgumentList& args)
 {
-    return HNumber( args.at(0) ).setFormat( 'b' );
+    ENSURE_ARGUMENT_COUNT(1);
+    return Quantity(args.at(0)).setFormat(Quantity::Format::Fixed() + Quantity::Format::Binary() + Quantity(args.at(0)).format());
 }
 
-HNumber Functions::Private::binompmf( Function *, const QVector<HNumber> & args )
+Quantity function_cart(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: k; arg 1: n; arg 2: p
-    return HMath::binomialPmf( args.at( 0 ), args.at( 1 ), args.at( 2 ) );
+    ENSURE_ARGUMENT_COUNT(1);
+    return Quantity(args.at(0)).setFormat(Quantity::Format::Cartesian() + Quantity(args.at(0)).format());
 }
 
-HNumber Functions::Private::binomcdf( Function *, const QVector<HNumber> & args )
+Quantity function_polar(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: k; arg 1: n; arg 2: p
-    return HMath::binomialCdf( args.at( 0 ), args.at( 1 ), args.at( 2 ) );
+    ENSURE_ARGUMENT_COUNT(1);
+    return Quantity(args.at(0)).setFormat(Quantity::Format::Polar() + Quantity(args.at(0)).format());
 }
 
-HNumber Functions::Private::binommean( Function *, const QVector<HNumber> & args )
+Quantity function_binompmf(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: n; arg 1: p
-    return HMath::binomialMean( args.at( 0 ), args.at( 1 ) );
+    ENSURE_ARGUMENT_COUNT(3);
+    return DMath::binomialPmf(args.at(0), args.at(1), args.at(2));
 }
 
-HNumber Functions::Private::binomvar( Function *, const QVector<HNumber> & args )
+Quantity function_binomcdf(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: n; arg 1: p
-    return HMath::binomialVariance( args.at( 0 ), args.at( 1 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(3);
+    return DMath::binomialCdf(args.at(0), args.at(1), args.at(2));
 }
 
-HNumber Functions::Private::hyperpmf( Function *, const QVector<HNumber> & args )
+Quantity function_binommean(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: k; arg 1: N; arg 2: M; arg3: n
-    return HMath::hypergeometricPmf( args.at( 0 ), args.at( 1 ), args.at( 2 ), args.at( 3 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::binomialMean(args.at(0), args.at(1));
 }
 
-HNumber Functions::Private::hypercdf( Function *, const QVector<HNumber> & args )
+Quantity function_binomvar(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: k; arg 1: N; arg 2: M; arg3: n
-    return HMath::hypergeometricCdf( args.at( 0 ), args.at( 1 ), args.at( 2 ), args.at( 3 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::binomialVariance(args.at(0), args.at(1));
 }
 
-HNumber Functions::Private::hypermean( Function *, const QVector<HNumber> & args )
+Quantity function_hyperpmf(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: N; arg 1: M; arg 2: n
-    return HMath::hypergeometricMean( args.at( 0 ), args.at( 1 ), args.at( 2 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(4);
+    return DMath::hypergeometricPmf(args.at(0), args.at(1), args.at(2), args.at(3));
 }
 
-HNumber Functions::Private::hypervar( Function *, const QVector<HNumber> & args )
+Quantity function_hypercdf(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: N; arg 1: M; arg 2: n
-    return HMath::hypergeometricVariance( args.at( 0 ), args.at( 1 ), args.at( 2 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(4);
+    return DMath::hypergeometricCdf(args.at(0), args.at(1), args.at(2), args.at(3));
 }
 
-HNumber Functions::Private::poipmf( Function *, const QVector<HNumber> & args )
+Quantity function_hypermean(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: k; arg 1: l
-    return HMath::poissonPmf( args.at( 0 ), args.at( 1 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(3);
+    return DMath::hypergeometricMean(args.at(0), args.at(1), args.at(2));
 }
 
-HNumber Functions::Private::poicdf( Function *, const QVector<HNumber> & args )
+Quantity function_hypervar(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: k; arg 1: l
-    return HMath::poissonCdf( args.at( 0 ), args.at( 1 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(3);
+    return DMath::hypergeometricVariance(args.at(0), args.at(1), args.at(2));
 }
 
-HNumber Functions::Private::poimean( Function *, const QVector<HNumber> & args )
+Quantity function_poipmf(Function* f, const Function::ArgumentList& args)
 {
-    return HMath::poissonMean( args.at( 0 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::poissonPmf(args.at(0), args.at(1));
 }
 
-HNumber Functions::Private::poivar( Function *, const QVector<HNumber> & args )
+Quantity function_poicdf(Function* f, const Function::ArgumentList& args)
 {
-    return HMath::poissonVariance( args.at( 0 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::poissonCdf(args.at(0), args.at(1));
 }
 
-HNumber Functions::Private::mask( Function *, const QVector<HNumber> & args )
+Quantity function_poimean(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: value; arg 1: bits
-    return HMath::mask( args.at( 0 ), args.at( 1 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::poissonMean(args.at(0));
 }
 
-HNumber Functions::Private::unmask( Function *, const QVector<HNumber> & args )
+Quantity function_poivar(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: value; arg 1: bits
-    return HMath::sgnext( args.at( 0 ), args.at( 1 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::poissonVariance(args.at(0));
 }
 
-HNumber Functions::Private::variance( Function * f, const QVector<HNumber> & args )
+Quantity function_mask(Function* f, const Function::ArgumentList& args)
 {
-    if ( args.count() < 1 )
-        return HMath::nan();
-
-    HNumber mean = average( f, args );
-    if ( mean.isNan() )
-        return HMath::nan();
-
-    HNumber acc = 0;
-    for ( int i = 0; i < args.count(); i++ )
-        acc += (args.at(i) - mean) * (args.at(i) - mean);
-
-    return acc / HNumber( args.count() );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::mask(args.at(0), args.at(1));
 }
 
-HNumber Functions::Private::not_( Function *, const QVector<HNumber> & args )
+Quantity function_unmask(Function* f, const Function::ArgumentList& args)
 {
-	return ~args.at( 0 );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::sgnext(args.at(0), args.at(1));
 }
 
-HNumber Functions::Private::and_( Function *, const QVector<HNumber> & args )
+Quantity function_not(Function* f, const Function::ArgumentList& args)
 {
-    return args.count() < 1 ? HNumber( "NaN" )
-        : std::accumulate( args.begin(), args.end(), HNumber(-1),
-                           std::mem_fun_ref(&HNumber::operator&) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+	return ~args.at(0);
 }
 
-HNumber Functions::Private::or_( Function *, const QVector<HNumber> & args )
+Quantity function_and(Function* f, const Function::ArgumentList& args)
 {
-    return args.count() < 1 ? HNumber( "NaN" )
-        : std::accumulate( args.begin(), args.end(), HNumber(0),
-                           std::mem_fun_ref(&HNumber::operator|) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    return std::accumulate(args.begin(), args.end(), Quantity(-1),
+        std::mem_fun_ref(&Quantity::operator&));
 }
 
-HNumber Functions::Private::xor_( Function *, const QVector<HNumber> & args )
+Quantity function_or(Function* f, const Function::ArgumentList& args)
 {
-    return args.count() < 1 ? HNumber( "NaN" )
-        : std::accumulate( args.begin(), args.end(), HNumber(0),
-                           std::mem_fun_ref(&HNumber::operator^) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    return std::accumulate(args.begin(), args.end(), Quantity(0),
+        std::mem_fun_ref(&Quantity::operator|));
 }
 
-HNumber Functions::Private::ashl( Function *, const QVector<HNumber> & args )
+Quantity function_xor(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: value; arg 1: bits
-    return HMath::ashr( args.at( 0 ), -args.at( 1 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
+    return std::accumulate(args.begin(), args.end(), Quantity(0),
+        std::mem_fun_ref(&Quantity::operator^));
 }
 
-HNumber Functions::Private::ashr( Function *, const QVector<HNumber> & args )
+Quantity function_shl(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: value; arg 1: bits
-    return HMath::ashr( args.at( 0 ), args.at( 1 ) );
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::ashr(args.at(0), -args.at(1));
 }
 
-HNumber Functions::Private::idiv( Function *, const QVector<HNumber> & args )
+Quantity function_shr(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: dividend; arg 1: divisor
-    return HMath::idiv(args.at(0), args.at(1));
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::ashr(args.at(0), args.at(1));
 }
 
-HNumber Functions::Private::mod( Function *, const QVector<HNumber> & args )
+Quantity function_idiv(Function* f, const Function::ArgumentList& args)
 {
-    // arg 0: dividend; arg 1: divisor
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
+    return DMath::idiv(args.at(0), args.at(1));
+}
+
+Quantity function_mod(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(2);
     return args.at(0) % args.at(1);
 }
 
-void Functions::Private::createBuiltInFunctions()
+Quantity function_ieee754_decode(Function* f, const Function::ArgumentList& args)
 {
-    // ANALYSIS
-    p->add( new Function("abs",     abs,     1, p) );
-    p->add( new Function("absdev",  absdev,     p) );
-    p->add( new Function("average", average,    p) );
-    p->add( new Function("bin",     bin,     1, p) );
-    p->add( new Function("cbrt",    cbrt,    1, p) );
-    p->add( new Function("ceil",    ceil,    1, p) );
-    p->add( new Function("dec",     dec,     1, p) );
-    p->add( new Function("floor",   floor,   1, p) );
-    p->add( new Function("frac",    frac,    1, p) );
-    p->add( new Function("gamma",   Gamma,   1, p) );
-    p->add( new Function("geomean", geomean,    p) );
-    p->add( new Function("hex",     hex,     1, p) );
-    p->add( new Function("int",     integer, 1, p) );
-    p->add( new Function("lngamma", lnGamma, 1, p) );
-    p->add( new Function("max",     max,        p) );
-    p->add( new Function("min",     min,        p) );
-    p->add( new Function("oct",     oct,     1, p) );
-    p->add( new Function("product", product,    p) );
-    p->add( new Function("round",   round,      p) );
-    p->add( new Function("sign",    sign,    1, p) );
-    p->add( new Function("sqrt",    sqrt,    1, p) );
-    p->add( new Function("stddev",  stddev,     p) );
-    p->add( new Function("sum",     sum,        p) );
-    p->add( new Function("trunc",   trunc,      p) );
-    p->add( new Function("variance",variance,   p) );
-
-    // LOGARITHM
-    p->add( new Function("arcosh", arcosh, 1, p) );
-    p->add( new Function("arsinh", arsinh, 1, p) );
-    p->add( new Function("artanh", artanh, 1, p) );
-    p->add( new Function("cosh",   cosh,   1, p) );
-    p->add( new Function("exp",    exp,    1, p) );
-    p->add( new Function("lg",     lg,     1, p) );
-    p->add( new Function("ln",     ln,     1, p) );
-    p->add( new Function("log",    log,    1, p) );
-    p->add( new Function("sinh",   sinh,   1, p) );
-    p->add( new Function("tanh",   tanh,   1, p) );
-
-    // DISCRETE
-    p->add( new Function("gcd", gcd,    p) );
-    p->add( new Function("ncr", nCr, 2, p) );
-    p->add( new Function("npr", nPr, 2, p) );
-
-    // PROBABILITY
-    p->add( new Function("binomcdf",  binomcdf,  3, p) );
-    p->add( new Function("binommean", binommean, 2, p) );
-    p->add( new Function("binompmf",  binompmf,  3, p) );
-    p->add( new Function("binomvar",  binomvar,  2, p) );
-    p->add( new Function("erf",       erf,       1, p) );
-    p->add( new Function("erfc",      erfc,      1, p) );
-    p->add( new Function("hypercdf",  hypercdf,  4, p) );
-    p->add( new Function("hypermean", hypermean, 3, p) );
-    p->add( new Function("hyperpmf",  hyperpmf,  4, p) );
-    p->add( new Function("hypervar",  hypervar,  3, p) );
-    p->add( new Function("median",    median,       p) );
-    p->add( new Function("poicdf",    poicdf,    2, p) );
-    p->add( new Function("poimean",   poimean,   1, p) );
-    p->add( new Function("poipmf",    poipmf,    2, p) );
-    p->add( new Function("poivar",    poivar,    1, p) );
-
-    // TRIGONOMETRY
-    p->add( new Function("acos",    acos,    1, p) );
-    p->add( new Function("asin",    asin,    1, p) );
-    p->add( new Function("atan",    atan,    1, p) );
-    p->add( new Function("cos",     cos,     1, p) );
-    p->add( new Function("cot",     cot,     1, p) );
-    p->add( new Function("csc",     csc,     1, p) );
-    p->add( new Function("degrees", degrees, 1, p) );
-    p->add( new Function("radians", radians, 1, p) );
-    p->add( new Function("sec",     sec,     1, p) );
-    p->add( new Function("sin",     sin,     1, p) );
-    p->add( new Function("tan",     tan,     1, p) );
-
-    // LOGIC
-    p->add( new Function("mask",   mask,   2, p) );
-    p->add( new Function("unmask", unmask, 2, p) );
-    p->add( new Function("not",    not_,   1, p) );
-    p->add( new Function("and",    and_,      p) );
-    p->add( new Function("or",     or_,       p) );
-    p->add( new Function("xor",    xor_,      p) );
-    p->add( new Function("shl",    ashl,   2, p) );
-    p->add( new Function("shr",    ashr,   2, p) );
-    p->add( new Function("idiv",   idiv,   2, p) );
-    p->add( new Function("mod",    mod,    2, p) );
-}
-
-Functions * Functions::instance()
-{
-    if ( ! s_functionsInstance ) {
-        s_functionsInstance = new Functions;
-        qAddPostRoutine( s_deleteFunctions );
+    /* TODO : complex mode switch for this function */
+    ENSURE_EITHER_ARGUMENT_COUNT(3, 4);
+    if (args.count() == 3) {
+        return DMath::decodeIeee754(args.at(0), args.at(1), args.at(2));
+    } else {
+        return DMath::decodeIeee754(args.at(0), args.at(1), args.at(2), args.at(3));
     }
-
-    return s_functionsInstance;
 }
 
-Functions::Functions()
-    : d( new Functions::Private )
+Quantity function_ieee754_encode(Function* f, const Function::ArgumentList& args)
 {
-    d->p = this;
-    d->createBuiltInFunctions();
+    /* TODO : complex mode switch for this function */
+    ENSURE_EITHER_ARGUMENT_COUNT(3, 4);
+    if (args.count() == 3) {
+        return DMath::encodeIeee754(args.at(0), args.at(1), args.at(2));
+    } else {
+        return DMath::encodeIeee754(args.at(0), args.at(1), args.at(2), args.at(3));
+    }
+}
+
+Quantity function_ieee754_half_decode(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::decodeIeee754(args.at(0), 5, 10);
+}
+
+Quantity function_ieee754_half_encode(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::encodeIeee754(args.at(0), 5, 10);
+}
+
+Quantity function_ieee754_single_decode(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::decodeIeee754(args.at(0), 8, 23);
+}
+
+Quantity function_ieee754_single_encode(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::encodeIeee754(args.at(0), 8, 23);
+}
+
+Quantity function_ieee754_double_decode(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::decodeIeee754(args.at(0), 11, 52);
+}
+
+Quantity function_ieee754_double_encode(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::encodeIeee754(args.at(0), 11, 52);
+}
+
+Quantity function_ieee754_quad_decode(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::decodeIeee754(args.at(0), 15, 112);
+}
+
+Quantity function_ieee754_quad_encode(Function* f, const Function::ArgumentList& args)
+{
+    /* TODO : complex mode switch for this function */
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::encodeIeee754(args.at(0), 15, 112);
+}
+
+void FunctionRepo::createFunctions()
+{
+    // Analysis.
+    FUNCTION_INSERT(abs);
+    FUNCTION_INSERT(absdev);
+    FUNCTION_INSERT(average);
+    FUNCTION_INSERT(bin);
+    FUNCTION_INSERT(cbrt);
+    FUNCTION_INSERT(ceil);
+    FUNCTION_INSERT(dec);
+    FUNCTION_INSERT(floor);
+    FUNCTION_INSERT(frac);
+    FUNCTION_INSERT(gamma);
+    FUNCTION_INSERT(geomean);
+    FUNCTION_INSERT(hex);
+    FUNCTION_INSERT(int);
+    FUNCTION_INSERT(lngamma);
+    FUNCTION_INSERT(max);
+    FUNCTION_INSERT(min);
+    FUNCTION_INSERT(oct);
+    FUNCTION_INSERT(product);
+    FUNCTION_INSERT(round);
+    FUNCTION_INSERT(sgn);
+    FUNCTION_INSERT(sqrt);
+    FUNCTION_INSERT(stddev);
+    FUNCTION_INSERT(sum);
+    FUNCTION_INSERT(trunc);
+    FUNCTION_INSERT(variance);
+
+    // Complex.
+    FUNCTION_INSERT(real);
+    FUNCTION_INSERT(imag);
+    FUNCTION_INSERT(conj);
+    FUNCTION_INSERT(phase);
+    FUNCTION_INSERT(polar);
+    FUNCTION_INSERT(cart);
+
+    // Discrete.
+    FUNCTION_INSERT(gcd);
+    FUNCTION_INSERT(ncr);
+    FUNCTION_INSERT(npr);
+
+    // Probability.
+    FUNCTION_INSERT(binomcdf);
+    FUNCTION_INSERT(binommean);
+    FUNCTION_INSERT(binompmf);
+    FUNCTION_INSERT(binomvar);
+    FUNCTION_INSERT(erf);
+    FUNCTION_INSERT(erfc);
+    FUNCTION_INSERT(hypercdf);
+    FUNCTION_INSERT(hypermean);
+    FUNCTION_INSERT(hyperpmf);
+    FUNCTION_INSERT(hypervar);
+    FUNCTION_INSERT(median);
+    FUNCTION_INSERT(poicdf);
+    FUNCTION_INSERT(poimean);
+    FUNCTION_INSERT(poipmf);
+    FUNCTION_INSERT(poivar);
+
+    // Trigonometry.
+    FUNCTION_INSERT(arccos);
+    FUNCTION_INSERT(arcosh);
+    FUNCTION_INSERT(arsinh);
+    FUNCTION_INSERT(artanh);
+    FUNCTION_INSERT(arcsin);
+    FUNCTION_INSERT(arctan);
+    FUNCTION_INSERT(arctan2);
+    FUNCTION_INSERT(cos);
+    FUNCTION_INSERT(cosh);
+    FUNCTION_INSERT(cot);
+    FUNCTION_INSERT(csc);
+    FUNCTION_INSERT(degrees);
+    FUNCTION_INSERT(exp);
+    FUNCTION_INSERT(gradians);
+    FUNCTION_INSERT(lb);
+    FUNCTION_INSERT(lg);
+    FUNCTION_INSERT(ln);
+    FUNCTION_INSERT(log);
+    FUNCTION_INSERT(radians);
+    FUNCTION_INSERT(sec);
+    FUNCTION_INSERT(sin);
+    FUNCTION_INSERT(sinh);
+    FUNCTION_INSERT(tan);
+    FUNCTION_INSERT(tanh);
+
+    // Logic.
+    FUNCTION_INSERT(mask);
+    FUNCTION_INSERT(unmask);
+    FUNCTION_INSERT(not);
+    FUNCTION_INSERT(and);
+    FUNCTION_INSERT(or);
+    FUNCTION_INSERT(xor);
+    FUNCTION_INSERT(shl);
+    FUNCTION_INSERT(shr);
+    FUNCTION_INSERT(idiv);
+    FUNCTION_INSERT(mod);
+
+    // IEEE-754.
+    FUNCTION_INSERT(ieee754_decode);
+    FUNCTION_INSERT(ieee754_encode);
+    FUNCTION_INSERT(ieee754_half_decode);
+    FUNCTION_INSERT(ieee754_half_encode);
+    FUNCTION_INSERT(ieee754_single_decode);
+    FUNCTION_INSERT(ieee754_single_encode);
+    FUNCTION_INSERT(ieee754_double_decode);
+    FUNCTION_INSERT(ieee754_double_encode);
+    FUNCTION_INSERT(ieee754_quad_decode);
+    FUNCTION_INSERT(ieee754_quad_encode);
+}
+
+FunctionRepo* FunctionRepo::instance()
+{
+    if (!s_FunctionRepoInstance) {
+        s_FunctionRepoInstance = new FunctionRepo;
+        qAddPostRoutine(s_deleteFunctions);
+    }
+    return s_FunctionRepoInstance;
+}
+
+FunctionRepo::FunctionRepo()
+{
+    createFunctions();
+    setNonTranslatableFunctionUsages();
     retranslateText();
 }
 
-void Functions::add( Function * f )
+void FunctionRepo::insert(Function* function)
 {
-    if ( f )
-        d->functions.insert( f->identifier().toUpper(), f );
+    if (!function)
+        return;
+    m_functions.insert(function->identifier().toUpper(), function);
 }
 
-Function * Functions::function( const QString & identifier ) const
+Function* FunctionRepo::find(const QString& identifier) const
 {
-    return d->functions.value( identifier.toUpper(), 0 );
+    if (identifier.isNull())
+        return 0;
+    return m_functions.value(identifier.toUpper(), 0);
 }
 
-QStringList Functions::names() const
+QStringList FunctionRepo::getIdentifiers() const
 {
-    QStringList result = d->functions.keys();
-	std::transform(result.begin(), result.end(), result.begin(), [](const QString& s) { return s.toLower(); });
+    QStringList result = m_functions.keys();
+    std::transform(result.begin(), result.end(), result.begin(), [](const QString& s) { return s.toLower(); });
     return result;
 }
 
-Functions::~Functions()
+void FunctionRepo::setNonTranslatableFunctionUsages()
 {
+    FUNCTION_USAGE(abs, "x");
+    FUNCTION_USAGE(absdev, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(arccos, "x");
+    FUNCTION_USAGE(and, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(arcosh, "x");
+    FUNCTION_USAGE(arsinh, "x");
+    FUNCTION_USAGE(artanh, "x");
+    FUNCTION_USAGE(arcsin, "x");
+    FUNCTION_USAGE(arctan, "x");
+    FUNCTION_USAGE(arctan2, "x; y");
+    FUNCTION_USAGE(average, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(bin, "n");
+    FUNCTION_USAGE(cart, "x");
+    FUNCTION_USAGE(cbrt, "x");
+    FUNCTION_USAGE(ceil, "x");
+    FUNCTION_USAGE(conj, "x");
+    FUNCTION_USAGE(cos, "x");
+    FUNCTION_USAGE(cosh, "x");
+    FUNCTION_USAGE(cot, "x");
+    FUNCTION_USAGE(csc, "x");
+    FUNCTION_USAGE(dec, "x");
+    FUNCTION_USAGE(degrees, "x");
+    FUNCTION_USAGE(erf, "x");
+    FUNCTION_USAGE(erfc, "x");
+    FUNCTION_USAGE(exp, "x");
+    FUNCTION_USAGE(floor, "x");
+    FUNCTION_USAGE(frac, "x");
+    FUNCTION_USAGE(gamma, "x");
+    FUNCTION_USAGE(gcd, "n<sub>1</sub>; n<sub>2</sub>; ...");
+    FUNCTION_USAGE(geomean, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(gradians, "x");
+    FUNCTION_USAGE(hex, "n");
+    FUNCTION_USAGE(ieee754_half_decode, "x");
+    FUNCTION_USAGE(ieee754_half_encode, "x");
+    FUNCTION_USAGE(ieee754_single_decode, "x");
+    FUNCTION_USAGE(ieee754_single_encode, "x");
+    FUNCTION_USAGE(ieee754_double_decode, "x");
+    FUNCTION_USAGE(ieee754_double_encode, "x");
+    FUNCTION_USAGE(ieee754_quad_decode, "x");
+    FUNCTION_USAGE(ieee754_quad_encode, "x");
+    FUNCTION_USAGE(int, "x");
+    FUNCTION_USAGE(imag, "x");
+    FUNCTION_USAGE(lb, "x");
+    FUNCTION_USAGE(lg, "x");
+    FUNCTION_USAGE(ln, "x");
+    FUNCTION_USAGE(lngamma, "x");
+    FUNCTION_USAGE(max, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(median, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(min, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(ncr, "x<sub>1</sub>; x<sub>2</sub>");
+    FUNCTION_USAGE(not, "n");
+    FUNCTION_USAGE(npr, "x<sub>1</sub>; x<sub>2</sub>");
+    FUNCTION_USAGE(oct, "n");
+    FUNCTION_USAGE(or, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(polar, "x");
+    FUNCTION_USAGE(product, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(phase, "x");
+    FUNCTION_USAGE(radians, "x");
+    FUNCTION_USAGE(real, "x");
+    FUNCTION_USAGE(sec, "x)");
+    FUNCTION_USAGE(sgn, "x");
+    FUNCTION_USAGE(sin, "x");
+    FUNCTION_USAGE(sinh, "x");
+    FUNCTION_USAGE(sqrt, "x");
+    FUNCTION_USAGE(stddev, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(sum, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(tan, "x");
+    FUNCTION_USAGE(tanh, "x");
+    FUNCTION_USAGE(trunc, "x");
+    FUNCTION_USAGE(variance, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(xor, "x<sub>1</sub>; x<sub>2</sub>; ...");
 }
 
-void Functions::retranslateText()
+void FunctionRepo::setTranslatableFunctionUsages()
 {
-    // ANALYSIS
-    function( "abs"     )->setName( tr("Absolute Value") );
-    function( "absdev"  )->setName( tr("Absolute Deviation") );
-    function( "average" )->setName( tr("Average (Arithmetic Mean)") );
-    function( "bin"     )->setName( tr("Binary Representation") );
-    function( "cbrt"    )->setName( tr("Cube Root") );
-    function( "ceil"    )->setName( tr("Ceiling") );
-    function( "dec"     )->setName( tr("Decimal Representation") );
-    function( "floor"   )->setName( tr("Floor") );
-    function( "frac"    )->setName( tr("Fractional Part") );
-    function( "gamma"   )->setName( tr("Extension of Factorials [= (x-1)!]") );
-    function( "geomean" )->setName( tr("Geometric Mean") );
-    function( "hex"     )->setName( tr("Hexadecimal Representation") );
-    function( "int"     )->setName( tr("Integer Part") );
-    function( "lngamma" )->setName( tr("ln(abs(Gamma))") );
-    function( "max"     )->setName( tr("Maximum") );
-    function( "min"     )->setName( tr("Minimum") );
-    function( "oct"     )->setName( tr("Octal Representation") );
-    function( "product" )->setName( tr("Product") );
-    function( "round"   )->setName( tr("Rounding") );
-    function( "sign"    )->setName( tr("Signum") );
-    function( "sqrt"    )->setName( tr("Square Root") );
-    function( "stddev"  )->setName( tr("Standard Deviation (Square Root of Variance)") );
-    function( "sum"     )->setName( tr("Sum") );
-    function( "trunc"   )->setName( tr("Truncation") );
-    function( "variance")->setName( tr("Variance") );
-
-    //// LOGARITHM
-    function( "arcosh" )->setName( tr("Area Hyperbolic Cosine") );
-    function( "arsinh" )->setName( tr("Area Hyperbolic Sine") );
-    function( "artanh" )->setName( tr("Area Hyperbolic Tangent") );
-    function( "cosh"   )->setName( tr("Hyperbolic Cosine") );
-    function( "exp"    )->setName( tr("Exponential") );
-    function( "lg"     )->setName( tr("Base-2 Logarithm") );
-    function( "ln"     )->setName( tr("Natural Logarithm") );
-    function( "log"    )->setName( tr("Base-10 Logarithm") );
-    function( "sinh"   )->setName( tr("Hyperbolic Sine") );
-    function( "tanh"   )->setName( tr("Hyperbolic Tangent") );
-
-    //// DISCRETE
-    function( "gcd" )->setName( tr("Greatest Common Divisor") );
-    function( "ncr" )->setName( tr("Combination (Binomial Coefficient)") );
-    function( "npr" )->setName( tr("Permutation (Arrangement)") );
-
-    //// PROBABILITY
-    function( "binomcdf"  )->setName( tr("Binomial Cumulative Distribution Function") );
-    function( "binommean" )->setName( tr("Binomial Distribution Mean") );
-    function( "binompmf"  )->setName( tr("Binomial Probability Mass Function") );
-    function( "binomvar"  )->setName( tr("Binomial Distribution Variance") );
-    function( "erf"       )->setName( tr("Error Function") );
-    function( "erfc"      )->setName( tr("Complementary Error Function") );
-    function( "hypercdf"  )->setName( tr("Hypergeometric Cumulative Distribution Function") );
-    function( "hypermean" )->setName( tr("Hypergeometric Distribution Mean") );
-    function( "hyperpmf"  )->setName( tr("Hypergeometric Probability Mass Function") );
-    function( "hypervar"  )->setName( tr("Hypergeometric Distribution Variance") );
-    function( "median"    )->setName( tr("Median Value (50th Percentile)") );
-    function( "poicdf"    )->setName( tr("Poissonian Cumulative Distribution Function") );
-    function( "poimean"   )->setName( tr("Poissonian Distribution Mean") );
-    function( "poipmf"    )->setName( tr("Poissonian Probability Mass Function") );
-    function( "poivar"    )->setName( tr("Poissonian Distribution Variance") );
-
-    //// TRIGONOMETRY
-    function( "acos"    )->setName( tr("Arc Cosine") );
-    function( "asin"    )->setName( tr("Arc Sine") );
-    function( "atan"    )->setName( tr("Arc Tangent") );
-    function( "cos"     )->setName( tr("Cosine") );
-    function( "cot"     )->setName( tr("Cotangent") );
-    function( "csc"     )->setName( tr("Cosecant") );
-    function( "degrees" )->setName( tr("Degrees of Arc") );
-    function( "radians" )->setName( tr("Radians") );
-    function( "sec"     )->setName( tr("Secant") );
-    function( "sin"     )->setName( tr("Sine") );
-    function( "tan"     )->setName( tr("Tangent") );
-
-    //// LOGIC
-    function( "mask"   )->setName( tr("Mask to a bit size") );
-    function( "unmask" )->setName( tr("Sign-extent a value") );
-    function( "not"    )->setName( tr("Logical NOT") );
-    function( "and"    )->setName( tr("Logical AND") );
-    function( "or"     )->setName( tr("Logical OR") );
-    function( "xor"    )->setName( tr("Logical XOR") );
-    function( "shl"    )->setName( tr("Arithmetic Shift Left") );
-    function( "shr"    )->setName( tr("Arithmetic Shift Right") );
-    function( "idiv"   )->setName( tr("Integer Quotient") );
-    function( "mod"    )->setName( tr("Modulo") );
+    FUNCTION_USAGE_TR(binomcdf, tr("max; trials; probability"));
+    FUNCTION_USAGE_TR(binommean, tr("trials; probability"));
+    FUNCTION_USAGE_TR(binompmf, tr("hits; trials; probability"));
+    FUNCTION_USAGE_TR(binomvar, tr("trials; probability"));
+    FUNCTION_USAGE_TR(hypercdf, tr("max; total; hits; trials"));
+    FUNCTION_USAGE_TR(hypermean, tr("total; hits; trials"));
+    FUNCTION_USAGE_TR(hyperpmf, tr("count; total; hits; trials"));
+    FUNCTION_USAGE_TR(hypervar, tr("total; hits; trials"));
+    FUNCTION_USAGE_TR(idiv, tr("dividend; divisor"));
+    FUNCTION_USAGE_TR(ieee754_decode, tr("x; exponent_bits; significand_bits [; exponent_bias]"));
+    FUNCTION_USAGE_TR(ieee754_encode, tr("x; exponent_bits; significand_bits [; exponent_bias]"));
+    FUNCTION_USAGE_TR(log, tr("base; x"));
+    FUNCTION_USAGE_TR(mask, tr("n; bits"));
+    FUNCTION_USAGE_TR(mod, tr("value; modulo"));
+    FUNCTION_USAGE_TR(poicdf, tr("events; average_events"));
+    FUNCTION_USAGE_TR(poimean, tr("average_events"));
+    FUNCTION_USAGE_TR(poipmf, tr("events; average_events"));
+    FUNCTION_USAGE_TR(poivar, tr("average_events"));
+    FUNCTION_USAGE_TR(round, tr("x [; precision]"));
+    FUNCTION_USAGE_TR(shl, tr("n; bits"));
+    FUNCTION_USAGE_TR(shr, tr("n; bits"));
+    FUNCTION_USAGE_TR(unmask, tr("n; bits"));
 }
 
+void FunctionRepo::setFunctionNames()
+{
+    FUNCTION_NAME(abs, tr("Absolute Value"));
+    FUNCTION_NAME(absdev, tr("Absolute Deviation"));
+    FUNCTION_NAME(arccos, tr("Arc Cosine"));
+    FUNCTION_NAME(and, tr("Logical AND"));
+    FUNCTION_NAME(arcosh, tr("Area Hyperbolic Cosine"));
+    FUNCTION_NAME(arsinh, tr("Area Hyperbolic Sine"));
+    FUNCTION_NAME(artanh, tr("Area Hyperbolic Tangent"));
+    FUNCTION_NAME(arcsin, tr("Arc Sine"));
+    FUNCTION_NAME(arctan, tr("Arc Tangent"));
+    FUNCTION_NAME(arctan2, tr("Arc Tangent with two Arguments"));
+    FUNCTION_NAME(average, tr("Average (Arithmetic Mean)"));
+    FUNCTION_NAME(bin, tr("Convert to Binary Representation"));
+    FUNCTION_NAME(binomcdf, tr("Binomial Cumulative Distribution Function"));
+    FUNCTION_NAME(binommean, tr("Binomial Distribution Mean"));
+    FUNCTION_NAME(binompmf, tr("Binomial Probability Mass Function"));
+    FUNCTION_NAME(binomvar, tr("Binomial Distribution Variance"));
+    FUNCTION_NAME(cart, tr("Convert to Cartesian Notation"));
+    FUNCTION_NAME(cbrt, tr("Cube Root"));
+    FUNCTION_NAME(ceil, tr("Ceiling"));
+    FUNCTION_NAME(conj, tr("Complex Conjugate"));
+    FUNCTION_NAME(cos, tr("Cosine"));
+    FUNCTION_NAME(cosh, tr("Hyperbolic Cosine"));
+    FUNCTION_NAME(cot, tr("Cotangent"));
+    FUNCTION_NAME(csc, tr("Cosecant"));
+    FUNCTION_NAME(dec, tr("Convert to Decimal Representation"));
+    FUNCTION_NAME(degrees, tr("Degrees of Arc"));
+    FUNCTION_NAME(erf, tr("Error Function"));
+    FUNCTION_NAME(erfc, tr("Complementary Error Function"));
+    FUNCTION_NAME(exp, tr("Exponential"));
+    FUNCTION_NAME(floor, tr("Floor"));
+    FUNCTION_NAME(frac, tr("Fractional Part"));
+    FUNCTION_NAME(gamma, tr("Extension of Factorials [= (x-1)!]"));
+    FUNCTION_NAME(gcd, tr("Greatest Common Divisor"));
+    FUNCTION_NAME(geomean, tr("Geometric Mean"));
+    FUNCTION_NAME(gradians, tr("Gradians of arc"));
+    FUNCTION_NAME(hex, tr("Convert to Hexadecimal Representation"));
+    FUNCTION_NAME(hypercdf, tr("Hypergeometric Cumulative Distribution Function"));
+    FUNCTION_NAME(hypermean, tr("Hypergeometric Distribution Mean"));
+    FUNCTION_NAME(hyperpmf, tr("Hypergeometric Probability Mass Function"));
+    FUNCTION_NAME(hypervar, tr("Hypergeometric Distribution Variance"));
+    FUNCTION_NAME(idiv, tr("Integer Quotient"));
+    FUNCTION_NAME(int, tr("Integer Part"));
+    FUNCTION_NAME(imag, tr("Imaginary Part"));
+    FUNCTION_NAME(ieee754_decode, tr("Decode IEEE-754 Binary Value"));
+    FUNCTION_NAME(ieee754_encode, tr("Encode IEEE-754 Binary Value"));
+    FUNCTION_NAME(ieee754_half_decode, tr("Decode 16-bit Half-Precision Value"));
+    FUNCTION_NAME(ieee754_half_encode, tr("Encode 16-bit Half-Precision Value"));
+    FUNCTION_NAME(ieee754_single_decode, tr("Decode 32-bit Single-Precision Value"));
+    FUNCTION_NAME(ieee754_single_encode, tr("Encode 32-bit Single-Precision Value"));
+    FUNCTION_NAME(ieee754_double_decode, tr("Decode 64-bit Double-Precision Value"));
+    FUNCTION_NAME(ieee754_double_encode, tr("Encode 64-bit Double-Precision Value"));
+    FUNCTION_NAME(ieee754_quad_decode, tr("Decode 128-bit Quad-Precision Value"));
+    FUNCTION_NAME(ieee754_quad_encode, tr("Encode 128-bit Quad-Precision Value"));
+    FUNCTION_NAME(lb, tr("Binary Logarithm"));
+    FUNCTION_NAME(lg, tr("Common Logarithm"));
+    FUNCTION_NAME(ln, tr("Natural Logarithm"));
+    FUNCTION_NAME(lngamma, "ln(abs(Gamma))");
+    FUNCTION_NAME(log, tr("Logarithm to Arbitrary Base"));
+    FUNCTION_NAME(mask, tr("Mask to a bit size"));
+    FUNCTION_NAME(max, tr("Maximum"));
+    FUNCTION_NAME(median, tr("Median Value (50th Percentile)"));
+    FUNCTION_NAME(min, tr("Minimum"));
+    FUNCTION_NAME(mod, tr("Modulo"));
+    FUNCTION_NAME(ncr, tr("Combination (Binomial Coefficient)"));
+    FUNCTION_NAME(not, tr("Logical NOT"));
+    FUNCTION_NAME(npr, tr("Permutation (Arrangement)"));
+    FUNCTION_NAME(oct, tr("Convert to Octal Representation"));
+    FUNCTION_NAME(or, tr("Logical OR"));
+    FUNCTION_NAME(phase, tr("Phase of Complex Number"));
+    FUNCTION_NAME(poicdf, tr("Poissonian Cumulative Distribution Function"));
+    FUNCTION_NAME(poimean, tr("Poissonian Distribution Mean"));
+    FUNCTION_NAME(poipmf, tr("Poissonian Probability Mass Function"));
+    FUNCTION_NAME(poivar, tr("Poissonian Distribution Variance"));
+    FUNCTION_NAME(polar, tr("Convert to Polar Notation"));
+    FUNCTION_NAME(product, tr("Product"));
+    FUNCTION_NAME(radians, tr("Radians"));
+    FUNCTION_NAME(real, tr("Real Part"));
+    FUNCTION_NAME(round, tr("Rounding"));
+    FUNCTION_NAME(sec, tr("Secant"));
+    FUNCTION_NAME(shl, tr("Arithmetic Shift Left"));
+    FUNCTION_NAME(shr, tr("Arithmetic Shift Right"));
+    FUNCTION_NAME(sgn, tr("Signum"));
+    FUNCTION_NAME(sin, tr("Sine"));
+    FUNCTION_NAME(sinh, tr("Hyperbolic Sine"));
+    FUNCTION_NAME(sqrt, tr("Square Root"));
+    FUNCTION_NAME(stddev, tr("Standard Deviation (Square Root of Variance)"));
+    FUNCTION_NAME(sum, tr("Sum"));
+    FUNCTION_NAME(tan, tr("Tangent"));
+    FUNCTION_NAME(tanh, tr("Hyperbolic Tangent"));
+    FUNCTION_NAME(trunc, tr("Truncation"));
+    FUNCTION_NAME(unmask, tr("Sign-extend a value"));
+    FUNCTION_NAME(variance, tr("Variance"));
+    FUNCTION_NAME(xor, tr("Logical XOR"));
+}
+
+void FunctionRepo::retranslateText()
+{
+    setFunctionNames();
+    setTranslatableFunctionUsages();
+}

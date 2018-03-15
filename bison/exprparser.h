@@ -33,61 +33,63 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+#if 0
+
 /* Tokens.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
    /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
+	  know about them.  */
    enum yytokentype {
-     UNKNOWNTOKEN = 258,
-     TEXT = 259,
-     SCALE = 260,
-     DECSCALE = 261,
-     DECTAG = 262,
-     BINTAG = 263,
-     OCTTAG = 264,
-     HEXTAG = 265,
-     CMPLTAG = 266,
-     DOT = 267,
-     OPENPAR = 268,
-     CLOSEPAR = 269,
-     DECSEQ = 270,
-     BINSEQ = 271,
-     OCTSEQ = 272,
-     HEXSEQ = 273,
-     GROUPCHAR = 274,
-     SEP = 275,
-     PERCENT = 276,
-     NOPREFIX = 277,
-     SIGN = 278,
-     VARIABLE = 279,
-     CONSTANT = 280,
-     POSTFIXOP = 281,
-     FUNCTION = 282,
-     ASSIGN = 283,
-     PREFIX0 = 284,
-     L0 = 285,
-     R1 = 286,
-     PREFIX2 = 287,
-     L2 = 288,
-     R3 = 289,
-     PREFIX4 = 290,
-     L4 = 291,
-     R5 = 292,
-     PREFIX6 = 293,
-     L6 = 294,
-     R7 = 295,
-     PREFIX8 = 296,
-     L8 = 297,
-     R9 = 298,
-     PREFIX10 = 299,
-     L10 = 300,
-     R11 = 301,
-     PREFIX12 = 302,
-     L12 = 303,
-     R13 = 304,
-     PREFIX14 = 305,
-     L14 = 306
+	 UNKNOWNTOKEN = 258,
+	 TEXT = 259,
+	 SCALE = 260,
+	 DECSCALE = 261,
+	 DECTAG = 262,
+	 BINTAG = 263,
+	 OCTTAG = 264,
+	 HEXTAG = 265,
+	 CMPLTAG = 266,
+	 DOT = 267,
+	 OPENPAR = 268,
+	 CLOSEPAR = 269,
+	 DECSEQ = 270,
+	 BINSEQ = 271,
+	 OCTSEQ = 272,
+	 HEXSEQ = 273,
+	 GROUPCHAR = 274,
+	 SEP = 275,
+	 PERCENT = 276,
+	 NOPREFIX = 277,
+	 SIGN = 278,
+	 VARIABLE = 279,
+	 CONSTANT = 280,
+	 POSTFIXOP = 281,
+	 FUNCTION = 282,
+	 ASSIGN = 283,
+	 PREFIX0 = 284,
+	 L0 = 285,
+	 R1 = 286,
+	 PREFIX2 = 287,
+	 L2 = 288,
+	 R3 = 289,
+	 PREFIX4 = 290,
+	 L4 = 291,
+	 R5 = 292,
+	 PREFIX6 = 293,
+	 L6 = 294,
+	 R7 = 295,
+	 PREFIX8 = 296,
+	 L8 = 297,
+	 R9 = 298,
+	 PREFIX10 = 299,
+	 L10 = 300,
+	 R11 = 301,
+	 PREFIX12 = 302,
+	 L12 = 303,
+	 R13 = 304,
+	 PREFIX14 = 305,
+	 L14 = 306
    };
 #endif
 /* Tokens.  */
@@ -167,3 +169,4 @@ typedef union YYSTYPE
 
 extern YYSTYPE yylval;
 
+#endif

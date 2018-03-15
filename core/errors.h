@@ -26,7 +26,7 @@ extern "C"{
 
 typedef enum
 {
-  Success,
+  Success = 0,
 
 /* a NaN or an empty Variant was submitted as a parameter. Only a few
   functions in the math engine accept such a value. All arithmetic functions
@@ -119,6 +119,13 @@ typedef enum
 /* parameter type mismatch */
   TypeMismatch,
 
+/* occurs if quantities of different dimensions are compared, added, converted, etc. */
+  DimensionMismatch,
+
+/* occurs if a non dimensionless quantity is fed to a function that requires
+ dimensoinless arguments, or if an invalid unit is specified */
+  InvalidDimension,
+
 /* cannot overwrite an existing key in a table */
 //  KeyExists,
 
@@ -138,11 +145,15 @@ typedef enum
 /* used with variants, when an operation is not implemented
   for a particular data type.
   used with formats to indicate a not implemented property */
-   NotImplemented,
+  NotImplemented,
 
 /* this value is used internally to indicate the absence of
   any error information altogether */
   NotAnError,
+
+/*
+ */
+
 
 } Error;
 
@@ -151,4 +162,3 @@ typedef enum
 #endif
 
 #endif /* _ERRORS_H */
-

@@ -1,6 +1,7 @@
 // This file is part of the SpeedCrunch project
-// Copyright (C) 2014 @qwazix
-// Copyright (C) 2018 Mikko Syrjä
+// Copyright (C) 2004 Ariya Hidayat <ariya@kde.org>
+// Copyright (C) 2008, 2009, 2010, 2013 @heldercorreia
+// Copyright (C) 2015 Pol Welter <polwelter@gmail.com>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -17,21 +18,29 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import "pages"
-import harbour.speedcrunch.Manager 1.0
+#ifndef CORE_OPCODE_H
+#define CORE_OPCODE_H
 
-ApplicationWindow
+#include<QString>
+
+
+class Opcode
 {
-	id: window
+public:
+    enum  Type { Nop, Load, Ref, Function, Add, Sub, Neg, Mul, Div, Pow,
+           Fact, Modulo, IntDiv, LSh, RSh, BAnd, BOr, Conv };
 
-	initialPage: Qt.resolvedUrl("pages/Panorama.qml")
+    Type type;
+    unsigned index;
 
-	property string latestResultExpr: ""
-	property string latestResult: ""
+    // TODO: this is only needed for Conv Op. Maybe refactor this to a smarter place?
+    // TODO: only keep a pointer to the string
+    QString text;
 
-	cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    Opcode() : type(Nop), index(0) {}
+    Opcode(Type t) : type(t), index(0) {}
+    Opcode(Type t, QString txt) : type(t), index(0), text(txt) {}
+    Opcode(Type t, unsigned i): type(t), index(i) {}
+};
 
-	Manager { id: manager }
-}
+#endif // CORE_OPCODE_H

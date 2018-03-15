@@ -569,9 +569,9 @@ exp2str(
 static t_ioparams stdioparams[4] =
 {
   {10, 10, '.', "0d", "eE(", "  )", "", DECPRECISION},
-  {16, 10, '.', "0x", "(", ")", "sF", HEXPRECISION},
-  {2, 10, '.', "0b", "(", ")", "s1", BINPRECISION},
-  {8, 10, '.', "0o", "(", ")", "s7", OCTPRECISION}
+  {16, 10, '.', "0x", "hH(", "  )", "sF", HEXPRECISION},
+  {2, 10, '.', "0b", "bB(", "  )", "s1", BINPRECISION},
+  {8, 10, '.', "0o", "oOC(", "   )", "s7", OCTPRECISION}
 };
 
 enum {idzero, idx10, idx16, idx2, idx8, idxcount};

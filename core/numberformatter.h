@@ -1,6 +1,6 @@
 // This file is part of the SpeedCrunch project
-// Copyright (C) 2014 @qwazix
-// Copyright (C) 2018 Mikko Syrjä
+// Copyright (C) 2013 @heldercorreia
+// Copyright (C) 2015 Pol Welter <polwelter@gmail.com>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -17,21 +17,17 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import "pages"
-import harbour.speedcrunch.Manager 1.0
+#ifndef CORE_NUMBERFORMATTER_H
+#define CORE_NUMBERFORMATTER_H
 
-ApplicationWindow
-{
-	id: window
+#include "math/quantity.h"
 
-	initialPage: Qt.resolvedUrl("pages/Panorama.qml")
+#include <QtCore/QString>
 
-	property string latestResultExpr: ""
-	property string latestResult: ""
+struct NumberFormatter {
+	static QString format(HNumber &num) { return format(Quantity(num)); }
+	static QString format(CNumber &num) { return format(Quantity(num)); }
+	static QString format(Quantity);
+};
 
-	cover: Qt.resolvedUrl("cover/CoverPage.qml")
-
-	Manager { id: manager }
-}
+#endif

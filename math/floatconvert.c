@@ -394,7 +394,7 @@ pack2floatnum(
     float_add(x, x, &tmp, DECPRECISION);
   if (result != Success)
     return result;
-  if (!float_getlength(x) == 0) /* no zero, no NaN? */
+  if ((!float_getlength(x)) == 0) /* no zero, no NaN? */
   {
     base = n->prefix.base;
     float_setinteger(&tmp, base);
@@ -613,7 +613,9 @@ _outfixpdec(
   if (digits <= 0)
     /* underflow */
     return IOConversionUnderflow;
-  float_round(x, x, digits, TONEAREST);
+  if (float_round(x, x, digits, TONEAREST) != TRUE)
+    /* float_round() can err if the number contains too many digits */
+    return float_geterror();
   _setfndesc(n, x);
   return desc2str(tokens, n, scale);
 }
@@ -632,8 +634,10 @@ _outfixphex(
   result = _fixp2longint(n, &l, x, scale);
   if (result != Success)
     return result;
-  if (l.length == 0)
-    return IOConversionUnderflow;
+  if (l.length == 0) {
+    result = float_geterror();
+    return result != Success ? result : IOConversionUnderflow;
+  }
   _setscale(n, &l, scale);
   return desc2str(tokens, n, scale);
 }

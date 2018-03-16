@@ -37,11 +37,7 @@ public:
 
 	Q_INVOKABLE QString autoCalc(const QString& input);
 	Q_INVOKABLE QString calculate(const QString& input);
-	Q_INVOKABLE void loadLayouts();
-	Q_INVOKABLE void restoreLayouts();
 	Q_INVOKABLE QString getFunctions(QString filter);
-	Q_INVOKABLE void setABC();
-	Q_INVOKABLE void setNumbers();
 	Q_INVOKABLE void setAngleMode(QString mode);
 	Q_INVOKABLE QString getAngleMode() const;
 	Q_INVOKABLE void setPrecision(QString precision);

@@ -64,8 +64,6 @@ SOURCES += \
 	core/evaluator.cpp \
 	core/functions.cpp \
 	core/settings.cpp \
-	bison/bisonparser.cpp \
-	bison/exprparser.c \
 	src/manager.cpp \
 	src/harbour-speedcrunch.cpp \
 	math/rational.cpp \
@@ -86,7 +84,6 @@ OTHER_FILES += \
 	qml/pages/Pager.qml \
 	qml/pages/Panorama.qml \
 	qml/pages/CalcButton.qml \
-	qml/pages/KeyboardButton.qml \
 	qml/pages/Backspace.qml \
 	qml/pages/erase_to_the_left.svg \
 	qml/pages/cube_root.svg \
@@ -119,9 +116,6 @@ HEADERS += \
 	core/evaluator.h \
 	core/functions.h \
 	core/settings.h \
-	bison/bison.h \
-	bison/bisonparser.h \
-	bison/exprparser.h \
 	src/manager.h \
 	math/rational.h \
 	math/units.h \

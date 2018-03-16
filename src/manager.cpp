@@ -21,9 +21,6 @@
 #include <QFile>
 #include <QDir>
 #include <QGuiApplication>
-#if !defined(Q_WS_SIMULATOR) && !defined(SAILFISH)
-#include <MGConfItem>
-#endif
 #include "core/functions.h"
 #include "core/constants.h"
 

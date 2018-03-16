@@ -1,7 +1,8 @@
 // This file is part of the SpeedCrunch project
 // Copyright (C) 2004 Ariya Hidayat <ariya@kde.org>
 // Copyright (C) 2005-2006 Johan Thelin <e8johan@gmail.com>
-// Copyright (C) 2007-2009 Helder Correia <helder.pereira.correia@gmail.com>
+// Copyright (C) 2007-2016 @heldercorreia
+// Copyright (C) 2015 Pol Welter <polwelter@gmail.com>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -24,59 +25,65 @@
 #include <QtCore/QPoint>
 #include <QtCore/QSize>
 #include <QtCore/QStringList>
+#include <QtCore/QList>
 
-class Settings
-{
+class Settings {
 public:
-    static Settings * instance();
+    static Settings* instance();
+    static QString getConfigPath();
+    static QString getDataPath();
+    static QString getCachePath();
 
     void load();
     void save();
 
-    char radixCharacter() const; // 0: auto
-    void setRadixCharacter( char c = 0 );
+    char radixCharacter() const; // 0 or '*': Automatic.
+    void setRadixCharacter(char c = 0);
     bool isRadixCharacterAuto() const;
+    bool isRadixCharacterBoth() const;
 
-    char angleUnit; // 'r': radian; 'd': degree
+    bool complexNumbers;
 
-    char resultFormat;    // see HMath documentation
-    int  resultPrecision; // see HMath documentation
+    char angleUnit; // 'r': radian; 'd': degree; 'g': gradian.
 
+    char resultFormat;
+    int resultPrecision; // See HMath documentation.
+    char resultFormatComplex; // 'c' cartesian; 'p' polar.
+
+    bool autoAns;
     bool autoCalc;
     bool autoCompletion;
-    bool historySave;
+    int digitGrouping;
+    bool sessionSave;
+    bool leaveLastExpression;
     bool syntaxHighlighting;
-    bool systemTrayIconVisible;
-    bool variableSave;
     bool windowAlwaysOnTop;
+    bool autoResultToClipboard;
+    bool windowPositionSave;
 
     bool constantsDockVisible;
     bool functionsDockVisible;
     bool historyDockVisible;
     bool keypadVisible;
-    bool mathBookDockVisible;
-    bool menuBarVisible;
+    bool formulaBookDockVisible;
     bool statusBarVisible;
     bool variablesDockVisible;
+    bool userFunctionsDockVisible;
     bool windowOnfullScreen;
+    bool bitfieldVisible;
 
+    QString colorScheme;
     QString displayFont;
 
     QString language;
 
-    QStringList history;
-    QStringList historyResults;
-    QStringList variables;
-
-    QPoint      windowPosition;
-    QSize       windowSize;
-    QByteArray  windowState;
+    QByteArray windowState;
+    QByteArray windowGeometry;
+    QByteArray manualWindowGeometry;
 
 private:
     Settings();
-    Settings( const Settings & );
-    Settings & operator=( const Settings & );
+    Q_DISABLE_COPY(Settings)
 };
 
 #endif
-

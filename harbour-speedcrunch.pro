@@ -76,7 +76,8 @@ SOURCES += \
 	core/userfunction.cpp \
 	core/session.cpp \
 	core/sessionhistory.cpp \
-	math/cnumberparser.cpp
+	math/cnumberparser.cpp \
+    thirdparty/binreloc/binreloc.c
 
 OTHER_FILES += \
 	qml/cover/CoverPage.qml \
@@ -127,5 +128,9 @@ HEADERS += \
 	core/userfunction.h \
 	core/session.h \
 	core/sessionhistory.h \
-	math/cnumberparser.h
+	math/cnumberparser.h \
+    thirdparty/binreloc/binreloc.h
+
+DISTFILES += \
+    bison/exprparser.y
 

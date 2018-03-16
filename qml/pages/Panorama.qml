@@ -74,12 +74,9 @@ Page
 //				if ( parent.index == 1 )
 				if ( screen.index == 1 )
 				{
-//					manager.setNumbers()
 					textfield.softwareInputPanelEnabled = false
 					textfield.forceActiveFocus()
 				}
-//				if ( parent.index == 0 )
-//					manager.setABC()
 			}
 		}
 

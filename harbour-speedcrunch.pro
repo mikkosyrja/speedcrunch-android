@@ -63,8 +63,6 @@ SOURCES += \
     core/evaluator.cpp \
     core/functions.cpp \
     core/settings.cpp \
-    bison/bisonparser.cpp \
-    bison/exprparser.c \
     src/manager.cpp \
     src/harbour-speedcrunch.cpp
 
@@ -107,8 +105,5 @@ HEADERS += \
     core/evaluator.h \
     core/functions.h \
     core/settings.h \
-    bison/bison.h \
-    bison/bisonparser.h \
-    bison/exprparser.h \
     src/manager.h
 

@@ -72,7 +72,6 @@ OTHER_FILES += \
     qml/pages/Pager.qml \
     qml/pages/Panorama.qml \
     qml/pages/CalcButton.qml \
-    qml/pages/KeyboardButton.qml \
     qml/pages/Backspace.qml \
     qml/pages/erase_to_the_left.svg \
     qml/pages/cube_root.svg \

@@ -129,3 +129,5 @@ HEADERS += \
 	core/sessionhistory.h \
 	math/cnumberparser.h
 
+DISTFILES +=
+

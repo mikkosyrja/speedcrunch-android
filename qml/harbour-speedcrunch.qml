@@ -28,7 +28,7 @@ ApplicationWindow
 
 	initialPage: Qt.resolvedUrl("pages/Panorama.qml")
 
-	property string latestResultExpr: ""
+	property string latestExpression: ""
 	property string latestResult: ""
 
 	cover: Qt.resolvedUrl("cover/CoverPage.qml")

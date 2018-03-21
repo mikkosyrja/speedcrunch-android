@@ -23,6 +23,7 @@
 #include <QGuiApplication>
 #include "core/functions.h"
 #include "core/constants.h"
+#include "core/numberformatter.h"
 
 // save the active keyboard
 Manager::Manager()
@@ -69,6 +70,16 @@ QString Manager::autoCalc(const QString& input)
 	return QString();
 }
 
+//! Auto fix expression.
+/*!
+	\param input		Initial expression.
+	\return				Fixed expression.
+*/
+QString Manager::autoFix(const QString& input)
+{
+	return evaluator->autoFix(input);
+}
+
 //! Calculate expression.
 /*!
 	\param input		Initial expression.
@@ -78,10 +89,11 @@ QString Manager::calculate(const QString& input)
 {
 	const QString expression = evaluator->autoFix(input);
 	evaluator->setExpression(expression);
-	Quantity quantity = evaluator->eval();
-	HNumber::Format format;
-	format.precision = settings->resultPrecision;
-	return HMath::format(quantity.numericValue().real, format);		//## no complex numers
+//	Quantity quantity = evaluator->eval();
+	Quantity quantity = evaluator->evalUpdateAns();
+//	Quantity quantity = evaluator->evalNoAssign();
+
+	return NumberFormatter::format(quantity);
 }
 
 //

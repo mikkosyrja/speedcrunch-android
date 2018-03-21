@@ -642,18 +642,12 @@ Page
 	{
 		if ( textfield.text != "" )
 		{
-			window.latestResultExpr = textfield.text
-//			result.text = textfield.text
-			if ( manager.calculate(textfield.text) !== "" )
-			{
-				window.latestResult = manager.calculate(textfield.text);
-				resultsList.append({"text": textfield.text + " = " + manager.calculate(textfield.text), "value" : manager.calculate(textfield.text), "steps" : textfield.text})
-			}
+			window.latestExpression = manager.autoFix(textfield.text)
+			window.latestResult = manager.calculate(textfield.text);
+			if ( window.latestResult !== "" )
+				resultsList.append({"text": window.latestExpression + " = " + window.latestResult, "value" : window.latestResult, "steps" : window.latestExpression})
 			else
-			{
-				window.latestResult = "";
-				resultsList.append({"text": textfield.text, "value" : textfield.text, "steps": textfield.text})
-			}
+				resultsList.append({"text": window.latestExpression, "value" : "", "steps": window.latestExpression})
 			resultsview.positionViewAtEnd()
 			resultsview.currentIndex = resultsview.count - 1
 			textfield.text = ""

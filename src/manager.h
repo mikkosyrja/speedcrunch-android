@@ -36,6 +36,7 @@ public:
 	Manager();
 
 	Q_INVOKABLE QString autoCalc(const QString& input);
+	Q_INVOKABLE QString autoFix(const QString& input);
 	Q_INVOKABLE QString calculate(const QString& input);
 	Q_INVOKABLE QString getFunctions(QString filter);
 	Q_INVOKABLE void setAngleMode(QString mode);

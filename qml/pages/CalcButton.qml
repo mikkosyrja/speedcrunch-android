@@ -33,7 +33,7 @@ Button
 	property string image : ""
 
 	implicitWidth: parent.width / parent.columns - parent.spacing * (parent.columns - 1) / parent.columns;
-	implicitHeight: parent.height / parent.rows - parent.spacing * (parent.rows - 1) / parent.rows;
+//	implicitHeight: parent.height / parent.rows - parent.spacing * (parent.rows - 1) / parent.rows;
 
 	Image
 	{

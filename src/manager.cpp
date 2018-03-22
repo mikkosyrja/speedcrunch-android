@@ -24,8 +24,9 @@
 #include "core/functions.h"
 #include "core/constants.h"
 #include "core/numberformatter.h"
+#include "math/units.h"
 
-// save the active keyboard
+//! Default constructor.
 Manager::Manager()
 {
 	evaluator = Evaluator::instance();
@@ -96,40 +97,46 @@ QString Manager::calculate(const QString& input)
 	return NumberFormatter::format(quantity);
 }
 
-//
+//! Get functions, constants and units.
+/*!
+	\param filter		Filter string.
+	\return				Function list in JavaScript format.
+*/
 QString Manager::getFunctions(QString filter)
 {
-	QStringList functions = FunctionRepo::instance()->getIdentifiers();
 	QString result = "[";
+	QStringList functions = FunctionRepo::instance()->getIdentifiers();
 	for ( int index = 0; index < functions.count(); ++index )
 	{
 		if ( Function* function = FunctionRepo::instance()->find(functions.at(index)) )
 		{
 			if ( filter == "" || function->name().toLower().contains(filter.toLower())
 				|| function->identifier().toLower().contains(filter.toLower()))
-				result += "{ val:'" + function->identifier()+ "' , name: '" + function->name() + "' , func: true},";
+				result += "{ val:'" + function->identifier() + "' , name: '" + function->name() + "' , func: true},";
 		}
 	}
-	QList<Constant> constants = Constants::instance()->list();
-	for ( int index = 0; index < constants.count(); ++index )
+	for ( const auto& unit : Units::getList() )
 	{
-		if ( filter == "" || constants.at(index).value.contains(filter, Qt::CaseInsensitive)
-			|| constants.at(index).name.contains(filter, Qt::CaseInsensitive))
-			result += "{ val:'" + constants.at(index).value + "' , name: \"" + constants.at(index).name +"\", func: false},";
+		if ( filter == "" || unit.name.contains(filter, Qt::CaseInsensitive))
+			result += "{ val:' " + unit.name + " ' , name: \"" + unit.name +"\", func: false},";
 	}
-
+	for ( const auto& constant : Constants::instance()->list() )
+	{
+		if ( filter == "" || constant.value.contains(filter, Qt::CaseInsensitive) || constant.name.contains(filter, Qt::CaseInsensitive))
+			result += "{ val:'" + constant.value + "' , name: \"" + constant.name +"\", func: false},";
+	}
 	return result += "]";
 }
 
 //! Set angle unit.
 /*!
-	\param mode			Angle unit (d, r, g).
+	\param unit			Angle unit (d, r, g).
 */
-void Manager::setAngleMode(QString mode)
+void Manager::setAngleUnit(QString unit)
 {
-	if ( !mode.isEmpty() && mode.at(0) != settings->angleUnit )
+	if ( !unit.isEmpty() && unit.at(0) != settings->angleUnit )
 	{
-		settings->angleUnit = mode.at(0).toLatin1();
+		settings->angleUnit = unit.at(0).toLatin1();
 //		qDebug() << "set angle unit: " << settings->angleUnit;
 		settings->save();
 	}
@@ -139,11 +146,36 @@ void Manager::setAngleMode(QString mode)
 /*!
 	\return				Angle unit (d, r, g).
 */
-QString Manager::getAngleMode() const
+QString Manager::getAngleUnit() const
 {
 	settings->load();
 //	qDebug() << "get angle unit: " << settings->angleUnit;
 	return QString(settings->angleUnit);
+}
+
+//! Set result format.
+/*!
+	\param format		Result format (g, f, n, e, b, o, h).
+*/
+void Manager::setResultFormat(QString format)
+{
+	if ( !format.isEmpty() && format.at(0) != settings->resultFormat )
+	{
+		settings->resultFormat = format.at(0).toLatin1();
+//		qDebug() << "set result format: " << settings->resultFormat;
+		settings->save();
+	}
+}
+
+//! Get result format.
+/*!
+	\return				Result format (g, f, n, e, b, o, h).
+*/
+QString Manager::getResultFormat() const
+{
+	settings->load();
+//	qDebug() << "get result format: " << settings->resultFormat;
+	return QString(settings->resultFormat);
 }
 
 //! Set precision.

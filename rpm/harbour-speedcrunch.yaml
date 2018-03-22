@@ -1,13 +1,13 @@
 Name: harbour-speedcrunch
-Summary: speedcrunch mobile is a port of the KDE calculator to Sailfish
+Summary: Port of the SpeedCrunch calculator to Sailfish OS
 Version: 0.2.5
-Release: 1
+Release: 2
 Group: Qt/Qt
 License: LICENSE
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
-  speedcrunch mobile is a port of the KDE calculator to Sailfish
+ Port of the SpeedCrunch calculator to Sailfish OS
 Configure: none
 Builder: qtc5
 PkgConfigBR:

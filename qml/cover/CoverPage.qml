@@ -62,7 +62,7 @@ CoverBackground
 		wrapMode: Text.WrapAnywhere
 		font.pixelSize: fontsizesmall
 //		color: Theme.highlightColor
-		text: window.latestResultExpr == "" ? "" : window.latestResultExpr + " ="
+		text: window.latestExpression == "" ? "" : window.latestExpression + " ="
 	}
 	Label
 	{

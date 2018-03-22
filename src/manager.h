@@ -39,12 +39,13 @@ public:
 	Q_INVOKABLE QString autoFix(const QString& input);
 	Q_INVOKABLE QString calculate(const QString& input);
 	Q_INVOKABLE QString getFunctions(QString filter);
-	Q_INVOKABLE void setAngleMode(QString mode);
-	Q_INVOKABLE QString getAngleMode() const;
+	Q_INVOKABLE void setAngleUnit(QString unit);
+	Q_INVOKABLE QString getAngleUnit() const;
+	Q_INVOKABLE void setResultFormat(QString format);
+	Q_INVOKABLE QString getResultFormat() const;
 	Q_INVOKABLE void setPrecision(QString precision);
 	Q_INVOKABLE QString getPrecision() const;
 	Q_INVOKABLE void setClipboard(QString text);
-
 
 private:
 	Evaluator* evaluator;

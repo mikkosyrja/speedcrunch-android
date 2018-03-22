@@ -471,9 +471,9 @@ Page
 						}
 						onCurrentIndexChanged:
 						{
-							if ( currentIndex == 0 ) { manager.setAngleMode("d") }
-							else if ( currentIndex == 1 ) { manager.setAngleMode("r") }
-//							else if ( currentIndex == 2 ) { manager.setAngleMode("g") }
+							if ( currentIndex == 0 ) { manager.setAngleUnit("d") }
+							else if ( currentIndex == 1 ) { manager.setAngleUnit("r") }
+//							else if ( currentIndex == 2 ) { manager.setAngleUnit("g") }
 						}
 						function setAngleUnit(unit)
 						{
@@ -485,9 +485,53 @@ Page
 				}
 				Rectangle
 				{
-					id: precisionsetting
+					id: resultformatsetting
 					color: "transparent"
 					anchors.top: angleunitsetting.bottom
+					width: parent.width
+					height: settingheight
+					z: 20
+					ComboBox
+					{
+						id: resultformatlist
+						label: "Result format"	//%%
+						menu: ContextMenu
+						{
+							MenuItem { text: "General decimal" }		//%%
+							MenuItem { text: "Fixed decimal" }			//%%
+							MenuItem { text: "Engineering decimal" }	//%%
+							MenuItem { text: "Scientific decimal" }		//%%
+							MenuItem { text: "Binary" }					//%%
+							MenuItem { text: "Octal" }					//%%
+							MenuItem { text: "Hexadecimal" }			//%%
+						}
+						onCurrentIndexChanged:
+						{
+							if ( currentIndex == 0 ) { manager.setResultFormat("g") }
+							else if ( currentIndex == 1 ) { manager.setResultFormat("f") }
+							else if ( currentIndex == 2 ) { manager.setResultFormat("n") }
+							else if ( currentIndex == 3 ) { manager.setResultFormat("e") }
+							else if ( currentIndex == 4 ) { manager.setResultFormat("b") }
+							else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
+							else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
+						}
+						function setResultFormat(format)
+						{
+							if ( format == "g" ) currentIndex = 0
+							else if ( format == "f" ) currentIndex = 1
+							else if ( format == "n" ) currentIndex = 2
+							else if ( format == "e" ) currentIndex = 3
+							else if ( format == "b" ) currentIndex = 4
+							else if ( format == "o" ) currentIndex = 5
+							else if ( format == "h" ) currentIndex = 6
+						}
+					}
+				}
+				Rectangle
+				{
+					id: precisionsetting
+					color: "transparent"
+					anchors.top: resultformatsetting.bottom
 					width: parent.width
 					height: settingheight
 					z: 10
@@ -634,7 +678,8 @@ Page
 		textfield.softwareInputPanelEnabled = false
 		textfield.forceActiveFocus()
 
-		angleunitlist.setAngleUnit(manager.getAngleMode())
+		angleunitlist.setAngleUnit(manager.getAngleUnit())
+		resultformatlist.setResultFormat(manager.getResultFormat())
 		precisionlist.setPrecision(manager.getPrecision())
 	}
 

@@ -230,22 +230,18 @@ Page
 						fillMode: Image.PreserveAspectFit
 						smooth: true;
 						visible: textfield.text
-						source: "clear.png"		//## too small in xperia
+						source: "clear.png"
 						MouseArea
 						{
 							id: cleararea
 							anchors { fill: parent; margins: -10 }
-							onClicked:
-							{
-								textfield.text = ""
-								textfield.forceActiveFocus()
-							}
+							onClicked: { textfield.text = ""; textfield.forceActiveFocus() }
 						}
 					}
 					Button	// evaluate button
 					{
 						id: evaluatebutton
-						width: buttonwidth
+						width: buttonwidth; color: Theme.highlightColor
 						anchors { top: textfield.top; topMargin: buttonmargin; right: parent.right }
 						text: "="
 						onClicked: { evaluate(); }
@@ -418,7 +414,7 @@ Page
 							else if ( currentIndex == 4 ) { manager.setResultFormat("b"); }
 							else if ( currentIndex == 5 ) { manager.setResultFormat("o"); }
 							else if ( currentIndex == 6 ) { manager.setResultFormat("h"); }
-							setbuttonlabels()
+							setButtonLabels()
 						}
 						function setResultFormat(format)
 						{
@@ -475,10 +471,8 @@ Page
 				Rectangle
 				{
 					id: expressionsetting
-					color: "transparent"
+					width: parent.width; height: settingheight; color: "transparent"
 					anchors.top: precisionsetting.bottom
-					width: parent.width
-					height: settingheight
 					TextSwitch
 					{
 						id: expressionswitch
@@ -490,10 +484,8 @@ Page
 				Rectangle
 				{
 					id: historysetting
-					color: "transparent"
+					width: parent.width; height: settingheight; color: "transparent"
 					anchors.top: decimalsetting.bottom
-					width: parent.width
-					height: settingheight
 					TextSwitch
 					{
 						id: historyswitch
@@ -533,21 +525,21 @@ Page
 					{
 						width: parent.width - (helpmargin * 3); color: "white"
 						anchors.horizontalCenter: parent.horizontalCenter
-						text: "Tap on any line on the history to insert result\nvalue to the running expression."
+						text: "Tap on any line on the history to insert result value\nto the running expression."
 						font.pixelSize: fontsizetiny; wrapMode: Text.WordWrap
 					}
 					Text
 					{
 						width: parent.width - (helpmargin * 3); color: "white"
 						anchors.horizontalCenter: parent.horizontalCenter
-						text: "Tap and hold on any line on the history to\nreplace the running expression with it."
+						text: "Tap and hold on any line on the history to replace\nthe running expression with it."
 						font.pixelSize: fontsizetiny; wrapMode: Text.WordWrap
 					}
 					Text
 					{
 						width: parent.width - (helpmargin * 3); color: "white"
 						anchors.horizontalCenter: parent.horizontalCenter
-						text: "Tap and hold on buttons 1-6 to insert\nhexadecimal letters A-F."
+						text: "Tap and hold on buttons 1-6 to insert hexadecimal\nletters A-F. Tap and hold on 0x to insert 0b."
 						font.pixelSize: fontsizetiny; wrapMode: Text.WordWrap
 					}
 				}
@@ -581,7 +573,7 @@ Page
 		}
 	}
 
-	function setbuttonlabels()
+	function setButtonLabels()
 	{
 		var format = manager.getResultFormat()
 		if ( format == "h" )

@@ -23,8 +23,4 @@ Files:
 - '%{_datadir}/%{name}/qml'
 - '%{_datadir}/applications/%{name}.desktop'
 - '%{_datadir}/icons/hicolor/86x86/apps/%{name}.png'
-#- /usr/bin
-#- /usr/share/applications
-#- /usr/share/icons/hicolor/86x86/apps
-#- /usr/share/%{name}
 PkgBR: []

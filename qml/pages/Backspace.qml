@@ -8,26 +8,18 @@ CalcButton
 
 	onRunFunction:
 	{
-		var txt = textfield.text
-		var res;
 		var pos = textfield.cursorPosition;
-		if ( txt == "" || pos == 0 )
+		if ( textfield.text == "" || pos == 0 )
 			return;
 		if ( textfield.selectionStart - textfield.selectionEnd != 0 )
 		{
-			var firstpart = txt.slice(0, textfield.selectionStart);
-			var lastpart = txt.slice(textfield.selectionEnd);
-			res = firstpart + "" + lastpart
-			return
+			var firstpart = textfield.text.slice(0, textfield.selectionStart);
+			var lastpart = textfield.text.slice(textfield.selectionEnd);
+			textfield.text = firstpart + lastpart
 		}
-		if ( pos == textfield.text.length )
+		else
 		{
-			textfield.text = textfield.text.slice(0, textfield.text.length - 1)
-			return
-		}
-		if ( pos < textfield.text.length )
-		{
-			textfield.text = txt.slice(0, pos - 1) + txt.slice(pos)
+			textfield.text = textfield.text.slice(0, pos - 1) + textfield.text.slice(pos)
 			textfield.cursorPosition = pos - 1
 		}
 	}

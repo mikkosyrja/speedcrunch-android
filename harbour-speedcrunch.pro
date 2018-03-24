@@ -129,5 +129,6 @@ HEADERS += \
 	core/sessionhistory.h \
 	math/cnumberparser.h
 
-DISTFILES +=
+DISTFILES += \
+    CHANGELOG.md
 

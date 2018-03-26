@@ -360,7 +360,7 @@ Page
 					id: angleunitsetting
 					width: parent.width; height: settingheight; color: "transparent"
 					anchors.top: header3.bottom
-					z: 20
+					z: 30
 					ComboBox
 					{
 						id: angleunitlist

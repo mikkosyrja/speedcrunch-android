@@ -5,7 +5,7 @@
 - Added setting for decimals
 - Improved expression editing
 
-## 0.2.6 (2018-03-xx)
+## 0.2.6 (2018-03-25)
 
 - Fixed cover expression
 - Fixed inverse trigonometric functions
@@ -15,7 +15,7 @@
 	- Added fifth row for parenthesis and editing
 	- Added semicolon for function parameters
 	- Added button 0x for entering hexadecimal values
-	- Button 0x produced 0b with long press
+	- Button 0x produces 0b with long press
 	- Buttons 1-6 produce letters A-F with long press
 	- Hexadecimal result mode displays letters A-F
 	- Added buttons for AND, OR and SHIFT operations
@@ -24,4 +24,7 @@
 	- Removed home and end buttons
 	- Removed deprecated % button
 
+## 0.2.7 (2018-03-xx)
+
+- Fixed angle unit setting z-ordering
 

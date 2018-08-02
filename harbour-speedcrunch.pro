@@ -14,8 +14,8 @@ TARGET = harbour-speedcrunch
 # QML files and folders
 QT += quick qml
 CONFIG += link_pkgconfig
-PKGCONFIG += sailfishapp
-INCLUDEPATH += /usr/include/sailfishapp
+# PKGCONFIG += sailfishapp
+# INCLUDEPATH += /usr/include/sailfishapp
 
 TARGETPATH = /usr/bin
 target.path = $$TARGETPATH

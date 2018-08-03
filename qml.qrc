@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/harbour-speedcrunch.qml</file>
+        <file>qml/android-speedcrunch.qml</file>
     </qresource>
 </RCC>

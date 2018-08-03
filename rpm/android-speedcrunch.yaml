@@ -18,7 +18,7 @@ PkgConfigBR:
 Requires:
 - sailfishsilica-qt5
 Files:
-- /usr/share/harbour-speedcrunch
+- /usr/share/android-speedcrunch
 - '%{_bindir}'
 - '%{_datadir}/%{name}/qml'
 - '%{_datadir}/applications/%{name}.desktop'

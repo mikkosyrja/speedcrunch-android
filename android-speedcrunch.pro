@@ -1,12 +1,3 @@
-# The name of your app.
-# NOTICE: name defined in TARGET has a corresponding QML filename.
-#         If name defined in TARGET is changed, following needs to be
-#         done to match new name:
-#         - corresponding QML filename must be changed
-#         - desktop icon filename must be changed
-#         - desktop filename must be changed
-#         - icon definition filename in desktop file must be changed
-#TARGET = harbour-speedcrunch
 
 QT += quick qml
 CONFIG += c++11
@@ -48,7 +39,7 @@ SOURCES += \
 	core/functions.cpp \
 	core/settings.cpp \
 	src/manager.cpp \
-	src/harbour-speedcrunch.cpp \
+	src/android-speedcrunch.cpp \
 	math/rational.cpp \
 	math/units.cpp \
 	core/numberformatter.cpp \
@@ -68,8 +59,8 @@ OTHER_FILES += \
 	qml/pages/Backspace.qml \
 	qml/pages/erase_to_the_left.svg \
 	qml/pages/cube_root.svg \
-	qml/harbour-speedcrunch.qml \
-	rpm/harbour-speedcrunch.yaml
+	qml/android-speedcrunch.qml \
+	rpm/android-speedcrunch.yaml
 
 HEADERS += \
 	math/floatcommon.h \

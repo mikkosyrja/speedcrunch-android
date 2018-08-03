@@ -6,38 +6,21 @@
 #         - desktop icon filename must be changed
 #         - desktop filename must be changed
 #         - icon definition filename in desktop file must be changed
-TARGET = harbour-speedcrunch
+#TARGET = harbour-speedcrunch
 
-#CONFIG += sailfishapp
-
-# Start of temporary fix for the icon for the Nov 2013 harbour requirements by (thanks to AgileArtem :))
-# QML files and folders
 QT += quick qml
-CONFIG += link_pkgconfig
+CONFIG += c++11
+
 # PKGCONFIG += sailfishapp
 # INCLUDEPATH += /usr/include/sailfishapp
 
-TARGETPATH = /usr/bin
-target.path = $$TARGETPATH
+#TARGETPATH = /usr/bin
+#target.path = $$TARGETPATH
 
-DEPLOYMENT_PATH = /usr/share/$$TARGET
-qml.files = qml
-qml.path = $$DEPLOYMENT_PATH
+#DEPLOYMENT_PATH = /usr/share/$$TARGET
+#qml.files = qml
+#qml.path = $$DEPLOYMENT_PATH
 
-desktop.files = harbour-speedcrunch.desktop
-desktop.path = /usr/share/applications
-
-icon.files = harbour-speedcrunch.png
-icon.path = /usr/share/icons/hicolor/86x86/apps
-
-# moving mixpanel to harbour.wikipedia.Mixpanel location to satisfy new harbour requirements
-# qml.files/path will deploy a copy to the old location, but it's ok, it's not going to be used
-mixpanel.files = qml/components/Mixpanel/src/Mixpanel
-mixpanel.path = $$DEPLOYMENT_PATH/qml/components/harbour/wikipedia
-
-INSTALLS += target icon desktop mixpanel qml
-# End of nov 2013 fix
-DEFINES += SAILFISH
 DEFINES += SPEEDCRUNCH_VERSION=\\\"master\\\"
 
 SOURCES += \
@@ -79,8 +62,6 @@ SOURCES += \
 	math/cnumberparser.cpp
 
 OTHER_FILES += \
-	qml/cover/CoverPage.qml \
-	harbour-speedcrunch.desktop \
 	qml/pages/Pager.qml \
 	qml/pages/Panorama.qml \
 	qml/pages/CalcButton.qml \
@@ -132,3 +113,9 @@ HEADERS += \
 DISTFILES += \
     CHANGELOG.md
 
+RESOURCES += qml.qrc
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target

@@ -165,6 +165,8 @@ public:
     void unsetAllUserFunctions();
     bool hasUserFunction(const QString&) const;
 
+	const QString& getAssignId() const { return m_assignId; }
+
 protected:
     void compile(const Tokens&);
 

@@ -23,10 +23,13 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
-#include "core/evaluator.h"
-#include "core/settings.h"
 #include <QDebug>
 #include <QClipboard>
+
+#include "core/evaluator.h"
+#include "core/settings.h"
+#include "core/constants.h"
+#include "math/units.h"
 
 class Manager : public QObject
 {
@@ -35,22 +38,53 @@ class Manager : public QObject
 public:
 	Manager();
 
+	Q_INVOKABLE void saveSession();
+
 	Q_INVOKABLE QString autoCalc(const QString& input);
 	Q_INVOKABLE QString autoFix(const QString& input);
 	Q_INVOKABLE QString calculate(const QString& input);
-	Q_INVOKABLE QString getFunctions(QString filter);
-	Q_INVOKABLE void setAngleUnit(QString unit);
+	Q_INVOKABLE QString getError();
+
+	Q_INVOKABLE QString getHistory(int);
+	Q_INVOKABLE QString getFunctions(const QString& filter, const QString& type, int);
+
+	Q_INVOKABLE void setAngleUnit(const QString& unit);
 	Q_INVOKABLE QString getAngleUnit() const;
-	Q_INVOKABLE void setResultFormat(QString format);
+	Q_INVOKABLE void setResultFormat(const QString& format);
 	Q_INVOKABLE QString getResultFormat() const;
-	Q_INVOKABLE void setPrecision(QString precision);
+	Q_INVOKABLE void setPrecision(const QString& precision);
 	Q_INVOKABLE QString getPrecision() const;
-	Q_INVOKABLE void setClipboard(QString text);
+	Q_INVOKABLE void setComplexNumber(const QString& complex);
+	Q_INVOKABLE QString getComplexNumber() const;
+
+	Q_INVOKABLE void setSessionSave(bool save);
+	Q_INVOKABLE bool getSessionSave() const;
+	Q_INVOKABLE void clearHistory();
+
+	Q_INVOKABLE QString getAssignId() const;
+	Q_INVOKABLE void clearVariable(const QString& variable);
+	Q_INVOKABLE void clearFunction(const QString& function);
+
+	Q_INVOKABLE bool updateRecent(const QString& name);
+	Q_INVOKABLE bool removeRecent(const QString& name);
+
+	Q_INVOKABLE void setClipboard(const QString& text) const;
+	Q_INVOKABLE QString getClipboard() const;
 
 private:
-	Evaluator* evaluator;
-	Settings* settings;
-	QClipboard* clipboard;
+	bool checkRecent(const QString& name) const;
+
+	Session* session;						//!< Current session.
+	Evaluator* evaluator;					//!< Expression evaluator.
+	Settings* settings;						//!< Settings storage.
+	QClipboard* clipboard;					//!< System clipboard.
+
+	QStringList recent;						//!< Recent functions.
+	QStringList identifiers;				//!< Function identifiers.
+	QStringList functions;					//!< Function names.
+
+	QList<Unit> units;						//!< Available units.
+	QList<Constant> constants;				//!< Available constants.
 };
 
 #endif

@@ -29,21 +29,26 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
+	QGuiApplication app(argc, argv);
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/qml/android-speedcrunch.qml")));
-    if ( engine.rootObjects().isEmpty() )
-        return -1;
+	QQmlApplicationEngine engine;
+	engine.load(QUrl(QStringLiteral("qrc:/qml/android-speedcrunch.qml")));
+	if ( engine.rootObjects().isEmpty() )
+		return -1;
 
-    return app.exec();
+	qmlRegisterType<Manager>("android.speedcrunch.Manager", 1, 0, "Manager");
+//	Manager manager;
+
+	return app.exec();
+
 /*
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine("qml/harbour-speedcrunch.qml");
     return app.exec();
 */
+
 /*
     QGuiApplication app(argc, argv);
 
@@ -55,8 +60,6 @@ int main(int argc, char *argv[])
     view.set setSource(QUrl("qml/helloWorldQT5/main.qml"));
     viewer->show();
 
-
-    app.
 
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());

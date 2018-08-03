@@ -24,7 +24,7 @@ ApplicationWindow
 
             header: Label
             {
-                text: qsTr("Page 1")
+                text: qsTr("Functions")
                 font.pixelSize: Qt.application.font.pixelSize * 2
                 padding: 10
             }
@@ -43,7 +43,7 @@ ApplicationWindow
 
             header: Label
             {
-                text: qsTr("Page 2")
+                text: qsTr("SpeedCrunch")
                 font.pixelSize: Qt.application.font.pixelSize * 2
                 padding: 10
             }
@@ -53,7 +53,74 @@ ApplicationWindow
                 text: qsTr("You are on Page 2.")
                 anchors.centerIn: parent
             }
+
+            SwipeView
+            {
+                id: keyboard
+                anchors.fill: parent
+
+                Page
+                {
+                    width: 600
+                    height: 400
+
+                    header: Label
+                    {
+                        text: qsTr("xxx")
+                        font.pixelSize: Qt.application.font.pixelSize * 2
+                        padding: 10
+                    }
+
+                    Label
+                    {
+                        text: qsTr("You are on Keyboard 1.")
+                        anchors.centerIn: parent
+                    }
+                }
+
+
+                Page
+                {
+                    width: 600
+                    height: 400
+
+                    header: Label
+                    {
+                        text: qsTr("yyy")
+                        font.pixelSize: Qt.application.font.pixelSize * 2
+                        padding: 10
+                    }
+
+                    Label
+                    {
+                        text: qsTr("You are on Keyboard 2.")
+                        anchors.centerIn: parent
+                    }
+                }
+
+            }
+
         }
+
+        Page
+        {
+            width: 600
+            height: 400
+
+            header: Label
+            {
+                text: qsTr("Settings")
+                font.pixelSize: Qt.application.font.pixelSize * 2
+                padding: 10
+            }
+
+            Label
+            {
+                text: qsTr("You are on Page 3.")
+                anchors.centerIn: parent
+            }
+        }
+
     }
 
     footer: TabBar
@@ -63,6 +130,7 @@ ApplicationWindow
 
         TabButton { text: qsTr("Page 1") }
         TabButton { text: qsTr("Page 2") }
+        TabButton { text: qsTr("Page 3") }
     }
 }
 

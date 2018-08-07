@@ -3,61 +3,31 @@ import QtQuick.Controls 2.2
 
 Page
 {
-	header: Label
+	Rectangle
 	{
-//		text: qsTr("SpeedCrunch")
-		text: manager.getAngleUnit()
-		font.pixelSize: Qt.application.font.pixelSize * 2
-		padding: 10
-	}
-
-	Label
-	{
-		text: qsTr("You are on Page 2.")
-		anchors.centerIn: parent
-	}
-
-	SwipeView
-	{
-		id: keyboard
 		anchors.fill: parent
 
-		Page
+		Rectangle
 		{
-			width: 600
-			height: 400
-
-			header: Label
-			{
-				text: qsTr("xxx")
-				font.pixelSize: Qt.application.font.pixelSize * 2
-				padding: 10
-			}
+			id: history
+			width: parent.width
+			height: parent.height / 2
+			anchors.top: parent.top
+			color: "lightGray"
 
 			Label
 			{
-				text: qsTr("You are on Keyboard 1.")
+				text: qsTr("You are on Page 2.")
 				anchors.centerIn: parent
 			}
 		}
 
-		Page
+		Keyboard
 		{
-			width: 600
-			height: 400
-
-			header: Label
-			{
-				text: qsTr("yyy")
-				font.pixelSize: Qt.application.font.pixelSize * 2
-				padding: 10
-			}
-
-			Label
-			{
-				text: qsTr("You are on Keyboard 2.")
-				anchors.centerIn: parent
-			}
+			id: keyboard
+			width: parent.width
+			height: parent.height / 2
+			anchors.bottom: parent.bottom
 		}
 	}
 }

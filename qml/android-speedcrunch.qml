@@ -6,9 +6,19 @@ ApplicationWindow
 	id: window
 
 	visible: true
-	width: 1280
-	height: 960
 	title: qsTr("Tabs")
+
+	header: TabBar
+	{
+		id: tabBar
+		currentIndex: swipeView.currentIndex
+
+		font.pixelSize: Qt.application.font.pixelSize * 2 / 3
+
+		TabButton { text: qsTr("Functions") }
+		TabButton { text: qsTr("SpeedCrunch") }
+		TabButton { text: qsTr("Settings") }
+	}
 
 	SwipeView
 	{
@@ -19,36 +29,30 @@ ApplicationWindow
 		Functions
 		{
 			id: functions
-
-			width: 600
-			height: 400
 		}
 
 		Calculator
 		{
 			id: calculator
-
-			width: 600
-			height: 400
 		}
 
 		Settings
 		{
 			id: settings
-
-			width: 600
-			height: 400
 		}
 	}
 
-	footer: TabBar
+	footer: Page
 	{
-		id: tabBar
-		currentIndex: swipeView.currentIndex
+		id: statusBar
 
-		TabButton { text: qsTr("Functions") }
-		TabButton { text: qsTr("SpeedCrunch") }
-		TabButton { text: qsTr("Settings") }
+		font.pixelSize: Qt.application.font.pixelSize * 2 / 3
+
+		Label
+		{
+			text: qsTr("Status bar")
+			anchors.centerIn: parent
+		}
 	}
 }
 

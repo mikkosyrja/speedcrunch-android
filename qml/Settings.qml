@@ -3,16 +3,15 @@ import QtQuick.Controls 2.2
 
 Page
 {
-	header: Label
+	Rectangle
 	{
-		text: qsTr("Settings")
-		font.pixelSize: Qt.application.font.pixelSize * 2
-		padding: 10
-	}
+		anchors.fill: parent
+		color: "lightGray"
 
-	Label
-	{
-		text: qsTr("You are on Page 3.")
-		anchors.centerIn: parent
+		Label
+		{
+			text: qsTr("You are on Page 3.")
+			anchors.centerIn: parent
+		}
 	}
 }

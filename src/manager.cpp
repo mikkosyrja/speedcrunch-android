@@ -440,8 +440,7 @@ void Manager::setAngleUnit(const QString& unit)
 */
 QString Manager::getAngleUnit() const
 {
-//	return QString(settings->angleUnit);
-	return "foo";
+	return QString(settings->angleUnit);
 }
 
 //! Set result format.

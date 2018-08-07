@@ -60,8 +60,10 @@ OTHER_FILES += \
 	qml/pages/erase_to_the_left.svg \
 	qml/pages/cube_root.svg \
 	qml/android-speedcrunch.qml \
-	qml/Functions.qml \
+	qml/CalcButton.qml \
 	qml/Calculator.qml \
+	qml/Functions.qml \
+	qml/Keyboard.qml \
 	qml/Settings.qml \
 	rpm/android-speedcrunch.yaml
 
@@ -109,7 +111,9 @@ DISTFILES += \
 	README.md \
     qml/Functions.qml \
     qml/Calculator.qml \
-    qml/Settings.qml
+    qml/Settings.qml \
+    qml/CalcButton.qml \
+    qml/Keyboard.qml
 
 RESOURCES += qml.qrc
 

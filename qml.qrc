@@ -1,5 +1,8 @@
 <RCC>
-    <qresource prefix="/">
-        <file>qml/android-speedcrunch.qml</file>
-    </qresource>
+	<qresource prefix="/">
+	<file>qml/android-speedcrunch.qml</file>
+		<file>qml/Calculator.qml</file>
+		<file>qml/Functions.qml</file>
+		<file>qml/Settings.qml</file>
+	</qresource>
 </RCC>

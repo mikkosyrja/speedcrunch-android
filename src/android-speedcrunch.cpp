@@ -38,55 +38,9 @@ int main(int argc, char *argv[])
 	if ( engine.rootObjects().isEmpty() )
 		return -1;
 
-	qmlRegisterType<Manager>("android.speedcrunch.Manager", 1, 0, "Manager");
-//	Manager manager;
+	Manager manager;
+	engine.rootContext()->setContextProperty("manager", &manager);
 
 	return app.exec();
-
-/*
-    QGuiApplication app(argc, argv);
-    QQmlApplicationEngine engine("qml/harbour-speedcrunch.qml");
-    return app.exec();
-*/
-
-/*
-    QGuiApplication app(argc, argv);
-
-    QQuickView *view = new QQuickView;
-    view->setSource(QUrl::fromLocalFile("myqmlfile.qml"));
-    view->show();
-
-    QQuickView view;
-    view.set setSource(QUrl("qml/helloWorldQT5/main.qml"));
-    viewer->show();
-
-
-    QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
-    QScopedPointer<QQuickView> view(SailfishApp::createView());
-
-    qmlRegisterType<Manager>("harbour.speedcrunch.Manager", 1, 0, "Manager");
-
-    view->setSource(SailfishApp::pathToMainQml());
-    view->showFullScreen();
-
-    return app->exec();
-
-
-    //    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
-    QGuiApplication app(argc, argv);
-
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty())
-        return -1;
-
-//    Manager manager;
-//	qmlRegisterType<Manager>("harbour.speedcrunch.Manager", 1, 0, "Manager");
-//	view->rootContext()->setContextProperty("mn",&mn );
-
-    return app.exec();
-//	return SailfishApp::main(argc, argv);
-*/
 }
 

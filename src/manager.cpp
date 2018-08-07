@@ -28,8 +28,11 @@
 #include "core/functions.h"
 #include "core/numberformatter.h"
 
-//! Default constructor.
-Manager::Manager()
+//! Constructor.
+/*!
+	\param paren							//!< Optional parent.
+*/
+Manager::Manager(QObject* parent) : QObject(parent)
 {
 	session = new Session;
 
@@ -42,6 +45,7 @@ Manager::Manager()
 	evaluator->initializeBuiltInVariables();
 	DMath::complexMode = settings->complexNumbers;
 
+/*
 	QDir directory;		// configuration path
 	QString configpath = Settings::getConfigPath();
 	directory.mkpath(configpath);
@@ -72,6 +76,7 @@ Manager::Manager()
 		}
 		recentfile.close();
 	}
+*/
 
 	clipboard = QGuiApplication::clipboard();
 
@@ -95,6 +100,7 @@ Manager::Manager()
 //! Save session on exit.
 void Manager::saveSession()
 {
+/*
 	QString path = Settings::getConfigPath();
 	path.append("/history.json");
 
@@ -127,6 +133,7 @@ void Manager::saveSession()
 		recentfile.write(document.toJson());
 		recentfile.close();
 	}
+*/
 }
 
 //! Auto calculate expression.

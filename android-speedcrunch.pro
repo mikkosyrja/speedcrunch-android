@@ -60,6 +60,9 @@ OTHER_FILES += \
 	qml/pages/erase_to_the_left.svg \
 	qml/pages/cube_root.svg \
 	qml/android-speedcrunch.qml \
+	qml/Functions.qml \
+	qml/Calculator.qml \
+	qml/Settings.qml \
 	rpm/android-speedcrunch.yaml
 
 HEADERS += \
@@ -102,7 +105,11 @@ HEADERS += \
 	math/cnumberparser.h
 
 DISTFILES += \
-    CHANGELOG.md
+	CHANGELOG.md \
+	README.md \
+    qml/Functions.qml \
+    qml/Calculator.qml \
+    qml/Settings.qml
 
 RESOURCES += qml.qrc
 

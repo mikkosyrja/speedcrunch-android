@@ -8,9 +8,12 @@ ApplicationWindow
 	visible: true
 	title: qsTr("Tabs")
 
+	property int fontsizesmall: window.height / 32
+	property int lineheight: fontsizesmall * 1.5
+
 	header: TabBar
 	{
-		id: tabBar
+		id: tabbar
 		currentIndex: swipeView.currentIndex
 
 		font.pixelSize: Qt.application.font.pixelSize * 2 / 3
@@ -24,7 +27,7 @@ ApplicationWindow
 	{
 		id: swipeView
 		anchors.fill: parent
-		currentIndex: tabBar.currentIndex
+		currentIndex: tabbar.currentIndex
 
 		Functions
 		{
@@ -44,7 +47,7 @@ ApplicationWindow
 
 	footer: Page
 	{
-		id: statusBar
+		id: statusbar
 
 		font.pixelSize: Qt.application.font.pixelSize * 2 / 3
 
@@ -54,6 +57,8 @@ ApplicationWindow
 			anchors.centerIn: parent
 		}
 	}
+
+//	Component.onCompleted: { functionlist.updatemodel++ }
 }
 
 /*

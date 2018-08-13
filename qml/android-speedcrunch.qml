@@ -3,8 +3,9 @@ import QtQuick.Controls 2.2
 
 ApplicationWindow
 {
-	id: window
+	property alias keyboard: calculator.keyboard
 
+	id: window
 	visible: true
 	title: qsTr("Tabs")
 

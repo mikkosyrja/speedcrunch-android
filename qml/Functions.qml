@@ -3,6 +3,9 @@ import QtQuick.Controls 2.2
 
 Page
 {
+	property string filtertype: "a"
+	property int updatemodel: 0
+
 	Rectangle
 	{
 		anchors.fill: parent
@@ -10,13 +13,12 @@ Page
 
 		ListView
 		{
-			property string filtertype: "a"
-			property int updatemodel: 0
 			id: functionlist
 			anchors.fill: parent
+			anchors.margins: 5
 //			model: { eval(manager.getFunctions(searchfunctions.text, filtertype, updatemodel)) }
 			model: { eval(manager.getFunctions("", filtertype, updatemodel)) }
-			highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+			highlight: Rectangle { color: "lightsteelblue"; radius: 3 }
 			delegate: Component
 			{
 				Item

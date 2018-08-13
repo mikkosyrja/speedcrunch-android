@@ -3,6 +3,8 @@ import QtQuick.Controls 2.2
 
 Page
 {
+	property alias keyboard: keyboard
+
 	Rectangle
 	{
 		anchors.fill: parent

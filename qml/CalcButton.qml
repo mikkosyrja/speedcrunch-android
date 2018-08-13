@@ -17,5 +17,5 @@ Button
 
 	font.pixelSize: Qt.application.font.pixelSize
 
-	background: Rectangle { radius: 5 }
+	background: Rectangle { radius: 3 }
 }

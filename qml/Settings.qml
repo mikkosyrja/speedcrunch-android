@@ -5,6 +5,7 @@ Page
 {
 	property int labelwidth: window.width * 2 / 5 - 5
 	property int combowidth: window.width - labelwidth - 10
+	property bool initialized: false
 
 //	property alias resultformat: resultformatlist.value
 //	property alias angleunit: angleunitlist.value
@@ -38,15 +39,18 @@ Page
 						"Scientific decimal", "Binary", "Octal", "Hexadecimal" ]
 					onCurrentIndexChanged:
 					{
-						if ( currentIndex == 0 ) { manager.setResultFormat("g") }
-						else if ( currentIndex == 1 ) { manager.setResultFormat("f") }
-						else if ( currentIndex == 2 ) { manager.setResultFormat("n") }
-						else if ( currentIndex == 3 ) { manager.setResultFormat("e") }
-						else if ( currentIndex == 4 ) { manager.setResultFormat("b") }
-						else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
-						else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
-						window.keyboard.setButtonLabels()
-//						resultsview.updateHistory()
+						if ( initialized )
+						{
+							if ( currentIndex == 0 ) { manager.setResultFormat("g") }
+							else if ( currentIndex == 1 ) { manager.setResultFormat("f") }
+							else if ( currentIndex == 2 ) { manager.setResultFormat("n") }
+							else if ( currentIndex == 3 ) { manager.setResultFormat("e") }
+							else if ( currentIndex == 4 ) { manager.setResultFormat("b") }
+							else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
+							else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
+							window.keyboard.setButtonLabels()
+//							resultsview.updateHistory()
+						}
 					}
 					function setResultFormat(format)
 					{
@@ -77,8 +81,20 @@ Page
 					model: [ "Automatic", "0", "1", "2", "3", "4", "6", "8", "12", "16", "20" ]
 					onCurrentIndexChanged:
 					{
-						manager.setPrecision(currentIndex == 0 ? "" : currentItem.text)
-//						resultsview.updateHistory()
+						if ( initialized ) switch ( currentIndex )
+						{
+							case 1:		manager.setPrecision("0"); break
+							case 2:		manager.setPrecision("1"); break
+							case 3:		manager.setPrecision("2"); break
+							case 4:		manager.setPrecision("3"); break
+							case 5:		manager.setPrecision("4"); break
+							case 6:		manager.setPrecision("6"); break
+							case 7:		manager.setPrecision("8"); break
+							case 8:		manager.setPrecision("12"); break
+							case 9:		manager.setPrecision("16"); break
+							case 10:	manager.setPrecision("20"); break
+							default:	manager.setPrecision("")
+						}
 					}
 					function setPrecision(precision)
 					{
@@ -114,9 +130,12 @@ Page
 //					model: [ "Degree", "Radian", "Gradian" ]
 					onCurrentIndexChanged:
 					{
-						if ( currentIndex == 0 ) manager.setAngleUnit("d")
-						else if ( currentIndex == 1 ) manager.setAngleUnit("r")
-//						else if ( currentIndex == 2 ) manager.setAngleUnit("g")
+						if ( initialized )
+						{
+							if ( currentIndex == 0 ) manager.setAngleUnit("d")
+							else if ( currentIndex == 1 ) manager.setAngleUnit("r")
+//							else if ( currentIndex == 2 ) manager.setAngleUnit("g")
+						}
 					}
 					function setAngleUnit(unit)
 					{
@@ -143,11 +162,14 @@ Page
 					model: [ "Disabled", "Cartesian", "Polar" ]
 					onCurrentIndexChanged:
 					{
-						if ( currentIndex == 0 ) manager.setComplexNumber("d")
-						else if ( currentIndex == 1 ) manager.setComplexNumber("c")
-						else if ( currentIndex == 2 ) manager.setComplexNumber("p")
-						window.keyboard.setButtonLabels()
-//						resultsview.updateHistory()
+						if ( initialized )
+						{
+							if ( currentIndex == 0 ) manager.setComplexNumber("d")
+							else if ( currentIndex == 1 ) manager.setComplexNumber("c")
+							else if ( currentIndex == 2 ) manager.setComplexNumber("p")
+							window.keyboard.setButtonLabels()
+//							resultsview.updateHistory()
+						}
 					}
 					function setComplexNumber(complex)
 					{
@@ -167,13 +189,15 @@ Page
 				function setHistorySave(save) { checked = save }
 			}
 		}
-	}
-	Component.onCompleted:
-	{
-		angleunitlist.setAngleUnit(manager.getAngleUnit())
-		resultformatlist.setResultFormat(manager.getResultFormat())
-		precisionlist.setPrecision(manager.getPrecision())
-		complexnumberlist.setComplexNumber(manager.getComplexNumber())
-		historysaveswitch.setHistorySave(manager.getSessionSave())
+		Component.onCompleted:
+		{
+			resultformatsetting.setResultFormat(manager.getResultFormat())
+			precisionsetting.setPrecision(manager.getPrecision())
+			angleunitsetting.setAngleUnit(manager.getAngleUnit())
+			complexnumbersetting.setComplexNumber(manager.getComplexNumber())
+			historysavesetting.setHistorySave(manager.getSessionSave())
+			window.keyboard.setButtonLabels()
+			initialized = true;
+		}
 	}
 }

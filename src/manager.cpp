@@ -45,7 +45,6 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	evaluator->initializeBuiltInVariables();
 	DMath::complexMode = settings->complexNumbers;
 
-/*
 	QDir directory;		// configuration path
 	QString configpath = Settings::getConfigPath();
 	directory.mkpath(configpath);
@@ -76,7 +75,6 @@ Manager::Manager(QObject* parent) : QObject(parent)
 		}
 		recentfile.close();
 	}
-*/
 
 	clipboard = QGuiApplication::clipboard();
 
@@ -100,7 +98,6 @@ Manager::Manager(QObject* parent) : QObject(parent)
 //! Save session on exit.
 void Manager::saveSession()
 {
-/*
 	QString path = Settings::getConfigPath();
 	path.append("/history.json");
 
@@ -133,7 +130,6 @@ void Manager::saveSession()
 		recentfile.write(document.toJson());
 		recentfile.close();
 	}
-*/
 }
 
 //! Auto calculate expression.

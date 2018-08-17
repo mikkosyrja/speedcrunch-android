@@ -33,14 +33,14 @@ int main(int argc, char *argv[])
 
 	QGuiApplication app(argc, argv);
 
+	Manager manager;
+
 	QQmlApplicationEngine engine;
+	engine.rootContext()->setContextProperty("manager", &manager);
+
 	engine.load(QUrl(QStringLiteral("qrc:/qml/android-speedcrunch.qml")));
 	if ( engine.rootObjects().isEmpty() )
 		return -1;
 
-	Manager manager;
-	engine.rootContext()->setContextProperty("manager", &manager);
-
 	return app.exec();
 }
-

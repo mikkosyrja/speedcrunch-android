@@ -15,9 +15,9 @@ ApplicationWindow
 	header: TabBar
 	{
 		id: tabbar
-		currentIndex: swipeView.currentIndex
+		currentIndex: swipe.currentIndex
 
-		font.pixelSize: Qt.application.font.pixelSize * 2 / 3
+		font { pixelSize: fontsizesmall }
 
 		TabButton { text: qsTr("Functions") }
 		TabButton { text: qsTr("SpeedCrunch") }
@@ -26,31 +26,19 @@ ApplicationWindow
 
 	SwipeView
 	{
-		id: swipeView
+		id: swipe
 		anchors.fill: parent
 		currentIndex: tabbar.currentIndex
 
-		Functions
-		{
-			id: functions
-		}
-
-		Calculator
-		{
-			id: calculator
-		}
-
-		Settings
-		{
-			id: settings
-		}
+		Functions { id: functions }
+		Calculator { id: calculator }
+		Settings { id: settings }
 	}
 
 	footer: Page
 	{
 		id: statusbar
-
-		font.pixelSize: Qt.application.font.pixelSize * 2 / 3
+		font.pixelSize: fontsizesmall
 
 		Label
 		{
@@ -59,21 +47,8 @@ ApplicationWindow
 		}
 	}
 
-//	Component.onCompleted: { functionlist.updatemodel++ }
+	Component.onCompleted:
+	{
+//		functionlist.updatemodel++
+	}
 }
-
-/*
-ApplicationWindow
-{
-	id: window
-
-	initialPage: Qt.resolvedUrl("pages/Panorama.qml")
-
-	property string latestExpression: ""
-	property string latestResult: ""
-
-	cover: Qt.resolvedUrl("cover/CoverPage.qml")
-
-	Manager { id: manager }
-}
-*/

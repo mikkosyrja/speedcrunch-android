@@ -37,6 +37,8 @@ Page
 					font { pixelSize: fontsizesmall }
 					model: [ "General decimal", "Fixed decimal", "Engineering decimal",
 						"Scientific decimal", "Binary", "Octal", "Hexadecimal" ]
+//					model: [ "General decimal", "Fixed decimal", "Engineering decimal",
+//						"Scientific decimal", "Binary", "Octal", "Hexadecimal", "Sexagesimal" ]
 					onCurrentIndexChanged:
 					{
 						if ( initialized )
@@ -48,6 +50,7 @@ Page
 							else if ( currentIndex == 4 ) { manager.setResultFormat("b") }
 							else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
 							else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
+//							else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
 							window.keyboard.setButtonLabels()
 //							resultsview.updateHistory()
 						}
@@ -61,6 +64,7 @@ Page
 						else if ( format === "b" ) currentIndex = 4
 						else if ( format === "o" ) currentIndex = 5
 						else if ( format === "h" ) currentIndex = 6
+//						else if ( format === "s" ) currentIndex = 7
 					}
 				}
 			}

@@ -14,8 +14,7 @@ Page
 		ListView
 		{
 			id: functionlist
-			anchors.fill: parent
-			anchors.margins: 5
+			anchors { fill: parent; margins: 5 }
 //			model: { eval(manager.getFunctions(searchfunctions.text, filtertype, updatemodel)) }
 			model: { eval(manager.getFunctions("", filtertype, updatemodel)) }
 			highlight: Rectangle { color: "lightsteelblue"; radius: 3 }

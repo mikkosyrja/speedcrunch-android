@@ -3,6 +3,11 @@ import QtQuick.Controls 2.2
 
 Rectangle
 {
+	property int keycolumns: 5
+	property int keyspacing: 5
+	property int buttonwidth: button1.width
+	property int buttonheight: button1.height
+
 	id: keyboard
 
 	SwipeView
@@ -18,10 +23,9 @@ Rectangle
 
 				Grid
 				{
-					anchors.fill: parent
-					anchors.margins: 5
-					columns: 5
-					spacing: 5
+					anchors { fill: parent; margins: 5 }
+					columns: keycolumns
+					spacing: keyspacing
 
 					property int buttoncols: 5
 					property int buttonrows: 5
@@ -42,8 +46,9 @@ Rectangle
 					CalcButton { id: buttonbase; text: "0x"; value: "0x"; secondary: "0b"  }
 
 					CalcButton { text: "(" } CalcButton { text: ")" }
-					CalcButton { text: "←"; special: true } CalcButton { text: "→"; special: true }
-					CalcButton { text: "BS" }
+					CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
+					CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
+					BackSpace { }
 /*
 					CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
 					CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
@@ -63,10 +68,9 @@ Rectangle
 
 				Grid
 				{
-					anchors.fill: parent
-					anchors.margins: 5
-					columns: 5
-					spacing: 5
+					anchors { fill: parent; margins: 5 }
+					columns: keycolumns
+					spacing: keyspacing
 
 					property int buttoncols: 5
 					property int buttonrows: 5
@@ -86,8 +90,9 @@ Rectangle
 					CalcButton { text: "➔"; value: "->" }
 
 					CalcButton { text: "(" } CalcButton { text: ")" }
-					CalcButton { text: "←"; special: true } CalcButton { text: "→"; special: true }
-					CalcButton { text: "BS" }
+					CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
+					CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
+					BackSpace { }
 /*
 					CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
 					CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }

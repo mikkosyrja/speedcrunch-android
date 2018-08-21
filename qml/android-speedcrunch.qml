@@ -3,14 +3,17 @@ import QtQuick.Controls 2.2
 
 ApplicationWindow
 {
+	property string latestExpression: ""
+	property string latestResult: ""
+
+	property int fontsizesmall: window.height / 36
+	property int lineheight: fontsizesmall * 1.5
+
 	property alias keyboard: calculator.keyboard
 
 	id: window
 	visible: true
 	title: qsTr("Tabs")
-
-	property int fontsizesmall: window.height / 36
-	property int lineheight: fontsizesmall * 1.5
 
 	header: Row
 	{
@@ -38,43 +41,31 @@ ApplicationWindow
 			Menu
 			{
 				id: menu
-//				y: menuButton.Bottom
 
 				MenuItem
 				{
-					text: "Copy result"
-					onTriggered:
-					{
-//						MenuItem { text: "Copy result"; onClicked: manager.setClipboard(window.latestResult) }
-					}
+					text: qsTr("Copy result")
+					onTriggered: { manager.setClipboard(window.latestResult) }
 				}
 				MenuItem
 				{
-					text: "Copy expression"
-					onTriggered:
-					{
-//						MenuItem { text: "Copy expression"; onClicked: manager.setClipboard(window.latestExpression + " = " + window.latestResult) }
-					}
+					text: qsTr("Copy expression")
+					onTriggered: { manager.setClipboard(window.latestExpression + " = " + window.latestResult) }
 				}
 				MenuItem
 				{
-					text: "Paste"
+					text: qsTr("Paste")
 					onTriggered:
 					{
-/*
 						var text = textfield.text; var pos = textfield.cursorPosition
 						textfield.text = text.substring(0, pos) + manager.getClipboard() + text.substring(pos, text.length)
 						textfield.cursorPosition = pos + value.length
-*/
 					}
 				}
 				MenuItem
 				{
-					text: "Clear history"
-					onTriggered:
-					{
-//						onClicked: { manager.clearHistory(); resultsview.updateHistory() }
-					}
+					text: qsTr("Clear history")
+					onTriggered: { manager.clearHistory(); resultsview.updateHistory() }
 				}
 			}
 		}

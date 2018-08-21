@@ -109,11 +109,12 @@ HEADERS += \
 DISTFILES += \
 	CHANGELOG.md \
 	README.md \
-    qml/Functions.qml \
-    qml/Calculator.qml \
-    qml/Settings.qml \
-    qml/CalcButton.qml \
-    qml/Keyboard.qml
+	qml/BackSpace.qml \
+	qml/CalcButton.qml \
+	qml/Functions.qml \
+	qml/Calculator.qml \
+	qml/Settings.qml \
+	qml/Keyboard.qml
 
 RESOURCES += qml.qrc
 

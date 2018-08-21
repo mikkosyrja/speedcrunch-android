@@ -1,10 +1,13 @@
 <RCC>
 	<qresource prefix="/">
 	<file>qml/android-speedcrunch.qml</file>
-		<file>qml/CalcButton.qml</file>
-		<file>qml/Calculator.qml</file>
-		<file>qml/Functions.qml</file>
-		<file>qml/Keyboard.qml</file>
-		<file>qml/Settings.qml</file>
+	<file>qml/BackSpace.qml</file>
+	<file>qml/CalcButton.qml</file>
+	<file>qml/Calculator.qml</file>
+	<file>qml/Functions.qml</file>
+	<file>qml/Keyboard.qml</file>
+	<file>qml/Settings.qml</file>
+	<file>qml/back.png</file>
+	<file>qml/clear.png</file>
 	</qresource>
 </RCC>

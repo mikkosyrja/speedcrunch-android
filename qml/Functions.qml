@@ -9,7 +9,7 @@ Page
 	Rectangle
 	{
 		anchors.fill: parent
-		color: "lightGray"
+		color: backgroundcolor
 
 		ListView
 		{

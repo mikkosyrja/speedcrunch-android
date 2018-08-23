@@ -14,7 +14,8 @@ Button
 	width: parent.width / parent.buttoncols - parent.spacing + parent.spacing / parent.buttoncols
 	height: parent.height / parent.buttonrows - parent.spacing + parent.spacing / parent.buttonrows
 
-	font.pixelSize: Qt.application.font.pixelSize
+//	font.pixelSize: Qt.application.font.pixelSize
+	font.pixelSize: fontsizebig
 
 	background: Rectangle { radius: 3 }
 

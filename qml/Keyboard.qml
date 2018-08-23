@@ -8,11 +8,15 @@ Rectangle
 	property int buttonwidth: button1.width
 	property int buttonheight: button1.height
 
+	property int swipecount: swipe.count
+	property int swipeindex: swipe.currentIndex
+
 	id: keyboard
 	clip: true
 
 	SwipeView
 	{
+		id: swipe
 		anchors.fill: parent
 
 		Page
@@ -20,7 +24,7 @@ Rectangle
 			Rectangle
 			{
 				anchors.fill: parent
-				color: "darkGray"
+				color: backgroundcolor
 
 				Grid
 				{
@@ -65,7 +69,7 @@ Rectangle
 			Rectangle
 			{
 				anchors.fill: parent
-				color: "darkGray"
+				color: backgroundcolor
 
 				Grid
 				{

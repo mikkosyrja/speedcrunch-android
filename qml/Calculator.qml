@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 Page
 {
 //	property int virtualkeyboardheight: Qt.inputMethod.keyboardRectangle.height
-	property int virtualkeyboardheight: parent.height / 2
+	property int virtualkeyboardheight: (landscape ? parent.height * 3 / 5 : parent.height / 2)
 
 	property alias history: historyview
 	property alias editor: textfield
@@ -13,7 +13,7 @@ Page
 	Rectangle
 	{
 		anchors.fill: parent
-		color: "lightGray"
+		color: backgroundcolor
 
 		Column
 		{
@@ -22,7 +22,7 @@ Page
 			Rectangle
 			{
 				width: parent.width; height: parent.height - keyboard.height - editrow.height
-				color: "lightGray"
+				color: backgroundcolor
 
 				ListView
 				{
@@ -73,7 +73,7 @@ Page
 			{
 				id: editrow
 				width: parent.width; height: keyboard.buttonheight + keyboard.keyspacing * 2
-				color: "darkGray"
+				color: backgroundcolor
 				Row
 				{
 					anchors { left: parent.left; right: parent.right }
@@ -85,6 +85,7 @@ Page
 						id: textfield
 						width: parent.width - evaluatebutton.width - cleartext.width - keyboard.keyspacing * 4
 						height: keyboard.buttonheight
+						font { pixelSize: fontsizesmall }
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 						placeholderText: "expression"
 						cursorVisible: true
@@ -95,7 +96,7 @@ Page
 					{
 						id: cleartext
 						width: keyboard.buttonheight; height: keyboard.buttonheight
-						color: "darkGray"
+						color: backgroundcolor
 						Image
 						{
 							width: keyboard.buttonheight / 2; height: keyboard.buttonheight / 2

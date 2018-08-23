@@ -5,6 +5,7 @@ Page
 {
 	property int labelwidth: window.width * 2 / 5 - 5
 	property int combowidth: window.width - labelwidth - 10
+	property int comboheight: fontsizesmall * 3
 	property bool initialized: false
 
 //	property alias resultformat: resultformatlist.value
@@ -13,12 +14,11 @@ Page
 	Rectangle
 	{
 		anchors.fill: parent
-		color: "lightGray"
+		color: backgroundcolor
 
 		Column
 		{
-			anchors.fill: parent
-			anchors.margins: 5
+			anchors { fill: parent; margins: 5 }
 			spacing: 5
 
 			Row
@@ -33,7 +33,7 @@ Page
 				ComboBox
 				{
 					id: resultformatsetting
-					width: combowidth
+					width: combowidth; height: comboheight
 					font { pixelSize: fontsizesmall }
 					model: [ "General decimal", "Fixed decimal", "Engineering decimal",
 						"Scientific decimal", "Binary", "Octal", "Hexadecimal" ]
@@ -80,7 +80,7 @@ Page
 				ComboBox
 				{
 					id: precisionsetting
-					width: combowidth
+					width: combowidth; height: comboheight
 					font { pixelSize: fontsizesmall }
 					model: [ "Automatic", "0", "1", "2", "3", "4", "6", "8", "12", "16", "20" ]
 					onCurrentIndexChanged:
@@ -128,7 +128,7 @@ Page
 				ComboBox
 				{
 					id: angleunitsetting
-					width: combowidth
+					width: combowidth; height: comboheight
 					font { pixelSize: fontsizesmall }
 					model: [ "Degree", "Radian" ]
 //					model: [ "Degree", "Radian", "Gradian" ]
@@ -161,7 +161,7 @@ Page
 				ComboBox
 				{
 					id: complexnumbersetting
-					width: combowidth
+					width: combowidth; height: comboheight
 					font { pixelSize: fontsizesmall }
 					model: [ "Disabled", "Cartesian", "Polar" ]
 					onCurrentIndexChanged:

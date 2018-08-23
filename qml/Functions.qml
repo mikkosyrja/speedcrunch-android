@@ -23,15 +23,11 @@ Page
 				Item
 				{
 					id: functionitem
-//					contentHeight: lineheight
 //					RemorseItem { id: remorse }
-					width: parent.width
-					height: lineheight
+					width: parent.width; height: lineheight
 					Text
 					{
-//						id: textitem
-//						width: parent.width - 40; color: "white"
-//						anchors.centerIn: parent
+						anchors.verticalCenter: parent.verticalCenter
 						text: modelData.name
 						font { pixelSize: fontsizesmall }
 					}

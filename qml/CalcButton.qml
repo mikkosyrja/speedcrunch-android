@@ -5,9 +5,9 @@ import QtQuick.Controls.Styles 1.4
 Button
 {
 	signal runFunction
-	property bool special: false;
-	property bool isFunction: false
-	property string value: text + (isFunction ? "()" : "")
+
+	property bool special: false
+	property string value: text
 	property string secondary: value
 	property string image: ""
 
@@ -22,9 +22,9 @@ Button
 	{
 //		visible: image.length
 		width: parent.height / 1; height: parent.height / 1
+//		anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
 		anchors.centerIn: parent
 		source: image
-//		anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
 	}
 
 	function insertValue(value)

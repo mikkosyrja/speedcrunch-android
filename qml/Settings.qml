@@ -28,7 +28,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font { pixelSize: fontsizesmall }
-					text: "Result format"
+					text: qsTr("Result format")
 				}
 				ComboBox
 				{
@@ -75,7 +75,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font { pixelSize: fontsizesmall }
-					text: "Precision"
+					text: qsTr("Precision")
 				}
 				ComboBox
 				{
@@ -123,7 +123,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font { pixelSize: fontsizesmall }
-					text: "Angle Unit"
+					text: qsTr("Angle Unit")
 				}
 				ComboBox
 				{
@@ -156,7 +156,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font { pixelSize: fontsizesmall }
-					text: "Complex Numbers"
+					text: qsTr("Complex Numbers")
 				}
 				ComboBox
 				{
@@ -187,7 +187,7 @@ Page
 			{
 				id: historysavesetting
 				font { pixelSize: fontsizesmall }
-				text: "Save History on Exit"
+				text: qsTr("Save History on Exit")
 				checked: true
 				onCheckedChanged: { manager.setSessionSave(checked) }
 				function setHistorySave(save) { checked = save }

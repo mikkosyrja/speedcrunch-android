@@ -5,7 +5,7 @@ import QtQuick.Controls.Styles 1.4
 CalcButton
 {
 	image: "back.png"
-	special: true;
+	special: true
 
 	onRunFunction:
 	{

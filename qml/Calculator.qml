@@ -5,6 +5,9 @@ Page
 {
 //	property int virtualkeyboardheight: Qt.inputMethod.keyboardRectangle.height
 	property int virtualkeyboardheight: parent.height / 2
+
+	property alias history: historyview
+	property alias editor: textfield
 	property alias keyboard: keyboard
 
 	Rectangle
@@ -16,62 +19,56 @@ Page
 		{
 			anchors.fill: parent
 
-			ListView
-			{
-				property int updatehistory: 0
-
-				id: resultsview
-				width: parent.width; height: parent.height - keyboard.height - editrow.height
-				model: { eval(manager.getHistory(updatehistory)) }
-/*
-				delegate: Component
-				{
-					ListItem
-					{
-						id: resultitem
-						contentHeight: lineheight
-						onClicked: insert()
-						Text
-						{
-							id:textitem
-							width: parent.width - 40; color: "white"
-							anchors.centerIn: parent
-							text: modelData.expression + " = " + modelData.value
-							font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
-						}
-						function insert()
-						{
-							var text = textfield.text
-							var pos = textfield.cursorPosition
-							textfield.text = text.substring(0, pos) + modelData.value + text.substring(pos, text.length)
-							textfield.cursorPosition = pos + modelData.value.length
-						}
-						onPressAndHold: { textfield.text = modelData.expression }
-					}
-				}
-*/
-				function updateHistory()
-				{
-					resultsview.updatehistory++
-					resultsview.positionViewAtEnd()
-					resultsview.currentIndex = resultsview.count - 1
-				}
-			}
-/*
 			Rectangle
 			{
-				id: history
-				width: parent.width
-				height: parent.height / 2 - editrow.height
+				width: parent.width; height: parent.height - keyboard.height - editrow.height
 				color: "lightGray"
 
-				Label
+				ListView
 				{
-					text: qsTr("You are on Page 2.")
-					anchors.centerIn: parent
+					property int updatehistory: 0
+
+					id: historyview
+					anchors { fill: parent; margins: 5 }
+
+					model: { eval(manager.getHistory(updatehistory)) }
+					delegate: Component
+					{
+						Item
+						{
+							id: resultitem
+							width: parent.width; height: lineheight
+							Text
+							{
+								anchors.verticalCenter: parent.verticalCenter
+								text: modelData.expression + " = " + modelData.value
+								font { pixelSize: fontsizesmall }
+//								font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
+							}
+							MouseArea
+							{
+								anchors.fill: parent
+								onClicked: insert()
+								onPressAndHold: { textfield.text = modelData.expression }
+							}
+							function insert()
+							{
+								var text = textfield.text
+								var pos = textfield.cursorPosition
+								textfield.text = text.substring(0, pos) + modelData.value + text.substring(pos, text.length)
+								textfield.cursorPosition = pos + modelData.value.length
+							}
+						}
+					}
+					function updateHistory()
+					{
+						updatehistory++
+						positionViewAtEnd()
+						currentIndex = count - 1
+						manager.saveSession()
+					}
 				}
 			}
-*/
 			Rectangle
 			{
 				id: editrow
@@ -90,6 +87,7 @@ Page
 						height: keyboard.buttonheight
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 						placeholderText: "expression"
+						cursorVisible: true
 //						softwareInputPanelEnabled: false
 						Keys.onReturnPressed: { evaluate(); }
 					}
@@ -133,7 +131,12 @@ Page
 			}
 		}
 
-		Component.onDestruction: { manager.saveSession(); }
+		Component.onCompleted:
+		{
+//			textfield.softwareInputPanelEnabled = false
+//			textfield.forceActiveFocus()
+			historyview.updateHistory()
+		}
 	}
 
 	function evaluate()
@@ -155,7 +158,7 @@ Page
 					functionlist.updatemodel++
 					window.latestExpression = manager.autoFix(textfield.text)
 					window.latestResult = ""
-					resultsview.updateHistory()
+					historyview.updateHistory()
 //					notification.previewSummary = "Function added"
 //					notification.previewBody = ""
 					textfield.text = ""
@@ -166,7 +169,7 @@ Page
 			{
 				window.latestExpression = manager.autoFix(textfield.text)
 				window.latestResult = result
-				resultsview.updateHistory()
+				historyview.updateHistory()
 				textfield.text = ""
 				if ( assign.length )
 					functionlist.updatemodel++

@@ -9,6 +9,7 @@ Rectangle
 	property int buttonheight: button1.height
 
 	id: keyboard
+	clip: true
 
 	SwipeView
 	{
@@ -75,12 +76,12 @@ Rectangle
 					property int buttoncols: 5
 					property int buttonrows: 5
 
-					CalcButton { text: "sin"; isFunction: true } CalcButton { text: "cos"; isFunction: true }
-					CalcButton { text: "tan"; isFunction: true } CalcButton { text: "ln"; isFunction: true }
+					CalcButton { text: "sin"; value: "sin()" } CalcButton { text: "cos"; value: "cos()" }
+					CalcButton { text: "tan"; value: "tan()" } CalcButton { text: "ln"; value: "ln()" }
 					CalcButton { text: "Xⁿ"; value:"^" }
 
 					CalcButton { text: "asin"; value: "arcsin()" } CalcButton { text: "acos"; value: "arccos()" }
-					CalcButton { text: "atan"; value: "arctan()" } CalcButton { text: "exp"; isFunction: true }
+					CalcButton { text: "atan"; value: "arctan()" } CalcButton { text: "exp"; value: "exp()" }
 					CalcButton { text: "∛"; value:"cbrt()" }
 
 					CalcButton { text: "π"; value: "pi" } CalcButton { text: "e" } CalcButton { text: "x"; secondary: "y" }

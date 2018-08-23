@@ -24,6 +24,7 @@
 #include "core/evaluator.h"
 #include "src/manager.h"
 
+#include <QQmlContext>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 

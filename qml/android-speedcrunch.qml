@@ -9,6 +9,8 @@ ApplicationWindow
 	property int fontsizesmall: window.height / 36
 	property int lineheight: fontsizesmall * 1.5
 
+	property alias history: calculator.history
+	property alias editor: calculator.editor
 	property alias keyboard: calculator.keyboard
 
 	id: window
@@ -33,14 +35,21 @@ ApplicationWindow
 		Button
 		{
 			id: menuButton
-			width: parent.height
+			width: tabbar.height; height: tabbar.height
 			font { pixelSize: fontsizesmall * 2 }
 			text: "\u2261"
-			onClicked: menu.open()
+			onClicked:
+			{
+//				if ( menu.opened )
+//					menu.close()
+//				else
+					menu.open()
+			}
 
 			Menu
 			{
 				id: menu
+				y: menuButton.height
 
 				MenuItem
 				{
@@ -57,15 +66,19 @@ ApplicationWindow
 					text: qsTr("Paste")
 					onTriggered:
 					{
-						var text = textfield.text; var pos = textfield.cursorPosition
-						textfield.text = text.substring(0, pos) + manager.getClipboard() + text.substring(pos, text.length)
-						textfield.cursorPosition = pos + value.length
+						var text = editor.text; var pos = editor.cursorPosition
+						editor.text = text.substring(0, pos) + manager.getClipboard() + text.substring(pos, text.length)
+						editor.cursorPosition = pos + value.length
 					}
 				}
 				MenuItem
 				{
 					text: qsTr("Clear history")
-					onTriggered: { manager.clearHistory(); resultsview.updateHistory() }
+					onTriggered:
+					{
+						manager.clearHistory()
+						history.updateHistory()
+					}
 				}
 			}
 		}

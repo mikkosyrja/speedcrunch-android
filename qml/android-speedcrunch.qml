@@ -12,6 +12,7 @@ ApplicationWindow
 	property int fontsizesmall: (window.height / (landscape ? 24 : 36))
 	property int fontsizebig: fontsizesmall * 1.5
 	property int lineheight: fontsizesmall * 1.5
+	property int itemspacing: 5
 
 	property alias history: calculator.history
 	property alias editor: calculator.editor
@@ -45,7 +46,7 @@ ApplicationWindow
 			color: backgroundcolor
 			Label
 			{
-				anchors	{ fill: parent; margins: 5 }
+				anchors	{ fill: parent; margins: itemspacing }
 				horizontalAlignment: Text.AlignRight
 				verticalAlignment: Text.AlignVCenter
 				text: "SpeedCrunch"
@@ -74,7 +75,7 @@ ApplicationWindow
 				Menu
 				{
 					id: menu
-					y: menuButton.height
+					y: menuButton.height - itemspacing
 
 					MenuItem
 					{
@@ -150,10 +151,5 @@ ApplicationWindow
 				font { pixelSize: fontsizesmall }
 			}
 		}
-	}
-
-	Component.onCompleted:
-	{
-//		functionlist.updatemodel++
 	}
 }

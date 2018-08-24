@@ -3,8 +3,8 @@ import QtQuick.Controls 2.2
 
 Page
 {
-	property int labelwidth: window.width * 2 / 5 - 5
-	property int combowidth: window.width - labelwidth - 10
+	property int labelwidth: window.width * 2 / 5 - itemspacing
+	property int combowidth: window.width - labelwidth - itemspacing * 2
 	property int comboheight: fontsizesmall * 3
 	property bool initialized: false
 
@@ -18,8 +18,8 @@ Page
 
 		Column
 		{
-			anchors { fill: parent; margins: 5 }
-			spacing: 5
+			anchors { fill: parent; margins: itemspacing }
+			spacing: itemspacing
 
 			Row
 			{
@@ -28,7 +28,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font { pixelSize: fontsizesmall }
-					text: qsTr("Result format")
+					text: qsTr("Result Format")
 				}
 				ComboBox
 				{
@@ -51,8 +51,8 @@ Page
 							else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
 							else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
 //							else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
-							window.keyboard.setButtonLabels()
-//							resultsview.updateHistory()
+							keyboard.setButtonLabels()
+							history.updateHistory()
 						}
 					}
 					function setResultFormat(format)
@@ -98,6 +98,7 @@ Page
 							case 9:		manager.setPrecision("16"); break
 							case 10:	manager.setPrecision("20"); break
 							default:	manager.setPrecision("")
+							history.updateHistory()
 						}
 					}
 					function setPrecision(precision)
@@ -171,8 +172,8 @@ Page
 							if ( currentIndex == 0 ) manager.setComplexNumber("d")
 							else if ( currentIndex == 1 ) manager.setComplexNumber("c")
 							else if ( currentIndex == 2 ) manager.setComplexNumber("p")
-							window.keyboard.setButtonLabels()
-//							resultsview.updateHistory()
+							keyboard.setButtonLabels()
+							history.updateHistory()
 						}
 					}
 					function setComplexNumber(complex)
@@ -200,7 +201,7 @@ Page
 			angleunitsetting.setAngleUnit(manager.getAngleUnit())
 			complexnumbersetting.setComplexNumber(manager.getComplexNumber())
 			historysavesetting.setHistorySave(manager.getSessionSave())
-			window.keyboard.setButtonLabels()
+			keyboard.setButtonLabels()
 			initialized = true;
 		}
 	}

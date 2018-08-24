@@ -3,8 +3,7 @@ import QtQuick.Controls 2.2
 
 Page
 {
-//	property int virtualkeyboardheight: Qt.inputMethod.keyboardRectangle.height
-	property int virtualkeyboardheight: (landscape ? parent.height * 3 / 5 : parent.height / 2)
+	property int keyboardheight: (landscape ? parent.height * 3 / 5 : parent.height / 2)
 
 	property alias history: historyview
 	property alias editor: textfield
@@ -23,13 +22,14 @@ Page
 			{
 				width: parent.width; height: parent.height - keyboard.height - editrow.height
 				color: backgroundcolor
+				clip: true
 
 				ListView
 				{
 					property int updatehistory: 0
 
 					id: historyview
-					anchors { fill: parent; margins: 5 }
+					anchors { fill: parent; margins: itemspacing }
 
 					model: { eval(manager.getHistory(updatehistory)) }
 					delegate: Component
@@ -72,18 +72,18 @@ Page
 			Rectangle
 			{
 				id: editrow
-				width: parent.width; height: keyboard.buttonheight + keyboard.keyspacing * 2
+				width: parent.width; height: keyboard.buttonheight + itemspacing * 2
 				color: backgroundcolor
 				Row
 				{
 					anchors { left: parent.left; right: parent.right }
-					leftPadding: keyboard.keyspacing; topPadding: keyboard.keyspacing
-					spacing: keyboard.keyspacing
+					leftPadding: itemspacing; topPadding: itemspacing
+					spacing: itemspacing
 
 					TextField
 					{
 						id: textfield
-						width: parent.width - evaluatebutton.width - cleartext.width - keyboard.keyspacing * 4
+						width: parent.width - evaluatebutton.width - cleartext.width - itemspacing * 4
 						height: keyboard.buttonheight
 						font { pixelSize: fontsizesmall }
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
@@ -104,15 +104,15 @@ Page
 							source: "clear.png"
 //							fillMode: Image.PreserveAspectFit
 //							visible: textfield.text
-							MouseArea
+						}
+						MouseArea
+						{
+							id: cleararea
+							anchors { fill: parent }
+							onClicked:
 							{
-								id: cleararea
-								anchors { fill: parent }
-								onClicked:
-								{
-									textfield.text = "";
-//									textfield.forceActiveFocus()
-								}
+								textfield.text = "";
+//								textfield.forceActiveFocus()
 							}
 						}
 					}
@@ -121,14 +121,15 @@ Page
 						id: evaluatebutton
 						width: keyboard.buttonwidth; height: keyboard.buttonheight
 						text: "="
-						onClicked: { evaluate(); }
+						special: true
+						onRunFunction: { evaluate() }
 					}
 				}
 			}
 			Keyboard
 			{
 				id: keyboard
-				width: parent.width; height: virtualkeyboardheight
+				width: parent.width; height: keyboardheight
 			}
 		}
 
@@ -142,7 +143,7 @@ Page
 
 	function evaluate()
 	{
-		if ( textfield.text != "" )
+		if ( textfield.text !== "" )
 		{
 			var result = manager.calculate(textfield.text)
 			var assign = manager.getAssignId()
@@ -157,8 +158,8 @@ Page
 				else if ( assign.length )
 				{
 					functionlist.updatemodel++
-					window.latestExpression = manager.autoFix(textfield.text)
-					window.latestResult = ""
+					latestExpression = manager.autoFix(textfield.text)
+					latestResult = ""
 					historyview.updateHistory()
 //					notification.previewSummary = "Function added"
 //					notification.previewBody = ""
@@ -168,8 +169,8 @@ Page
 			}
 			else
 			{
-				window.latestExpression = manager.autoFix(textfield.text)
-				window.latestResult = result
+				latestExpression = manager.autoFix(textfield.text)
+				latestResult = result
 				historyview.updateHistory()
 				textfield.text = ""
 				if ( assign.length )

@@ -3,8 +3,9 @@ import QtQuick.Controls 2.2
 
 Rectangle
 {
-	property int keycolumns: 5
-	property int keyspacing: 5
+	property int buttoncols: 5
+	property int buttonrows: 5
+
 	property int buttonwidth: button1.width
 	property int buttonheight: button1.height
 
@@ -28,12 +29,9 @@ Rectangle
 
 				Grid
 				{
-					anchors { fill: parent; margins: 5 }
-					columns: keycolumns
-					spacing: keyspacing
-
-					property int buttoncols: 5
-					property int buttonrows: 5
+					anchors { fill: parent; margins: itemspacing }
+					columns: buttoncols
+					spacing: itemspacing
 
 					CalcButton { id: button7; text: "7" } CalcButton { id: button8; text: "8" }
 					CalcButton { id: button9; text: "9"; value: "9"; secondary: "j" }
@@ -73,12 +71,9 @@ Rectangle
 
 				Grid
 				{
-					anchors { fill: parent; margins: 5 }
-					columns: keycolumns
-					spacing: keyspacing
-
-					property int buttoncols: 5
-					property int buttonrows: 5
+					anchors { fill: parent; margins: itemspacing }
+					columns: buttoncols
+					spacing: itemspacing
 
 					CalcButton { text: "sin"; value: "sin()" } CalcButton { text: "cos"; value: "cos()" }
 					CalcButton { text: "tan"; value: "tan()" } CalcButton { text: "ln"; value: "ln()" }

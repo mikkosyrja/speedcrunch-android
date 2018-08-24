@@ -11,8 +11,8 @@ Button
 	property string secondary: value
 	property string image: ""
 
-	width: parent.width / parent.buttoncols - parent.spacing + parent.spacing / parent.buttoncols
-	height: parent.height / parent.buttonrows - parent.spacing + parent.spacing / parent.buttonrows
+	width: parent.width / buttoncols - parent.spacing + parent.spacing / buttoncols
+	height: parent.height / buttonrows - parent.spacing + parent.spacing / buttonrows
 
 //	font.pixelSize: Qt.application.font.pixelSize
 	font.pixelSize: fontsizebig

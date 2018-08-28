@@ -42,8 +42,7 @@ Page
 							{
 								anchors.verticalCenter: parent.verticalCenter
 								text: modelData.expression + " = " + modelData.value
-//								font { pixelSize: fontsizesmall }
-								font { pixelSize: fontsizesmall; weight: (historyview.currentItem == resultitem ? Font.Bold: Font.Light) }
+								font { pixelSize: fontsizelist; weight: (historyview.currentItem == resultitem ? Font.Bold: Font.Light) }
 							}
 							MouseArea
 							{

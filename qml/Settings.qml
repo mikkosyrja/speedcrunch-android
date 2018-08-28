@@ -5,7 +5,7 @@ Page
 {
 	property int labelwidth: window.width * 2 / 5 - itemspacing
 	property int combowidth: window.width - labelwidth - itemspacing * 2
-	property int comboheight: fontsizesmall * 3
+	property int comboheight: fontsizesmall * 2.5
 	property bool initialized: false
 
 //	property alias resultformat: resultformatlist.value
@@ -187,11 +187,68 @@ Page
 			CheckBox
 			{
 				id: historysavesetting
+				width: combowidth; height: comboheight
 				font { pixelSize: fontsizesmall }
 				text: qsTr("Save History on Exit")
 				checked: true
 				onCheckedChanged: { manager.setSessionSave(checked) }
 				function setHistorySave(save) { checked = save }
+			}
+			Row
+			{
+				Label
+				{
+					width: labelwidth
+					anchors.verticalCenter: parent.verticalCenter
+					font { pixelSize: fontsizesmall }
+					text: qsTr("List Font Size")
+				}
+				ComboBox
+				{
+					id: fontsizesetting
+					width: combowidth; height: comboheight
+					font { pixelSize: fontsizesmall }
+					model: [ "Small", "Medium", "Large" ]
+					onCurrentIndexChanged:
+					{
+						if ( initialized )
+						{
+							if ( currentIndex == 0 )
+							{
+								fontsizelist = fontsizesmall
+								manager.setFontSize("s")
+							}
+							else if ( currentIndex == 1 )
+							{
+								fontsizelist = fontsizesmall * 1.2
+								manager.setFontSize("m")
+							}
+							else if ( currentIndex == 2 )
+							{
+								fontsizelist = fontsizesmall * 1.5
+								manager.setFontSize("l")
+							}
+						}
+					}
+					function setFontSize(size)
+					{
+						if ( size === "s" )
+						{
+							fontsizelist = fontsizesmall
+							currentIndex = 0
+						}
+						else if ( size === "m" )
+						{
+							fontsizelist = fontsizesmall * 1.2
+							currentIndex = 1
+						}
+						else if ( size === "l" )
+						{
+							fontsizelist = fontsizesmall * 1.5
+							currentIndex = 2
+						}
+					}
+				}
 			}
 		}
 		Component.onCompleted:
@@ -201,6 +258,7 @@ Page
 			angleunitsetting.setAngleUnit(manager.getAngleUnit())
 			complexnumbersetting.setComplexNumber(manager.getComplexNumber())
 			historysavesetting.setHistorySave(manager.getSessionSave())
+			fontsizesetting.setFontSize(manager.getFontSize())
 			keyboard.setButtonLabels()
 			initialized = true;
 		}

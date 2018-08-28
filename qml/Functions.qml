@@ -111,7 +111,7 @@ Page
 							{
 								anchors.verticalCenter: parent.verticalCenter
 								text: modelData.name
-								font { pixelSize: fontsizesmall; weight: (modelData.recent ? Font.Bold: Font.Light) }
+								font { pixelSize: fontsizelist; weight: (modelData.recent ? Font.Bold: Font.Light) }
 							}
 							MouseArea
 							{
@@ -187,6 +187,7 @@ Page
 								if ( manager.updateRecent(modelData.name) )
 									needsupdate = true
 								swipe.currentIndex = 1
+								forceActiveFocus()
 							}
 						}
 					}

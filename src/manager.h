@@ -56,6 +56,8 @@ public:
 	Q_INVOKABLE QString getPrecision() const;
 	Q_INVOKABLE void setComplexNumber(const QString& complex);
 	Q_INVOKABLE QString getComplexNumber() const;
+	Q_INVOKABLE void setFontSize(const QString& size);
+	Q_INVOKABLE QString getFontSize() const;
 
 	Q_INVOKABLE void setSessionSave(bool save);
 	Q_INVOKABLE bool getSessionSave() const;

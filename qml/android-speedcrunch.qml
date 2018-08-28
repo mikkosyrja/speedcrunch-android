@@ -11,7 +11,8 @@ ApplicationWindow
 
 	property int fontsizesmall: (height / (landscape ? 24 : 36))
 	property int fontsizebig: fontsizesmall * 1.5
-	property int lineheight: fontsizesmall * 1.5
+	property int fontsizelist: fontsizesmall
+	property int lineheight: fontsizelist * 1.5
 	property int itemspacing: 5
 
 	property alias history: calculator.history
@@ -140,7 +141,7 @@ ApplicationWindow
 
 	footer: Row
 	{
-		width: parent.width; height: fontsizesmall * 2
+		width: parent.width; height: fontsizesmall * 1.5
 		Rectangle
 		{
 			width: fontsizesmall * 4; height: parent.height

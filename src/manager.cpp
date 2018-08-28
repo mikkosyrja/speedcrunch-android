@@ -19,6 +19,7 @@
 
 #include "manager.h"
 
+#include <QFont>
 #include <QFile>
 #include <QDir>
 #include <QGuiApplication>
@@ -507,6 +508,37 @@ QString Manager::getComplexNumber() const
 	if ( settings->complexNumbers )
 		return QString(settings->resultFormatComplex);
 	return "d";
+}
+
+//! Set font size.
+/*!
+	\param size			Font size (s, m, l).
+*/
+void Manager::setFontSize(const QString& size)
+{
+	int pointsize = 8;
+	if ( size == "m" )
+		pointsize = 10;
+	else if ( size == "l" )
+		pointsize = 12;
+	QFont font("Font", pointsize);
+	settings->displayFont = font.toString();
+	settings->save();
+}
+
+//! Get font size.
+/*!
+	\return				Font size (s, m, l).
+*/
+QString Manager::getFontSize() const
+{
+	QFont font;
+	font.fromString(settings->displayFont);
+	if ( font.pointSize() == 10 )
+		return "m";
+	if ( font.pointSize() == 12 )
+		return "l";
+	return "s";
 }
 
 //! Set session save setting.

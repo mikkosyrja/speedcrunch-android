@@ -222,9 +222,6 @@ QString Manager::getHistory(int)
 */
 QString Manager::getFunctions(const QString& filter, const QString& type, int)
 {
-//	QString xxx = "[ { name: \"Bill Smith\", number: \"555 3264\" }, { name: \"John Brown\", number: \"555 8426\" }, { name: \"Sam Wise\", number: \"555 0473\" } ]";
-//	return xxx;
-
 	QList<Variable> variables = evaluator->getVariables();
 	qSort(variables.begin(), variables.end(), [](const Variable& first, const Variable& second)
 		{ return first.identifier().compare(second.identifier(), Qt::CaseInsensitive) < 0; });
@@ -623,7 +620,11 @@ QString Manager::getClipboard() const
 	return clipboard->text();
 }
 
-//
+//! Check if the name is in recent list.
+/*!
+	\param name			Checked name.
+	\return				True if found from recent list.
+*/
 bool Manager::checkRecent(const QString& name) const
 {
 	for ( const auto& item : recent )
@@ -633,4 +634,3 @@ bool Manager::checkRecent(const QString& name) const
 	}
 	return false;
 }
-

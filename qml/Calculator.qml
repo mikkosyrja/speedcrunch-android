@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 
 Page
 {
@@ -42,8 +42,8 @@ Page
 							{
 								anchors.verticalCenter: parent.verticalCenter
 								text: modelData.expression + " = " + modelData.value
-								font { pixelSize: fontsizesmall }
-//								font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
+//								font { pixelSize: fontsizesmall }
+								font { pixelSize: fontsizesmall; weight: (historyview.currentItem == resultitem ? Font.Bold: Font.Light) }
 							}
 							MouseArea
 							{
@@ -157,10 +157,10 @@ Page
 				}
 				else if ( assign.length )
 				{
-					functionlist.updatemodel++
 					latestExpression = manager.autoFix(textfield.text)
 					latestResult = ""
 					historyview.updateHistory()
+					functions.updateFunctions()
 //					notification.previewSummary = "Function added"
 //					notification.previewBody = ""
 					textfield.text = ""
@@ -174,7 +174,7 @@ Page
 				historyview.updateHistory()
 				textfield.text = ""
 				if ( assign.length )
-					functionlist.updatemodel++
+					functions.updateFunctions()
 			}
 		}
 	}

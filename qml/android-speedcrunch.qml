@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 
 ApplicationWindow
 {
@@ -7,9 +7,9 @@ ApplicationWindow
 	property string latestResult: ""
 
 	property string backgroundcolor: "lightGray"
-	property bool landscape: window.height < window.width
+	property bool landscape: height < width
 
-	property int fontsizesmall: (window.height / (landscape ? 24 : 36))
+	property int fontsizesmall: (height / (landscape ? 24 : 36))
 	property int fontsizebig: fontsizesmall * 1.5
 	property int lineheight: fontsizesmall * 1.5
 	property int itemspacing: 5
@@ -37,6 +37,13 @@ ApplicationWindow
 //				verticalCenter: parent.verticalCenter
 				count: swipe.count
 				currentIndex: swipe.currentIndex
+/*
+				interactive: true
+				onCurrentIndexChanged:
+				{
+					swipe.currentIndex = currentIndex
+				}
+*/
 			}
 		}
 		Rectangle
@@ -66,26 +73,26 @@ ApplicationWindow
 				text: "\u2261"
 				onClicked:
 				{
-//					if ( menu.opened )
-//						menu.close()
-//					else
+					if ( menu.opened )
+						menu.close()
+					else
 						menu.open()
 				}
-
 				Menu
 				{
 					id: menu
 					y: menuButton.height - itemspacing
+					closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
 
 					MenuItem
 					{
 						text: qsTr("Copy result")
-						onTriggered: { manager.setClipboard(window.latestResult) }
+						onTriggered: { manager.setClipboard(latestResult) }
 					}
 					MenuItem
 					{
 						text: qsTr("Copy expression")
-						onTriggered: { manager.setClipboard(window.latestExpression + " = " + window.latestResult) }
+						onTriggered: { manager.setClipboard(latestExpression + " = " + latestResult) }
 					}
 					MenuItem
 					{
@@ -120,6 +127,15 @@ ApplicationWindow
 		Functions { id: functions }
 		Calculator { id: calculator }
 		Settings { id: settings }
+
+		onCurrentIndexChanged:
+		{
+			if ( currentIndex == 0 && functions.needsupdate )
+			{
+				functions.updateFunctions()
+				functions.needsupdate = false
+			}
+		}
 	}
 
 	footer: Row

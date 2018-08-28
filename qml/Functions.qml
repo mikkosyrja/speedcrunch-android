@@ -1,11 +1,11 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 //import QtQuick.VirtualKeyboard 2.3
 
 Page
 {
 	property string filtertype: "a"
-	property int updatemodel: 0
+	property bool needsupdate: false
 
 	Rectangle
 	{
@@ -95,10 +95,11 @@ Page
 
 				ListView
 				{
+					property int updatemodel: 0
+
 					id: functionlist
 					anchors.fill: parent
 					model: { eval(manager.getFunctions(searchfield.text, filtertype, updatemodel)) }
-					highlight: Rectangle { color: "lightsteelblue"; radius: 3 }
 					delegate: Component
 					{
 						Item
@@ -110,74 +111,95 @@ Page
 							{
 								anchors.verticalCenter: parent.verticalCenter
 								text: modelData.name
-								font { pixelSize: fontsizesmall }
+								font { pixelSize: fontsizesmall; weight: (modelData.recent ? Font.Bold: Font.Light) }
 							}
 							MouseArea
 							{
 								anchors.fill: parent
 								onClicked:
 								{
-									functionlist.currentIndex = index
-//									functionitem.color = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
+									if ( popupmenu.opened )
+										popupmenu.close()
+									else
+										insert()
 								}
-							}
-/*
-							menu: Component
-							{
-								ContextMenu
+								onPressAndHold:
 								{
-									MenuItem { text: modelData.label; onClicked: insert() }
-									MenuItem
-									{
-										text: "Remove from recent"
-										visible: modelData.recent
-										onClicked: remorse.execute(functionitem, "Removing", removeRecent)
-									}
-									MenuItem
-									{
-										text: "Delete user defined"
-										visible: modelData.user
-										onClicked: remorse.execute(functionitem, "Deleting", deleteUserDefined)
-									}
+/*
+									popupmenu.removeItem(removerecent)
+									popupmenu.removeItem(deleteuserdefined)
+									if ( modelData.recent )
+										popupmenu.insertItem(removerecent)
+									if ( modelData.user )
+										popupmenu.insertItem(deleteuserdefined)
+*/
+									popupmenu.open()
 								}
 							}
-							onClicked: insert()
-*/
-/*
+							Menu
+							{
+								id: popupmenu
+								y: functionitem.height
+								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
+
+								MenuItem { text: modelData.label; onClicked: insert() }
+								MenuItem
+								{
+									id: removerecent
+									text: qsTr("Remove from Recent")
+									visible: modelData.recent
+									onTriggered: { removeRecent() }
+//									onClicked: remorse.execute(functionitem, "Removing", removeRecent)
+								}
+								MenuItem
+								{
+									id: deleteuserdefined
+									text: qsTr("Delete User Defined")
+									visible: modelData.user
+									onTriggered: { deleteUserDefined() }
+//									onClicked: remorse.execute(functionitem, "Deleting", deleteUserDefined)
+								}
+							}
+
 							function removeRecent()
 							{
 								manager.removeRecent(modelData.name)
-								functionlist.updatemodel++
+								updateFunctions()
 							}
 							function deleteUserDefined()
 							{
 								manager.clearFunction(modelData.value)
 								manager.clearVariable(modelData.value)
-								functionlist.updatemodel++
+								updateFunctions()
 							}
 							function insert()
 							{
-								functionlist.currentIndex = index;
 								var value = modelData.value
-								var text = textfield.text
-								var pos = textfield.cursorPosition
-								textfield.text = text.substring(0, pos) + value + text.substring(pos, text.length)
-								textfield.cursorPosition = pos + value.length
-								if ( modelData.usage != "" )
+								var text = editor.text
+								var pos = editor.cursorPosition
+								editor.text = text.substring(0, pos) + value + text.substring(pos, text.length)
+								editor.cursorPosition = pos + value.length
+								if ( modelData.usage !== "" )
 								{
-									textfield.label = modelData.usage
-									textfield.cursorPosition--
+//									editor.label = modelData.usage
+									editor.cursorPosition--
 								}
 								if ( manager.updateRecent(modelData.name) )
 									needsupdate = true
-								screen.goToPage(1)
-								mouse.accepted = true;
+								swipe.currentIndex = 1
 							}
-*/
 						}
 					}
 				}
 			}
 		}
+	}
+
+	function updateFunctions()
+	{
+		functionlist.updatemodel++
+		functionlist.positionViewAtBeginning()
+		functionlist.currentIndex = 0
+		manager.saveSession()
 	}
 }

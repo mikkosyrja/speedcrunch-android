@@ -9,5 +9,6 @@
 	<file>qml/Settings.qml</file>
 	<file>qml/back.png</file>
 	<file>qml/clear.png</file>
+	<file>qml/cuberoot.png</file>
 	</qresource>
 </RCC>

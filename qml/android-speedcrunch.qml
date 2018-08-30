@@ -7,12 +7,13 @@ ApplicationWindow
 	property string latestResult: ""
 
 	property string backgroundcolor: "lightGray"
+	property string settingscolor: "silver"
 	property bool landscape: height < width
 
-	property int fontsizesmall: (height / (landscape ? 24 : 36))
-	property int fontsizebig: fontsizesmall * 1.5
-	property int fontsizelist: fontsizesmall
+	property int fontsize: (height / (landscape ? 24 : 36))
+	property int fontsizelist: fontsize
 	property int lineheight: fontsizelist * 1.5
+	property int cornerradius: 3
 	property int itemspacing: 5
 
 	property alias history: calculator.history
@@ -26,10 +27,10 @@ ApplicationWindow
 
 	header: Row
 	{
-		width: parent.width; height: fontsizesmall * 3
+		width: parent.width; height: fontsize * 3
 		Rectangle
 		{
-			width: fontsizesmall * 4; height: parent.height
+			width: fontsize * 4; height: parent.height
 			color: backgroundcolor
 			PageIndicator
 			{
@@ -58,7 +59,7 @@ ApplicationWindow
 				horizontalAlignment: Text.AlignRight
 				verticalAlignment: Text.AlignVCenter
 				text: "SpeedCrunch"
-				font { pixelSize: fontsizebig }
+				font { pixelSize: fontsize * 1.5 }
 			}
 		}
 		Rectangle
@@ -69,8 +70,8 @@ ApplicationWindow
 			Button
 			{
 				anchors	{ fill: parent; margins: 5 }
-				background: Rectangle { radius: 3 }
-				font { pixelSize: fontsizesmall * 2 }
+				background: Rectangle { radius: cornerradius }
+				font { pixelSize: fontsize * 2 }
 				text: "\u2261"
 				onClicked:
 				{
@@ -141,10 +142,10 @@ ApplicationWindow
 
 	footer: Row
 	{
-		width: parent.width; height: fontsizesmall * 1.5
+		width: parent.width; height: fontsize * 1.5
 		Rectangle
 		{
-			width: fontsizesmall * 4; height: parent.height
+			width: fontsize * 4; height: parent.height
 			color: backgroundcolor
 			PageIndicator
 			{
@@ -165,7 +166,7 @@ ApplicationWindow
 				horizontalAlignment: Text.AlignHCenter
 				verticalAlignment: Text.AlignVCenter
 				text: qsTr("Status bar")
-				font { pixelSize: fontsizesmall }
+				font { pixelSize: fontsize }
 			}
 		}
 	}

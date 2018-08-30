@@ -13,18 +13,15 @@ Button
 
 	width: parent.width / buttoncols - parent.spacing + parent.spacing / buttoncols
 	height: parent.height / buttonrows - parent.spacing + parent.spacing / buttonrows
-
-//	font.pixelSize: Qt.application.font.pixelSize
-	font.pixelSize: fontsizebig
-
-	background: Rectangle { radius: 3 }
+	background: Rectangle { radius: cornerradius }
+	font.pixelSize: fontsize * 1.3
 
 	Image
 	{
-//		visible: image.length
-		width: parent.height / 1; height: parent.height / 1
-//		anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
-		anchors.centerIn: parent
+		width: parent.width / 2; height: parent.height / 2
+		anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
+		fillMode: Image.PreserveAspectFit
+		visible: image.length
 		source: image
 	}
 
@@ -51,7 +48,6 @@ Button
 		else
 			insertValue(value)
 	}
-
 	onPressAndHold:
 	{
 		if ( text == "←" )

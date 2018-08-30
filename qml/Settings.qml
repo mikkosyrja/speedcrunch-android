@@ -5,7 +5,7 @@ Page
 {
 	property int labelwidth: window.width * 2 / 5 - itemspacing
 	property int combowidth: window.width - labelwidth - itemspacing * 2
-	property int comboheight: fontsizesmall * 2.5
+	property int comboheight: fontsize * 2.5
 	property bool initialized: false
 
 //	property alias resultformat: resultformatlist.value
@@ -27,14 +27,15 @@ Page
 				{
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
-					font { pixelSize: fontsizesmall }
+					font.pixelSize: fontsize
 					text: qsTr("Result Format")
 				}
 				ComboBox
 				{
 					id: resultformatsetting
 					width: combowidth; height: comboheight
-					font { pixelSize: fontsizesmall }
+					background: Rectangle { radius: cornerradius; color: settingscolor }
+					font.pixelSize: fontsize
 					model: [ "General decimal", "Fixed decimal", "Engineering decimal",
 						"Scientific decimal", "Binary", "Octal", "Hexadecimal" ]
 //					model: [ "General decimal", "Fixed decimal", "Engineering decimal",
@@ -74,14 +75,15 @@ Page
 				{
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
-					font { pixelSize: fontsizesmall }
+					font.pixelSize: fontsize
 					text: qsTr("Precision")
 				}
 				ComboBox
 				{
 					id: precisionsetting
 					width: combowidth; height: comboheight
-					font { pixelSize: fontsizesmall }
+					background: Rectangle { radius: cornerradius; color: settingscolor }
+					font.pixelSize: fontsize
 					model: [ "Automatic", "0", "1", "2", "3", "4", "6", "8", "12", "16", "20" ]
 					onCurrentIndexChanged:
 					{
@@ -123,14 +125,15 @@ Page
 				{
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
-					font { pixelSize: fontsizesmall }
+					font.pixelSize: fontsize
 					text: qsTr("Angle Unit")
 				}
 				ComboBox
 				{
 					id: angleunitsetting
 					width: combowidth; height: comboheight
-					font { pixelSize: fontsizesmall }
+					background: Rectangle { radius: cornerradius; color: settingscolor }
+					font.pixelSize: fontsize
 					model: [ "Degree", "Radian" ]
 //					model: [ "Degree", "Radian", "Gradian" ]
 					onCurrentIndexChanged:
@@ -156,14 +159,15 @@ Page
 				{
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
-					font { pixelSize: fontsizesmall }
+					font.pixelSize: fontsize
 					text: qsTr("Complex Numbers")
 				}
 				ComboBox
 				{
 					id: complexnumbersetting
 					width: combowidth; height: comboheight
-					font { pixelSize: fontsizesmall }
+					background: Rectangle { radius: cornerradius; color: settingscolor }
+					font.pixelSize: fontsize
 					model: [ "Disabled", "Cartesian", "Polar" ]
 					onCurrentIndexChanged:
 					{
@@ -188,8 +192,11 @@ Page
 			{
 				id: historysavesetting
 				width: combowidth; height: comboheight
-				font { pixelSize: fontsizesmall }
+				font.pixelSize: fontsize
 				text: qsTr("Save History on Exit")
+
+//				indicator: Rectangle { radius: cornerradius; color: settingscolor }
+//				CheckBox.background: Rectangle { radius: cornerradius; color: settingscolor }
 				checked: true
 				onCheckedChanged: { manager.setSessionSave(checked) }
 				function setHistorySave(save) { checked = save }
@@ -200,14 +207,15 @@ Page
 				{
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
-					font { pixelSize: fontsizesmall }
+					font.pixelSize: fontsize
 					text: qsTr("List Font Size")
 				}
 				ComboBox
 				{
 					id: fontsizesetting
 					width: combowidth; height: comboheight
-					font { pixelSize: fontsizesmall }
+					background: Rectangle { radius: cornerradius; color: settingscolor }
+					font.pixelSize: fontsize
 					model: [ "Small", "Medium", "Large" ]
 					onCurrentIndexChanged:
 					{
@@ -215,38 +223,27 @@ Page
 						{
 							if ( currentIndex == 0 )
 							{
-								fontsizelist = fontsizesmall
+								setGlobalFontSize("s")
 								manager.setFontSize("s")
 							}
 							else if ( currentIndex == 1 )
 							{
-								fontsizelist = fontsizesmall * 1.2
+								setGlobalFontSize("m")
 								manager.setFontSize("m")
 							}
 							else if ( currentIndex == 2 )
 							{
-								fontsizelist = fontsizesmall * 1.5
+								setGlobalFontSize("l")
 								manager.setFontSize("l")
 							}
 						}
 					}
 					function setFontSize(size)
 					{
-						if ( size === "s" )
-						{
-							fontsizelist = fontsizesmall
-							currentIndex = 0
-						}
-						else if ( size === "m" )
-						{
-							fontsizelist = fontsizesmall * 1.2
-							currentIndex = 1
-						}
-						else if ( size === "l" )
-						{
-							fontsizelist = fontsizesmall * 1.5
-							currentIndex = 2
-						}
+						setGlobalFontSize(size)
+						if ( size === "s" ) currentIndex = 0
+						else if ( size === "m" ) currentIndex = 1
+						else if ( size === "l" ) currentIndex = 2
 					}
 				}
 			}
@@ -262,5 +259,12 @@ Page
 			keyboard.setButtonLabels()
 			initialized = true;
 		}
+	}
+
+	function setGlobalFontSize(size)
+	{
+		if ( size === "s" ) fontsizelist = fontsize
+		else if ( size === "m" ) fontsizelist = fontsize * 1.2
+		else if ( size === "l" ) fontsizelist = fontsize * 1.5
 	}
 }

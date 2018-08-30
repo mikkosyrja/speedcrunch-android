@@ -84,7 +84,8 @@ Page
 						id: textfield
 						width: parent.width - evaluatebutton.width - cleartext.width - itemspacing * 4
 						height: keyboard.buttonheight
-						font { pixelSize: fontsizesmall }
+						background: Rectangle { radius: cornerradius; color: settingscolor }
+						font.pixelSize: fontsize
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 						placeholderText: "expression"
 						cursorVisible: true

@@ -23,14 +23,15 @@ Page
 				{
 					width: settings.labelwidth
 					anchors.verticalCenter: parent.verticalCenter
-					font { pixelSize: fontsizesmall }
+					font.pixelSize: fontsize
 					text: qsTr("Type Filter")
 				}
 				ComboBox
 				{
 					id: filtersetting
 					width: settings.combowidth; height: settings.comboheight
-					font { pixelSize: fontsizesmall }
+					background: Rectangle { radius: cornerradius; color: settingscolor }
+					font.pixelSize: fontsize
 					model: [ "All", "Functions", "Units", "Constants", "User defined" ]
 					onCurrentIndexChanged:
 					{
@@ -57,7 +58,8 @@ Page
 						id: searchfield
 						width: parent.width - cleartext.width - itemspacing
 						height: keyboard.buttonheight
-						font { pixelSize: fontsizesmall }
+						background: Rectangle { radius: cornerradius; color: settingscolor }
+						font.pixelSize: fontsize
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 						placeholderText: "search"
 						Keys.onReturnPressed:
@@ -123,18 +125,7 @@ Page
 									else
 										insert()
 								}
-								onPressAndHold:
-								{
-/*
-									popupmenu.removeItem(removerecent)
-									popupmenu.removeItem(deleteuserdefined)
-									if ( modelData.recent )
-										popupmenu.insertItem(removerecent)
-									if ( modelData.user )
-										popupmenu.insertItem(deleteuserdefined)
-*/
-									popupmenu.open()
-								}
+								onPressAndHold: { popupmenu.open() }
 							}
 							Menu
 							{
@@ -200,7 +191,6 @@ Page
 	{
 		functionlist.updatemodel++
 		functionlist.positionViewAtBeginning()
-		functionlist.currentIndex = 0
 		manager.saveSession()
 	}
 }

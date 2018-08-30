@@ -81,7 +81,8 @@ Rectangle
 
 					CalcButton { text: "asin"; value: "arcsin()" } CalcButton { text: "acos"; value: "arccos()" }
 					CalcButton { text: "atan"; value: "arctan()" } CalcButton { text: "exp"; value: "exp()" }
-					CalcButton { text: "∛"; value:"cbrt()" }
+					CalcButton { image: "cuberoot.png"; value:"cbrt()" }
+//					CalcButton { text: "∛"; value:"cbrt()" }
 
 					CalcButton { text: "π"; value: "pi" } CalcButton { text: "e" } CalcButton { text: "x"; secondary: "y" }
 					CalcButton { text: "X="; value: "="; secondary: "(x)=" } CalcButton { text: "!" }

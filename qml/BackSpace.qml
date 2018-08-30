@@ -6,7 +6,14 @@ CalcButton
 {
 	image: "back.png"
 	special: true
-
+/*
+	Image
+	{
+		width: parent.width / 2; height: parent.height / 2
+		anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
+		source: "back.png"
+	}
+*/
 	onRunFunction:
 	{
 		var pos = textfield.cursorPosition;

@@ -132,11 +132,17 @@ ApplicationWindow
 
 		onCurrentIndexChanged:
 		{
-			if ( currentIndex == 0 && functions.needsupdate )
+			if ( currentIndex == 0 )
 			{
-				functions.updateFunctions()
-				functions.needsupdate = false
+				if ( functions.needsupdate )
+				{
+					functions.updateFunctions()
+					functions.needsupdate = false
+				}
+				functions.setDefaultFocus()
 			}
+			else if ( currentIndex == 1 )
+				calculator.setDefaultFocus()
 		}
 	}
 

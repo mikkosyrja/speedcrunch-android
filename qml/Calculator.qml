@@ -24,13 +24,25 @@ Page
 				color: backgroundcolor
 				clip: true
 
+				Component
+				{
+					id: highlight
+					Rectangle
+					{
+						width: parent.width; height: lineheight
+						color: "lightsteelblue"; radius: cornerradius
+//						y: historyview.currentItem.y
+//						visible: false
+					}
+				}
 				ListView
 				{
 					property int updatehistory: 0
 
 					id: historyview
 					anchors { fill: parent; margins: itemspacing }
-
+					highlight: highlight
+					highlightFollowsCurrentItem: false
 					model: { eval(manager.getHistory(updatehistory)) }
 					delegate: Component
 					{
@@ -59,11 +71,27 @@ Page
 							}
 						}
 					}
+					Timer
+					{
+						id: historyviewtimer
+						interval: 50; running: false; repeat: false
+						onTriggered:
+						{
+							historyview.positionViewAtEnd()
+							historyview.currentIndex = count - 1
+						}
+					}
+
+					onCountChanged:
+					{
+						historyview.positionViewAtEnd()
+						currentIndex = count - 1
+					}
 					function updateHistory()
 					{
 						updatehistory++
-						positionViewAtEnd()
 						currentIndex = count - 1
+						positionViewAtEnd()
 						manager.saveSession()
 					}
 				}
@@ -89,8 +117,7 @@ Page
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 						placeholderText: "expression"
 						cursorVisible: true
-//						softwareInputPanelEnabled: false
-						Keys.onReturnPressed: { evaluate(); }
+						Keys.onReturnPressed: { setDefaultFocus() }
 					}
 					Rectangle
 					{
@@ -102,18 +129,12 @@ Page
 							width: keyboard.buttonheight / 2; height: keyboard.buttonheight / 2
 							anchors.centerIn: parent
 							source: "clear.png"
-//							fillMode: Image.PreserveAspectFit
-//							visible: textfield.text
 						}
 						MouseArea
 						{
 							id: cleararea
 							anchors { fill: parent }
-							onClicked:
-							{
-								textfield.text = "";
-//								textfield.forceActiveFocus()
-							}
+							onClicked: { textfield.text = "" }
 						}
 					}
 					CalcButton
@@ -122,7 +143,7 @@ Page
 						width: keyboard.buttonwidth; height: keyboard.buttonheight
 						text: "="
 						special: true
-						onRunFunction: { evaluate() }
+						onRunFunction: { evaluate(); setDefaultFocus() }
 					}
 				}
 			}
@@ -131,13 +152,7 @@ Page
 				id: keyboard
 				width: parent.width; height: keyboardheight
 			}
-		}
-
-		Component.onCompleted:
-		{
-//			textfield.softwareInputPanelEnabled = false
-//			textfield.forceActiveFocus()
-			historyview.updateHistory()
+			Component.onCompleted: { historyviewtimer.start() }
 		}
 	}
 
@@ -177,5 +192,12 @@ Page
 					functions.updateFunctions()
 			}
 		}
+	}
+
+	function setDefaultFocus()
+	{
+		Qt.inputMethod.hide()
+		cleartext.forceActiveFocus()
+		textfield.cursorVisible = true
 	}
 }

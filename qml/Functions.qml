@@ -62,10 +62,7 @@ Page
 						font.pixelSize: fontsize
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 						placeholderText: "search"
-						Keys.onReturnPressed:
-						{
-//							evaluate();
-						}
+						Keys.onReturnPressed: { setDefaultFocus() }
 					}
 					Rectangle
 					{
@@ -77,8 +74,6 @@ Page
 							width: keyboard.buttonheight / 2; height: keyboard.buttonheight / 2
 							anchors.centerIn: parent
 							source: "clear.png"
-//							fillMode: Image.PreserveAspectFit
-//							visible: textfield.text
 						}
 						MouseArea
 						{
@@ -95,12 +90,24 @@ Page
 				color: backgroundcolor
 				clip: true
 
+				Component
+				{
+					id: highlight
+					Rectangle
+					{
+						width: parent.width; height: lineheight
+						color: "lightsteelblue"; radius: cornerradius
+						y: functionlist.currentItem.y
+					}
+				}
 				ListView
 				{
 					property int updatemodel: 0
 
 					id: functionlist
 					anchors.fill: parent
+					highlight: highlight
+					highlightFollowsCurrentItem: false
 					model: { eval(manager.getFunctions(searchfield.text, filtertype, updatemodel)) }
 					delegate: Component
 					{
@@ -118,14 +125,41 @@ Page
 							MouseArea
 							{
 								anchors.fill: parent
+
+								Timer
+								{
+									id: highlighttimer
+									interval: 100; running: false; repeat: false
+									onTriggered: { functionlist.currentIndex = index }
+								}
 								onClicked:
 								{
+									functionlist.currentIndex = -1
 									if ( popupmenu.opened )
 										popupmenu.close()
 									else
 										insert()
 								}
-								onPressAndHold: { popupmenu.open() }
+								onPressed:
+								{
+									highlighttimer.start()
+									Qt.inputMethod.hide()
+								}
+								onPositionChanged:
+								{
+									highlighttimer.stop()
+									functionlist.currentIndex = -1
+								}
+								onReleased:
+								{
+									highlighttimer.stop()
+									functionlist.currentIndex = -1
+								}
+								onPressAndHold:
+								{
+									functionlist.currentIndex = -1
+									popupmenu.open()
+								}
 							}
 							Menu
 							{
@@ -182,8 +216,10 @@ Page
 							}
 						}
 					}
+					onCountChanged: { functionlist.currentIndex = -1 }
 				}
 			}
+			Component.onCompleted: { functionlist.currentIndex = -1 }
 		}
 	}
 
@@ -191,6 +227,13 @@ Page
 	{
 		functionlist.updatemodel++
 		functionlist.positionViewAtBeginning()
+		functionlist.currentIndex = -1
 		manager.saveSession()
+	}
+
+	function setDefaultFocus()
+	{
+		Qt.inputMethod.hide()
+		cleartext.forceActiveFocus()
 	}
 }

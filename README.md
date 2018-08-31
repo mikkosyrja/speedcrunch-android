@@ -5,7 +5,7 @@ unit conversions, radix systems, complex numbers and user defined variables.
 
 Android port of [SpeedCrunch](http://speedcrunch.org) calculator.
 
-Based on the original Sailfish port by @qwazix.
+User interface based on the original Sailfish port by @qwazix.
 
 Features:
 - Calculations with up to 50 digits of precision
@@ -15,6 +15,67 @@ Features:
 - Decimal, binary, octal and hexadecimal bases
 - Built-in functions, constants and units with search
 - User defined variables and functions
+
+### Usage
+
+User interface consists three pages and two keyboard panes. Leftmost page has function list,
+central page is the calculator itself and rightmost page contains some settings. Sideways swiping
+on the upper side of screen switches between pages and swiping on the keyboard switches either
+between pages or between keyboard panes.
+
+#### Function and settings pages
+
+Leftmost page has function list containing all SpeedCrunch engine functions, units, constants and
+user defined items. Topmost filter list selection can be used to show only built-in functions,
+units, constants or user defined variables and functions. Search field below it performs additional
+filtering by name.
+
+Pointing list item inserts it to the expression editing field and activates the main calculator
+page. Long press opens context menu with options. First context menu item displays list item
+content. For functions it is usage with parameter names. For constants and variables it is value
+and for units it is just unit name. Selecting first item performs same inserting as list item
+pointing.
+
+Used items are collected to recent item stack and displayed at the top of the list with bold font.
+Newly created user variables and functions are automatically considered recently used. Other items
+come after them in alphabetical order. Recent item stack size is not currently limited, but recent
+menu items has additional context menu item for removing them from the recent stack. Also, user
+defined functions and variables have context menu item for deleting them.
+
+Rightmost page contains some settings. These are same as desktop version settings and mostly
+self-explanatory. Note that user defined variables and functions are saved with the history list.
+
+#### Expression editing and history list
+
+At the top of the main calculator page is history list. All calculated expressions and their
+results are stored there. Pointing history list line inserts result to the expression editing.
+Pointing and holding history line recalls the whole expression for editing.
+
+xxx Below the history list is expression editing field. It can be edited either by calculator key panes
+or standard Sailfish virtual keyboard. Because the expression field is always active, it must be
+pointed twice to activate the Sailfish keyboard.
+
+Below the expression editor is label field used for function usage parameters and autocalc results.
+
+#### Keyboard and pulley menu
+
+Most keys are familiar to anyone ever used handheld calculator. Key 0x is for entering hexadecimal
+values (0xFF). Key x is for variable name x and key X= is for user variable or function definition
+(x=42). Big arrow on the right side of second pane is for unit conversion (1 inch -> foot). Bottom
+row arrow keys and backspace are for expression field editing.
+
+Some keys have secondary function available with long press:
+- Keys 1-6 produce hexadecimal values A-F
+- Key 9 produces j for complex number imaginary part
+- Key 0x produces 0b for binary values (0b1010)
+- Key x produces character y for another variable name
+- Key X= produces (x)= for function definition (foo(x)=)
+- Keys ← and → move cursor to start or end of expression
+
+xxx Bottom pulley menu has functions for copying latest result or expression to clipboard, pasting
+clipboard contents to the expression field and clearing the history list.
+
+For more information, see desktop SpeedCrunch [documentation](http://speedcrunch.org/userguide/index.html).
 
 ### License
 

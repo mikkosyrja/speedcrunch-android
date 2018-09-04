@@ -53,8 +53,6 @@ SOURCES += \
 	math/cnumberparser.cpp
 
 OTHER_FILES += \
-	qml/pages/erase_to_the_left.svg \
-	qml/pages/cube_root.svg \
 	qml/android-speedcrunch.qml \
 	qml/CalcButton.qml \
 	qml/Calculator.qml \
@@ -110,7 +108,16 @@ DISTFILES += \
 	qml/Functions.qml \
 	qml/Calculator.qml \
 	qml/Settings.qml \
-	qml/Keyboard.qml
+	qml/Keyboard.qml \
+    qml/pages/cuberoot.svg \
+    qml/pages/back.svg \
+    android/AndroidManifest.xml \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat
 
 RESOURCES += qml.qrc
 
@@ -118,3 +125,5 @@ RESOURCES += qml.qrc
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

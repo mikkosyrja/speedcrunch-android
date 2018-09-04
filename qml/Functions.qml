@@ -124,6 +124,8 @@ Page
 							}
 							MouseArea
 							{
+								property bool acceptclic: false
+
 								anchors.fill: parent
 
 								Timer
@@ -137,16 +139,18 @@ Page
 									functionlist.currentIndex = -1
 									if ( popupmenu.opened )
 										popupmenu.close()
-									else
+									else if ( acceptclic )
 										insert()
 								}
 								onPressed:
 								{
+									acceptclic = true
 									highlighttimer.start()
 									Qt.inputMethod.hide()
 								}
 								onPositionChanged:
 								{
+									acceptclic = false
 									highlighttimer.stop()
 									functionlist.currentIndex = -1
 								}

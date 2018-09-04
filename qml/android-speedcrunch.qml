@@ -59,7 +59,7 @@ ApplicationWindow
 				horizontalAlignment: Text.AlignRight
 				verticalAlignment: Text.AlignVCenter
 				text: "SpeedCrunch"
-				font { pixelSize: fontsize * 1.5 }
+				font.pixelSize: fontsize * 1.5
 			}
 		}
 		Rectangle
@@ -71,7 +71,7 @@ ApplicationWindow
 			{
 				anchors	{ fill: parent; margins: 5 }
 				background: Rectangle { radius: cornerradius }
-				font { pixelSize: fontsize * 2 }
+				font.pixelSize: fontsize * 2
 				text: "\u2261"
 				onClicked:
 				{
@@ -143,37 +143,6 @@ ApplicationWindow
 			}
 			else if ( currentIndex == 1 )
 				calculator.setDefaultFocus()
-		}
-	}
-
-	footer: Row
-	{
-		width: parent.width; height: fontsize * 1.5
-		Rectangle
-		{
-			width: fontsize * 4; height: parent.height
-			color: backgroundcolor
-			PageIndicator
-			{
-				id: keyboardindicator
-				anchors.fill: parent
-				count: keyboard.swipecount
-				currentIndex: keyboard.swipeindex
-			}
-		}
-		Rectangle
-		{
-			width: parent.width - keyboardindicator.width
-			height: parent.height
-			color: backgroundcolor
-			Label
-			{
-				anchors	{ fill: parent; margins: 10 }
-				horizontalAlignment: Text.AlignHCenter
-				verticalAlignment: Text.AlignVCenter
-				text: qsTr("Status bar")
-				font { pixelSize: fontsize }
-			}
 		}
 	}
 }

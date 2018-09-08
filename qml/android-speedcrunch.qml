@@ -13,12 +13,16 @@ ApplicationWindow
 	property int fontsize: (height / (landscape ? 24 : 36))
 	property int fontsizelist: fontsize
 	property int lineheight: fontsizelist * 1.5
-	property int cornerradius: 3
-	property int itemspacing: 5
+
+	property int buttoncols: 5
+	property int buttonrows: 5
+	property int cornerradius: width / buttoncols / 20
+	property int itemspacing: width / buttoncols / 15
 
 	property alias history: calculator.history
 	property alias editor: calculator.editor
 	property alias keyboard: calculator.keyboard
+	property alias settings: settings
 
 	id: window
 	visible: true
@@ -35,12 +39,11 @@ ApplicationWindow
 			PageIndicator
 			{
 				id: pageindicator
-				anchors.fill: parent
+				anchors.fill: parent0
 //				verticalCenter: parent.verticalCenter
 				count: swipe.count
 				currentIndex: swipe.currentIndex
 /*
-				interactive: true
 				onCurrentIndexChanged:
 				{
 					swipe.currentIndex = currentIndex
@@ -84,6 +87,7 @@ ApplicationWindow
 				{
 					id: menu
 					y: menuButton.height - itemspacing
+					font.pixelSize: fontsize
 					closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
 
 					MenuItem

@@ -8,8 +8,8 @@ Page
 	property int comboheight: fontsize * 2.5
 	property bool initialized: false
 
-//	property alias resultformat: resultformatlist.value
-//	property alias angleunit: angleunitlist.value
+	property alias resultformat: resultformatsetting.currentText
+	property alias angleunit: angleunitsetting.currentText
 
 	Rectangle
 	{

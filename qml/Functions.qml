@@ -169,12 +169,19 @@ Page
 							{
 								id: popupmenu
 								y: functionitem.height
+//								font.pixelSize: fontsizelist
 								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
 
-								MenuItem { text: modelData.label; onClicked: insert() }
+								MenuItem
+								{
+									text: modelData.label;
+//									font.pixelSize: fontsizelist
+									onClicked: insert()
+								}
 								MenuItem
 								{
 									id: removerecent
+//									font.pixelSize: fontsizelist
 									text: qsTr("Remove from Recent")
 									visible: modelData.recent
 									onTriggered: { removeRecent() }
@@ -183,6 +190,7 @@ Page
 								MenuItem
 								{
 									id: deleteuserdefined
+//									font.pixelSize: fontsizelist
 									text: qsTr("Delete User Defined")
 									visible: modelData.user
 									onTriggered: { deleteUserDefined() }

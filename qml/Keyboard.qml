@@ -3,9 +3,6 @@ import QtQuick.Controls 2.3
 
 Rectangle
 {
-	property int buttoncols: 5
-	property int buttonrows: 5
-
 	property int buttonwidth: button1.width
 	property int buttonheight: button1.height
 

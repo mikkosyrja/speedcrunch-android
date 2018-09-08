@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 
 Page
 {
-	property int keyboardheight: (landscape ? parent.height * 3 / 5 : parent.height / 2)
+	property int keyboardheight: (landscape ? parent.height * 3 / 5 : parent.height * 2 / 5)
 
 	property alias history: historyview
 	property alias editor: textfield
@@ -155,6 +155,43 @@ Page
 			Component.onCompleted: { historyviewtimer.start() }
 		}
 	}
+	footer: Row
+	{
+		width: parent.width; height: fontsize * 1.5
+		Rectangle
+		{
+			width: keyboard.buttonwidth * 2 + itemspacing * 2; height: parent.height; color: backgroundcolor
+			PageIndicator
+			{
+				id: keyboardindicator
+				anchors.fill: parent
+				count: keyboard.swipecount
+				currentIndex: keyboard.swipeindex
+			}
+		}
+		Rectangle
+		{
+			width: parent.width - keyboardindicator.width; height: parent.height; color: backgroundcolor
+			Label
+			{
+				id: resultformat
+				width: keyboard.buttonwidth * 2; height: parent.height
+				anchors { bottom: parent.bottom; left: parent.left; leftMargin: itemspacing }
+				verticalAlignment: Text.AlignVCenter
+				font { pixelSize: fontsize }
+				text: settings.resultformat
+			}
+			Label
+			{
+				id: angleunit
+				width: keyboard.buttonwidth; height: parent.height
+				anchors { bottom: parent.bottom; right: parent.right; rightMargin: itemspacing }
+				verticalAlignment: Text.AlignVCenter
+				font { pixelSize: fontsize }
+				text: settings.angleunit
+			}
+		}
+	}
 
 	function evaluate()
 	{
@@ -190,56 +227,6 @@ Page
 				textfield.text = ""
 				if ( assign.length )
 					functions.updateFunctions()
-			}
-		}
-	}
-	footer: Row
-	{
-		width: parent.width; height: fontsize * 1.5
-		Rectangle
-		{
-			width: fontsize * 4; height: parent.height
-			color: backgroundcolor
-			PageIndicator
-			{
-				id: keyboardindicator
-				anchors.fill: parent
-				count: keyboard.swipecount
-				currentIndex: keyboard.swipeindex
-			}
-		}
-		Rectangle
-		{
-			width: parent.width - keyboardindicator.width
-			height: parent.height
-			color: backgroundcolor
-/*
-			Label
-			{
-				id: resultformat
-				width: buttonwidth * 2 + buttonmargin; height: statusmargin; color: Theme.highlightColor
-				anchors { bottom: parent.bottom; left: footer.right; leftMargin: buttonmargin }
-				verticalAlignment: Text.AlignVCenter
-				font.pixelSize: Theme.fontSizeExtraSmall
-				text: settings.resultformat
-			}
-			Label
-			{
-				id: angleunit
-				width: buttonwidth; height: statusmargin; color: Theme.highlightColor
-				anchors { bottom: parent.bottom; right: parent.right; rightMargin: buttonmargin }
-				verticalAlignment: Text.AlignVCenter
-				font.pixelSize: Theme.fontSizeExtraSmall
-				text: settings.angleunit
-			}
-*/
-			Label
-			{
-				anchors	{ fill: parent; margins: 10 }
-				horizontalAlignment: Text.AlignHCenter
-				verticalAlignment: Text.AlignVCenter
-				text: qsTr("Status bar")
-				font { pixelSize: fontsize }
 			}
 		}
 	}

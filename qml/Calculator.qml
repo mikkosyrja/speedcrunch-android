@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 
 Page
 {
-	property int keyboardheight: (landscape ? parent.height * 3 / 5 : parent.height * 2 / 5)
+	property int keyboardheight: parent.height * (landscape ? 60 : 45) / 100
 
 	property alias history: historyview
 	property alias editor: textfield
@@ -23,7 +23,7 @@ Page
 				width: parent.width; height: parent.height - keyboard.height - editrow.height
 				color: backgroundcolor
 				clip: true
-
+/*
 				Component
 				{
 					id: highlight
@@ -31,18 +31,19 @@ Page
 					{
 						width: parent.width; height: lineheight
 						color: "lightsteelblue"; radius: cornerradius
-//						y: historyview.currentItem.y
+						y: historyview.currentItem.y
 //						visible: false
 					}
 				}
+*/
 				ListView
 				{
 					property int updatehistory: 0
 
 					id: historyview
 					anchors { fill: parent; margins: itemspacing }
-					highlight: highlight
-					highlightFollowsCurrentItem: false
+//					highlight: highlight
+//					highlightFollowsCurrentItem: false
 					model: { eval(manager.getHistory(updatehistory)) }
 					delegate: Component
 					{
@@ -167,11 +168,21 @@ Page
 				anchors.fill: parent
 				count: keyboard.swipecount
 				currentIndex: keyboard.swipeindex
+
+				delegate: Rectangle
+				{
+					implicitWidth: parent.height * 0.8
+					implicitHeight: parent.height * 0.8
+					color: (index === keyboardindicator.currentIndex ? "dimgrey" : "silver")
+					anchors.verticalCenter: parent.verticalCenter
+					radius: width / 2
+				}
 			}
 		}
 		Rectangle
 		{
 			width: parent.width - keyboardindicator.width; height: parent.height; color: backgroundcolor
+			clip: true
 			Label
 			{
 				id: resultformat

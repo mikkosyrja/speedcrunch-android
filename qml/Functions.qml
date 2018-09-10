@@ -1,6 +1,5 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.3
-//import QtQuick.VirtualKeyboard 2.3
 
 Page
 {
@@ -33,6 +32,7 @@ Page
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
 					model: [ "All", "Functions", "Units", "Constants", "User defined" ]
+					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
 					onCurrentIndexChanged:
 					{
 						if ( currentIndex == 0 ) { filtertype = "a" }
@@ -168,30 +168,34 @@ Page
 							Menu
 							{
 								id: popupmenu
+								modal: true
 								y: functionitem.height
-//								font.pixelSize: fontsizelist
+								width: parent.width
 								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
 
 								MenuItem
 								{
 									text: modelData.label;
-//									font.pixelSize: fontsizelist
+									height: menuheight
+									font.pixelSize: fontsizemenu
 									onClicked: insert()
 								}
 								MenuItem
 								{
-									id: removerecent
-//									font.pixelSize: fontsizelist
 									text: qsTr("Remove from Recent")
+									id: removerecent
+									height: (modelData.recent ? menuheight : 0)
+									font.pixelSize: fontsizemenu
 									visible: modelData.recent
 									onTriggered: { removeRecent() }
 //									onClicked: remorse.execute(functionitem, "Removing", removeRecent)
 								}
 								MenuItem
 								{
-									id: deleteuserdefined
-//									font.pixelSize: fontsizelist
 									text: qsTr("Delete User Defined")
+									id: deleteuserdefined
+									height: (modelData.user ? menuheight : 0)
+									font.pixelSize: fontsizemenu
 									visible: modelData.user
 									onTriggered: { deleteUserDefined() }
 //									onClicked: remorse.execute(functionitem, "Deleting", deleteUserDefined)

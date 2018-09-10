@@ -12,11 +12,13 @@ ApplicationWindow
 
 	property int fontsize: (height / (landscape ? 24 : 36))
 	property int fontsizelist: fontsize
+	property int fontsizemenu: fontsize * 1.3
 	property int lineheight: fontsizelist * 1.5
+	property int menuheight: fontsizemenu * 2
 
 	property int buttoncols: 5
 	property int buttonrows: 5
-	property int cornerradius: width / buttoncols / 20
+	property int cornerradius: width / buttoncols / 15
 	property int itemspacing: width / buttoncols / 15
 
 	property alias history: calculator.history
@@ -34,21 +36,22 @@ ApplicationWindow
 		width: parent.width; height: fontsize * 3
 		Rectangle
 		{
-			width: fontsize * 4; height: parent.height
-			color: backgroundcolor
+			width: fontsize * 5; height: parent.height; color: backgroundcolor
 			PageIndicator
 			{
 				id: pageindicator
-				anchors.fill: parent0
-//				verticalCenter: parent.verticalCenter
+				anchors.fill: parent
 				count: swipe.count
 				currentIndex: swipe.currentIndex
-/*
-				onCurrentIndexChanged:
+
+				delegate: Rectangle
 				{
-					swipe.currentIndex = currentIndex
+					implicitWidth: parent.height / 3
+					implicitHeight: parent.height / 3
+					color: (index === pageindicator.currentIndex ? "dimgrey" : "silver")
+					anchors.verticalCenter: parent.verticalCenter
+					radius: width / 2
 				}
-*/
 			}
 		}
 		Rectangle
@@ -86,23 +89,29 @@ ApplicationWindow
 				Menu
 				{
 					id: menu
+					width: window.width / 2
 					y: menuButton.height - itemspacing
-					font.pixelSize: fontsize
 					closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
 
 					MenuItem
 					{
 						text: qsTr("Copy result")
+						height: menuheight
+						font.pixelSize: fontsizemenu
 						onTriggered: { manager.setClipboard(latestResult) }
 					}
 					MenuItem
 					{
 						text: qsTr("Copy expression")
+						height: menuheight
+						font.pixelSize: fontsizemenu
 						onTriggered: { manager.setClipboard(latestExpression + " = " + latestResult) }
 					}
 					MenuItem
 					{
 						text: qsTr("Paste")
+						height: menuheight
+						font.pixelSize: fontsizemenu
 						onTriggered:
 						{
 							var text = editor.text; var pos = editor.cursorPosition
@@ -113,6 +122,8 @@ ApplicationWindow
 					MenuItem
 					{
 						text: qsTr("Clear history")
+						height: menuheight
+						font.pixelSize: fontsizemenu
 						onTriggered:
 						{
 							manager.clearHistory()

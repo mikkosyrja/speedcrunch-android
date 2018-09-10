@@ -5,7 +5,8 @@ Page
 {
 	property int labelwidth: window.width * 2 / 5 - itemspacing
 	property int combowidth: window.width - labelwidth - itemspacing * 2
-	property int comboheight: fontsize * 2.5
+//	property int comboheight: fontsize * 2.5
+	property int comboheight: menuheight
 	property bool initialized: false
 
 	property alias resultformat: resultformatsetting.currentText
@@ -40,6 +41,7 @@ Page
 						"Scientific decimal", "Binary", "Octal", "Hexadecimal" ]
 //					model: [ "General decimal", "Fixed decimal", "Engineering decimal",
 //						"Scientific decimal", "Binary", "Octal", "Hexadecimal", "Sexagesimal" ]
+					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
 					onCurrentIndexChanged:
 					{
 						if ( initialized )
@@ -85,6 +87,7 @@ Page
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
 					model: [ "Automatic", "0", "1", "2", "3", "4", "6", "8", "12", "16", "20" ]
+					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
 					onCurrentIndexChanged:
 					{
 						if ( initialized ) switch ( currentIndex )
@@ -136,6 +139,7 @@ Page
 					font.pixelSize: fontsize
 					model: [ "Degree", "Radian" ]
 //					model: [ "Degree", "Radian", "Gradian" ]
+					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
 					onCurrentIndexChanged:
 					{
 						if ( initialized )
@@ -169,6 +173,7 @@ Page
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
 					model: [ "Disabled", "Cartesian", "Polar" ]
+					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
 					onCurrentIndexChanged:
 					{
 						if ( initialized )
@@ -194,9 +199,6 @@ Page
 				width: combowidth; height: comboheight
 				font.pixelSize: fontsize
 				text: qsTr("Save History on Exit")
-
-//				indicator: Rectangle { radius: cornerradius; color: settingscolor }
-//				CheckBox.background: Rectangle { radius: cornerradius; color: settingscolor }
 				checked: true
 				onCheckedChanged: { manager.setSessionSave(checked) }
 				function setHistorySave(save) { checked = save }
@@ -217,6 +219,7 @@ Page
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
 					model: [ "Small", "Medium", "Large" ]
+					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
 					onCurrentIndexChanged:
 					{
 						if ( initialized )

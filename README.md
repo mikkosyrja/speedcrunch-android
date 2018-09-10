@@ -23,6 +23,9 @@ central page is the calculator itself and rightmost page contains some settings.
 on the upper side of screen switches between pages and swiping on the keyboard switches either
 between pages or between keyboard panes.
 
+Top right menu has functions for copying latest result or expression to clipboard, pasting
+clipboard contents to the expression field and clearing the history list.
+
 #### Function and settings pages
 
 Leftmost page has function list containing all SpeedCrunch engine functions, units, constants and
@@ -51,11 +54,10 @@ At the top of the main calculator page is history list. All calculated expressio
 results are stored there. Pointing history list line inserts result to the expression editing.
 Pointing and holding history line recalls the whole expression for editing.
 
-xxx Below the history list is expression editing field. It can be edited either by calculator key panes
-or standard Sailfish virtual keyboard. Because the expression field is always active, it must be
-pointed twice to activate the Sailfish keyboard.
+Below the history list is expression editing field. It can be edited either by calculator key panes
+or normal virtual keyboard.
 
-Below the expression editor is label field used for function usage parameters and autocalc results.
+xxx Below the expression editor is label field used for function usage parameters and autocalc results.
 
 #### Keyboard and pulley menu
 
@@ -71,9 +73,6 @@ Some keys have secondary function available with long press:
 - Key x produces character y for another variable name
 - Key X= produces (x)= for function definition (foo(x)=)
 - Keys ← and → move cursor to start or end of expression
-
-xxx Bottom pulley menu has functions for copying latest result or expression to clipboard, pasting
-clipboard contents to the expression field and clearing the history list.
 
 For more information, see desktop SpeedCrunch [documentation](http://speedcrunch.org/userguide/index.html).
 

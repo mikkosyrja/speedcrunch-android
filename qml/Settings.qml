@@ -41,7 +41,13 @@ Page
 						"Scientific decimal", "Binary", "Octal", "Hexadecimal" ]
 //					model: [ "General decimal", "Fixed decimal", "Engineering decimal",
 //						"Scientific decimal", "Binary", "Octal", "Hexadecimal", "Sexagesimal" ]
-					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
+					delegate: ItemDelegate
+					{
+						text: modelData;
+						width: parent.width
+						font.pixelSize: fontsize
+						highlighted: ListView.isCurrentItem
+					}
 					onCurrentIndexChanged:
 					{
 						if ( initialized )
@@ -87,7 +93,13 @@ Page
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
 					model: [ "Automatic", "0", "1", "2", "3", "4", "6", "8", "12", "16", "20" ]
-					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
+					delegate: ItemDelegate
+					{
+						text: modelData;
+						width: parent.width
+						font.pixelSize: fontsize
+						highlighted: ListView.isCurrentItem
+					}
 					onCurrentIndexChanged:
 					{
 						if ( initialized ) switch ( currentIndex )
@@ -139,7 +151,13 @@ Page
 					font.pixelSize: fontsize
 					model: [ "Degree", "Radian" ]
 //					model: [ "Degree", "Radian", "Gradian" ]
-					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
+					delegate: ItemDelegate
+					{
+						text: modelData;
+						width: parent.width
+						font.pixelSize: fontsize
+						highlighted: ListView.isCurrentItem
+					}
 					onCurrentIndexChanged:
 					{
 						if ( initialized )
@@ -173,7 +191,13 @@ Page
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
 					model: [ "Disabled", "Cartesian", "Polar" ]
-					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
+					delegate: ItemDelegate
+					{
+						text: modelData;
+						width: parent.width
+						font.pixelSize: fontsize
+						highlighted: ListView.isCurrentItem
+					}
 					onCurrentIndexChanged:
 					{
 						if ( initialized )
@@ -219,7 +243,13 @@ Page
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
 					model: [ "Small", "Medium", "Large" ]
-					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
+					delegate: ItemDelegate
+					{
+						text: modelData;
+						width: parent.width
+						font.pixelSize: fontsize
+						highlighted: ListView.isCurrentItem
+					}
 					onCurrentIndexChanged:
 					{
 						if ( initialized )

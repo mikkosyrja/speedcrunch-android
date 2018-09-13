@@ -55,9 +55,8 @@ results are stored there. Pointing history list line inserts result to the expre
 Pointing and holding history line recalls the whole expression for editing.
 
 Below the history list is expression editing field. It can be edited either by calculator key panes
-or normal virtual keyboard.
-
-xxx Below the expression editor is label field used for function usage parameters and autocalc results.
+or normal virtual keyboard. Popup message above edit field displays current result or possible
+error message.
 
 #### Keyboard and pulley menu
 

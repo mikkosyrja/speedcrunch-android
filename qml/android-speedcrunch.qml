@@ -21,6 +21,7 @@ ApplicationWindow
 	property int cornerradius: width / buttoncols / 15
 	property int itemspacing: width / buttoncols / 15
 
+	property alias functions: functions
 	property alias history: calculator.history
 	property alias editor: calculator.editor
 	property alias keyboard: calculator.keyboard
@@ -119,6 +120,7 @@ ApplicationWindow
 							editor.cursorPosition = pos + value.length
 						}
 					}
+//					MenuSeparator { }
 					MenuItem
 					{
 						text: qsTr("Clear history")

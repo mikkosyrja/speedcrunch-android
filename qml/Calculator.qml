@@ -4,6 +4,7 @@ import QtQuick.Controls 2.3
 Page
 {
 	property int keyboardheight: parent.height * (landscape ? 60 : 45) / 100
+	property string notification: ""
 
 	property alias history: historyview
 	property alias editor: textfield
@@ -118,6 +119,23 @@ Page
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 						placeholderText: "expression"
 						cursorVisible: true
+						ToolTip
+						{
+							parent: textfield
+							x: parent.x
+							font.pixelSize: fontsizelist
+							closePolicy: Popup.NoAutoClose
+							visible: (swipe.currentIndex === 1 && notification !== "" && textfield.text !== "")
+							text: notification
+						}
+						onTextChanged:
+						{
+							var result = manager.autoCalc(text);
+							if ( manager.autoCalc(text) !== "NaN" )
+								notification = "= " + result
+							else
+								notification = manager.getError()
+						}
 						Keys.onReturnPressed: { setDefaultFocus() }
 					}
 					Rectangle
@@ -209,29 +227,11 @@ Page
 		if ( textfield.text !== "" )
 		{
 			var result = manager.calculate(textfield.text)
-			var assign = manager.getAssignId()
 			if ( result === "NaN" )
-			{
-				var error = manager.getError()
-				if ( error.length )
-				{
-//					notification.previewSummary = "Evaluation error"
-//					notification.previewBody = error
-				}
-				else if ( assign.length )
-				{
-					latestExpression = manager.autoFix(textfield.text)
-					latestResult = ""
-					historyview.updateHistory()
-					functions.updateFunctions()
-//					notification.previewSummary = "Function added"
-//					notification.previewBody = ""
-					textfield.text = ""
-				}
-//				notification.publish()
-			}
+				notification = manager.getError()
 			else
 			{
+				var assign = manager.getAssignId()
 				latestExpression = manager.autoFix(textfield.text)
 				latestResult = result
 				historyview.updateHistory()

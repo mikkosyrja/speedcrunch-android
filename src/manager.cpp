@@ -136,14 +136,14 @@ void Manager::saveSession()
 //! Auto calculate expression.
 /*!
 	\param input		Expression.
-	\return				Result string.
+	\return				Result string or NaN for error.
 */
 QString Manager::autoCalc(const QString& input)
 {
 	const QString expression = evaluator->autoFix(input);
 	evaluator->setExpression(expression);
 	Quantity quantity = evaluator->evalNoAssign();
-	if ( quantity.isNan() )
+	if ( quantity.isNan() || !evaluator->error().isEmpty() )
 		return "NaN";
 	return NumberFormatter::format(quantity);
 }
@@ -161,20 +161,22 @@ QString Manager::autoFix(const QString& input)
 //! Calculate expression.
 /*!
 	\param input		Expression.
-	\return				Result string.
+	\return				Result string or NaN for error.
 */
 QString Manager::calculate(const QString& input)
 {
-	const QString expression = evaluator->autoFix(input);
+	QString expression = evaluator->autoFix(input);
 	evaluator->setExpression(expression);
 	Quantity quantity = evaluator->evalUpdateAns();
+	if ( !evaluator->error().isEmpty() )
+		return "NaN";
 	if ( quantity.isNan() )
 	{
 		if ( evaluator->isUserFunctionAssign() )
 		{
 			updateRecent(evaluator->getAssignId() + "()");
-			if ( evaluator->error().isEmpty() )
-				session->addHistoryEntry(HistoryEntry(expression, quantity));
+			session->addHistoryEntry(HistoryEntry(expression, quantity));
+			return "0";
 		}
 		return "NaN";
 	}
@@ -196,6 +198,8 @@ QString Manager::getError()
 {
 	QString error = evaluator->error();
 	error.remove("<b>").remove("</b>");
+	if ( error.isEmpty() && !evaluator->isValid() )
+		error = "compile error";
 	return error;
 }
 

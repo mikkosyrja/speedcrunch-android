@@ -32,7 +32,13 @@ Page
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
 					model: [ "All", "Functions", "Units", "Constants", "User defined" ]
-					delegate: ItemDelegate { text: modelData; font.pixelSize: fontsize }
+					delegate: ItemDelegate
+					{
+						text: modelData;
+						width: parent.width
+						font.pixelSize: fontsize
+						highlighted: ListView.isCurrentItem
+					}
 					onCurrentIndexChanged:
 					{
 						if ( currentIndex == 0 ) { filtertype = "a" }
@@ -139,8 +145,8 @@ Page
 									functionlist.currentIndex = -1
 									if ( popupmenu.opened )
 										popupmenu.close()
-									else if ( acceptclic )
-										insert()
+//									else if ( acceptclic )
+//										insert()
 								}
 								onPressed:
 								{

@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 
 Page
 {
-	property int keyboardheight: parent.height * (landscape ? 60 : 45) / 100
+	property int keyboardheight: parent.height * (landscape ? 50 : 45) / 100
 	property string notification: ""
 
 	property alias history: historyview
@@ -152,7 +152,7 @@ Page
 						MouseArea
 						{
 							id: cleararea
-							anchors { fill: parent }
+							anchors.fill: parent
 							onClicked: { textfield.text = "" }
 						}
 					}
@@ -171,6 +171,14 @@ Page
 				id: keyboard
 				width: parent.width; height: keyboardheight
 			}
+/*
+			Rectangle
+			{
+				width: parent.width; height: keyboardheight
+				Keyboard { id: keyboard; anchors.fill: parent }
+//				Landscape { id: keyboard; anchors.fill: parent }
+			}
+*/
 			Component.onCompleted: { historyviewtimer.start() }
 		}
 	}

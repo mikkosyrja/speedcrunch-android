@@ -6,6 +6,7 @@
 	<file>qml/Calculator.qml</file>
 	<file>qml/Functions.qml</file>
 	<file>qml/Keyboard.qml</file>
+	<file>qml/Landscape.qml</file>
 	<file>qml/Settings.qml</file>
 	<file>qml/back.png</file>
 	<file>qml/clear.png</file>

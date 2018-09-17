@@ -5,7 +5,8 @@ unit conversions, radix systems, complex numbers and user defined variables.
 
 Android port of [SpeedCrunch](http://speedcrunch.org) calculator.
 
-User interface based on the original Sailfish port by @qwazix.
+User interface is based on the original Sailfish port by @qwazix. Current sailfish version is
+available in [openrepos.net](https://openrepos.net/content/syrja/speedcrunch)
 
 Features:
 - Calculations with up to 50 digits of precision
@@ -33,11 +34,10 @@ user defined items. Topmost filter list selection can be used to show only built
 units, constants or user defined variables and functions. Search field below it performs additional
 filtering by name.
 
-Pointing list item inserts it to the expression editing field and activates the main calculator
-page. Long press opens context menu with options. First context menu item displays list item
+Long press on list item opens context menu with options. First menu item displays list item
 content. For functions it is usage with parameter names. For constants and variables it is value
-and for units it is just unit name. Selecting first item performs same inserting as list item
-pointing.
+and for units it is just unit name. Selecting it inserts item to the expression editing field and
+activates the main calculator page.
 
 Used items are collected to recent item stack and displayed at the top of the list with bold font.
 Newly created user variables and functions are automatically considered recently used. Other items
@@ -45,8 +45,9 @@ come after them in alphabetical order. Recent item stack size is not currently l
 menu items has additional context menu item for removing them from the recent stack. Also, user
 defined functions and variables have context menu item for deleting them.
 
-Rightmost page contains some settings. These are same as desktop version settings and mostly
-self-explanatory. Note that user defined variables and functions are saved with the history list.
+Rightmost page contains some settings. These are mostly same as desktop version settings and more
+or less self-explanatory. Note that user defined variables and functions are saved with the history
+list.
 
 #### Expression editing and history list
 
@@ -55,8 +56,8 @@ results are stored there. Pointing history list line inserts result to the expre
 Pointing and holding history line recalls the whole expression for editing.
 
 Below the history list is expression editing field. It can be edited either by calculator key panes
-or normal virtual keyboard. Popup message above edit field displays current result or possible
-error message.
+or normal virtual keyboard. Popup message above edit field displays current result or error
+message.
 
 #### Keyboard and pulley menu
 

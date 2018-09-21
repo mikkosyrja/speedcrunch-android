@@ -112,15 +112,13 @@ Page
 
 					id: functionlist
 					anchors.fill: parent
-					highlight: highlight
-					highlightFollowsCurrentItem: false
+					highlight: highlight; highlightFollowsCurrentItem: false
 					model: { eval(manager.getFunctions(searchfield.text, filtertype, updatemodel)) }
 					delegate: Component
 					{
 						Item
 						{
 							id: functionitem
-//							RemorseItem { id: remorse }
 							width: parent.width; height: lineheight
 							Text
 							{
@@ -142,11 +140,14 @@ Page
 								}
 								onClicked:
 								{
-									functionlist.currentIndex = -1
-									if ( popupmenu.opened )
-										popupmenu.close()
-//									else if ( acceptclic )
-//										insert()
+									if ( oneclickinsert )
+										insertitem()
+									else
+									{
+										functionlist.currentIndex = -1
+										if ( popupmenu.opened )
+											popupmenu.close()
+									}
 								}
 								onPressed:
 								{
@@ -175,39 +176,32 @@ Page
 							{
 								id: popupmenu
 								modal: true
-								y: functionitem.height
-								width: parent.width
+								y: functionitem.height; width: parent.width
 								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
 
 								MenuItem
 								{
-									text: modelData.label;
-									height: menuheight
-									font.pixelSize: fontsizemenu
-									onClicked: insert()
+									text: qsTr("Insert: ") + modelData.label;
+									height: menuheight; font.pixelSize: fontsizemenu
+									onTriggered: insertitem()
 								}
 								MenuItem
 								{
 									text: qsTr("Remove from Recent")
 									id: removerecent
 									height: (modelData.recent ? menuheight : 0)
-									font.pixelSize: fontsizemenu
-									visible: modelData.recent
+									font.pixelSize: fontsizemenu; visible: modelData.recent
 									onTriggered: { removeRecent() }
-//									onClicked: remorse.execute(functionitem, "Removing", removeRecent)
 								}
 								MenuItem
 								{
 									text: qsTr("Delete User Defined")
 									id: deleteuserdefined
 									height: (modelData.user ? menuheight : 0)
-									font.pixelSize: fontsizemenu
-									visible: modelData.user
+									font.pixelSize: fontsizemenu; visible: modelData.user
 									onTriggered: { deleteUserDefined() }
-//									onClicked: remorse.execute(functionitem, "Deleting", deleteUserDefined)
 								}
 							}
-
 							function removeRecent()
 							{
 								manager.removeRecent(modelData.name)
@@ -219,7 +213,7 @@ Page
 								manager.clearVariable(modelData.value)
 								updateFunctions()
 							}
-							function insert()
+							function insertitem()
 							{
 								var value = modelData.value
 								var text = editor.text
@@ -227,10 +221,7 @@ Page
 								editor.text = text.substring(0, pos) + value + text.substring(pos, text.length)
 								editor.cursorPosition = pos + value.length
 								if ( modelData.usage !== "" )
-								{
-//									editor.label = modelData.usage
 									editor.cursorPosition--
-								}
 								if ( manager.updateRecent(modelData.name) )
 									needsupdate = true
 								swipe.currentIndex = 1

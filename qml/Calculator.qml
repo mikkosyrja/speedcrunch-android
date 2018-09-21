@@ -15,6 +15,12 @@ Page
 		anchors.fill: parent
 		color: backgroundcolor
 
+		Timer
+		{
+			id: historytimer
+			interval: 250; running: false; repeat: false
+			onTriggered: { historyview.updateHistory() }
+		}
 		Column
 		{
 			anchors.fill: parent
@@ -24,7 +30,7 @@ Page
 				width: parent.width; height: parent.height - keyboard.height - editrow.height
 				color: backgroundcolor
 				clip: true
-/*
+
 				Component
 				{
 					id: highlight
@@ -33,38 +39,106 @@ Page
 						width: parent.width; height: lineheight
 						color: "lightsteelblue"; radius: cornerradius
 						y: historyview.currentItem.y
-//						visible: false
 					}
 				}
-*/
 				ListView
 				{
 					property int updatehistory: 0
 
 					id: historyview
 					anchors { fill: parent; margins: itemspacing }
-//					highlight: highlight
-//					highlightFollowsCurrentItem: false
+					highlight: highlight; highlightFollowsCurrentItem: false
 					model: { eval(manager.getHistory(updatehistory)) }
 					delegate: Component
 					{
 						Item
 						{
-							id: resultitem
+							id: historyitem
 							width: parent.width; height: lineheight
 							Text
 							{
 								anchors.verticalCenter: parent.verticalCenter
 								text: modelData.expression + " = " + modelData.value
-								font { pixelSize: fontsizelist; weight: (historyview.currentItem == resultitem ? Font.Bold: Font.Light) }
+								font { pixelSize: fontsizelist; weight: (index === historyview.count - 1 ? Font.Bold: Font.Light) }
 							}
 							MouseArea
 							{
+								property bool acceptclic: false
+
 								anchors.fill: parent
-								onClicked: insert()
-								onPressAndHold: { textfield.text = modelData.expression }
+
+								Timer
+								{
+									id: highlighttimer
+									interval: 100; running: false; repeat: false
+									onTriggered: { historyview.currentIndex = index }
+								}
+								onClicked:
+								{
+									if ( oneclickinsert )
+										insertitem()
+									else
+									{
+										historyview.currentIndex = -1
+										if ( popupmenu.opened )
+											popupmenu.close()
+									}
+								}
+								onPressed:
+								{
+									acceptclic = true
+									highlighttimer.start()
+									Qt.inputMethod.hide()
+								}
+								onPositionChanged:
+								{
+									acceptclic = false
+									highlighttimer.stop()
+									historyview.currentIndex = -1
+								}
+								onReleased:
+								{
+									highlighttimer.stop()
+									historyview.currentIndex = -1
+								}
+								onPressAndHold:
+								{
+									historyview.currentIndex = -1
+									popupmenu.open()
+								}
 							}
-							function insert()
+							Menu
+							{
+								id: popupmenu
+								modal: true
+								y: historyitem.height; width: parent.width
+								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
+
+								MenuItem
+								{
+									text: "Insert: " + modelData.value;
+									height: menuheight; font.pixelSize: fontsizemenu
+									onTriggered: insertitem()
+								}
+								MenuItem
+								{
+									text: "Edit: " + modelData.expression
+									height: menuheight; font.pixelSize: fontsizemenu
+									onTriggered: { textfield.text = modelData.expression }
+								}
+								MenuItem
+								{
+									text: "Remove from history"
+									height: menuheight; font.pixelSize: fontsizemenu
+									onTriggered: removeHistory()
+								}
+							}
+							function removeHistory()
+							{
+								manager.clearHistory(index)
+								historyview.updateHistory()
+							}
+							function insertitem()
 							{
 								var text = textfield.text
 								var pos = textfield.cursorPosition
@@ -73,30 +147,15 @@ Page
 							}
 						}
 					}
-					Timer
-					{
-						id: historyviewtimer
-						interval: 50; running: false; repeat: false
-						onTriggered:
-						{
-							historyview.positionViewAtEnd()
-							historyview.currentIndex = count - 1
-						}
-					}
-
-					onCountChanged:
-					{
-						historyview.positionViewAtEnd()
-						currentIndex = count - 1
-					}
 					function updateHistory()
 					{
 						updatehistory++
-						currentIndex = count - 1
+						currentIndex = -1
 						positionViewAtEnd()
 						manager.saveSession()
 					}
 				}
+				Component.onCompleted: { historyview.currentIndex = -1 }
 			}
 			Rectangle
 			{
@@ -179,7 +238,7 @@ Page
 //				Landscape { id: keyboard; anchors.fill: parent }
 			}
 */
-			Component.onCompleted: { historyviewtimer.start() }
+			Component.onCompleted: { historytimer.start() }
 		}
 	}
 	footer: Row

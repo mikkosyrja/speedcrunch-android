@@ -9,6 +9,7 @@ ApplicationWindow
 	property string backgroundcolor: "lightGray"
 	property string settingscolor: "silver"
 	property bool landscape: height < width
+	property bool oneclickinsert: false
 
 	property int fontsize: (height / (landscape ? 24 : 36))
 	property int fontsizelist: fontsize
@@ -131,7 +132,7 @@ ApplicationWindow
 						font.pixelSize: fontsizemenu
 						onTriggered:
 						{
-							manager.clearHistory()
+							manager.clearHistory(-1)
 							history.updateHistory()
 						}
 					}

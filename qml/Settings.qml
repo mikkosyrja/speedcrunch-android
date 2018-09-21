@@ -227,6 +227,16 @@ Page
 				onCheckedChanged: { manager.setSessionSave(checked) }
 				function setHistorySave(save) { checked = save }
 			}
+			CheckBox
+			{
+				id: clickinsertsetting
+				width: combowidth; height: comboheight
+				font.pixelSize: fontsize
+				text: qsTr("One Click Insert")
+				checked: true
+				onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
+				function setClickInsert(click) { oneclickinsert = click; checked = click }
+			}
 			Row
 			{
 				Label
@@ -288,6 +298,7 @@ Page
 			angleunitsetting.setAngleUnit(manager.getAngleUnit())
 			complexnumbersetting.setComplexNumber(manager.getComplexNumber())
 			historysavesetting.setHistorySave(manager.getSessionSave())
+			clickinsertsetting.setClickInsert(manager.getClickInsert())
 			fontsizesetting.setFontSize(manager.getFontSize())
 			keyboard.setButtonLabels()
 			initialized = true;

@@ -77,8 +77,7 @@ OTHER_FILES += \
 	qml/Calculator.qml \
 	qml/Functions.qml \
 	qml/Keyboard.qml \
-	qml/Settings.qml \
-	rpm/android-speedcrunch.yaml
+	qml/Settings.qml
 
 HEADERS += \
 	math/floatcommon.h \

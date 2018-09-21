@@ -23,7 +23,6 @@ Button
 		visible: image.length
 		source: image
 	}
-
 	function insertValue(value)
 	{
 		var pos = textfield.cursorPosition
@@ -39,7 +38,6 @@ Button
 		if ( value.slice(-2) === "()" )
 			textfield.cursorPosition--
 	}
-
 	onClicked:
 	{
 		if ( special )

@@ -6,7 +6,6 @@ Rectangle
 /*
 	property int buttonwidth: button1.width
 	property int buttonheight: button1.height
-
 	property int swipecount: 1
 	property int swipeindex: 0
 

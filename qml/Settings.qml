@@ -16,12 +16,10 @@ Page
 	{
 		anchors.fill: parent
 		color: backgroundcolor
-
 		Column
 		{
 			anchors { fill: parent; margins: itemspacing }
 			spacing: itemspacing
-
 			Row
 			{
 				Label
@@ -37,8 +35,8 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ "General decimal", "Fixed decimal", "Engineering decimal",
-						"Scientific decimal", "Binary", "Octal", "Hexadecimal" ]
+					model: [ qsTr("General decimal"), qsTr("Fixed decimal"), qsTr("Engineering decimal"),
+						qsTr("Scientific decimal"), qsTr("Binary"), qsTr("Octal"), qsTr("Hexadecimal") ]
 //					model: [ "General decimal", "Fixed decimal", "Engineering decimal",
 //						"Scientific decimal", "Binary", "Octal", "Hexadecimal", "Sexagesimal" ]
 					delegate: ItemDelegate
@@ -92,7 +90,7 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ "Automatic", "0", "1", "2", "3", "4", "6", "8", "12", "16", "20" ]
+					model: [ qsTr("Automatic"), "0", "1", "2", "3", "4", "6", "8", "12", "16", "20" ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -149,7 +147,7 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ "Degree", "Radian" ]
+					model: [ qsTr("Degree"), qsTr("Radian") ]
 //					model: [ "Degree", "Radian", "Gradian" ]
 					delegate: ItemDelegate
 					{
@@ -190,7 +188,7 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ "Disabled", "Cartesian", "Polar" ]
+					model: [ qsTr("Disabled"), qsTr("Cartesian"), qsTr("Polar") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -252,7 +250,7 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ "Small", "Medium", "Large" ]
+					model: [ qsTr("Small"), qsTr("Medium"), qsTr("Large") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -304,7 +302,6 @@ Page
 			initialized = true;
 		}
 	}
-
 	function setGlobalFontSize(size)
 	{
 		if ( size === "s" ) fontsizelist = fontsize

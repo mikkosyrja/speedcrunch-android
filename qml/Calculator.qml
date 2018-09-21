@@ -14,7 +14,6 @@ Page
 	{
 		anchors.fill: parent
 		color: backgroundcolor
-
 		Timer
 		{
 			id: historytimer
@@ -24,13 +23,11 @@ Page
 		Column
 		{
 			anchors.fill: parent
-
 			Rectangle
 			{
 				width: parent.width; height: parent.height - keyboard.height - editrow.height
 				color: backgroundcolor
 				clip: true
-
 				Component
 				{
 					id: highlight
@@ -44,7 +41,6 @@ Page
 				ListView
 				{
 					property int updatehistory: 0
-
 					id: historyview
 					anchors { fill: parent; margins: itemspacing }
 					highlight: highlight; highlightFollowsCurrentItem: false
@@ -64,9 +60,7 @@ Page
 							MouseArea
 							{
 								property bool acceptclic: false
-
 								anchors.fill: parent
-
 								Timer
 								{
 									id: highlighttimer
@@ -113,22 +107,21 @@ Page
 								modal: true
 								y: historyitem.height; width: parent.width
 								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
-
 								MenuItem
 								{
-									text: "Insert: " + modelData.value;
+									text: qsTr("Insert: ") + modelData.value;
 									height: menuheight; font.pixelSize: fontsizemenu
 									onTriggered: insertitem()
 								}
 								MenuItem
 								{
-									text: "Edit: " + modelData.expression
+									text: qsTr("Edit: ") + modelData.expression
 									height: menuheight; font.pixelSize: fontsizemenu
 									onTriggered: { textfield.text = modelData.expression }
 								}
 								MenuItem
 								{
-									text: "Remove from history"
+									text: qsTr("Remove from history")
 									height: menuheight; font.pixelSize: fontsizemenu
 									onTriggered: removeHistory()
 								}
@@ -176,7 +169,7 @@ Page
 						background: Rectangle { radius: cornerradius; color: settingscolor }
 						font.pixelSize: fontsize
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
-						placeholderText: "expression"
+						placeholderText: qsTr("expression")
 						cursorVisible: true
 						ToolTip
 						{
@@ -253,7 +246,6 @@ Page
 				anchors.fill: parent
 				count: keyboard.swipecount
 				currentIndex: keyboard.swipeindex
-
 				delegate: Rectangle
 				{
 					implicitWidth: parent.height * 0.8
@@ -288,7 +280,6 @@ Page
 			}
 		}
 	}
-
 	function evaluate()
 	{
 		if ( textfield.text !== "" )
@@ -308,7 +299,6 @@ Page
 			}
 		}
 	}
-
 	function setDefaultFocus()
 	{
 		Qt.inputMethod.hide()

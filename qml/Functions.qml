@@ -10,12 +10,10 @@ Page
 	{
 		anchors.fill: parent
 		color: backgroundcolor
-
 		Column
 		{
 			anchors { fill: parent; margins: itemspacing }
 			spacing: itemspacing
-
 			Row
 			{
 				Label
@@ -31,7 +29,7 @@ Page
 					width: settings.combowidth; height: settings.comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ "All", "Functions", "Units", "Constants", "User defined" ]
+					model: [ qsTr("All"), qsTr("Functions"), qsTr("Units"), qsTr("Constants"), qsTr("User defined") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -58,7 +56,6 @@ Page
 				{
 					anchors { left: parent.left; right: parent.right }
 					spacing: itemspacing
-
 					TextField
 					{
 						id: searchfield
@@ -95,7 +92,6 @@ Page
 				width: parent.width; height: parent.height - filtersetting.height - searchrow.height
 				color: backgroundcolor
 				clip: true
-
 				Component
 				{
 					id: highlight
@@ -109,7 +105,6 @@ Page
 				ListView
 				{
 					property int updatemodel: 0
-
 					id: functionlist
 					anchors.fill: parent
 					highlight: highlight; highlightFollowsCurrentItem: false
@@ -129,9 +124,7 @@ Page
 							MouseArea
 							{
 								property bool acceptclic: false
-
 								anchors.fill: parent
-
 								Timer
 								{
 									id: highlighttimer
@@ -178,7 +171,6 @@ Page
 								modal: true
 								y: functionitem.height; width: parent.width
 								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
-
 								MenuItem
 								{
 									text: qsTr("Insert: ") + modelData.label;
@@ -235,7 +227,6 @@ Page
 			Component.onCompleted: { functionlist.currentIndex = -1 }
 		}
 	}
-
 	function updateFunctions()
 	{
 		functionlist.updatemodel++
@@ -243,7 +234,6 @@ Page
 		functionlist.currentIndex = -1
 		manager.saveSession()
 	}
-
 	function setDefaultFocus()
 	{
 		Qt.inputMethod.hide()

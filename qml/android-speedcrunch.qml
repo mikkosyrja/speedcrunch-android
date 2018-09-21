@@ -47,7 +47,6 @@ ApplicationWindow
 				anchors.fill: parent
 				count: swipe.count
 				currentIndex: swipe.currentIndex
-
 				delegate: Rectangle
 				{
 					implicitWidth: parent.height / 3
@@ -94,29 +93,24 @@ ApplicationWindow
 				{
 					id: menu
 					width: window.width / 2
-					x: window.width / 2
-					y: menuButton.height - itemspacing
+					x: window.width / 2; y: menuButton.height - itemspacing
 					closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
-
 					MenuItem
 					{
 						text: qsTr("Copy result")
-						height: menuheight
-						font.pixelSize: fontsizemenu
+						height: menuheight; font.pixelSize: fontsizemenu
 						onTriggered: { manager.setClipboard(latestResult) }
 					}
 					MenuItem
 					{
 						text: qsTr("Copy expression")
-						height: menuheight
-						font.pixelSize: fontsizemenu
+						height: menuheight; font.pixelSize: fontsizemenu
 						onTriggered: { manager.setClipboard(latestExpression + " = " + latestResult) }
 					}
 					MenuItem
 					{
 						text: qsTr("Paste")
-						height: menuheight
-						font.pixelSize: fontsizemenu
+						height: menuheight; font.pixelSize: fontsizemenu
 						onTriggered:
 						{
 							var text = editor.text; var pos = editor.cursorPosition
@@ -140,17 +134,14 @@ ApplicationWindow
 			}
 		}
 	}
-
 	SwipeView
 	{
 		id: swipe
 		anchors.fill: parent
 		currentIndex: 1
-
 		Functions { id: functions }
 		Calculator { id: calculator }
 		Settings { id: settings }
-
 		onCurrentIndexChanged:
 		{
 			if ( currentIndex == 0 )

@@ -5,31 +5,26 @@ Rectangle
 {
 	property int buttonwidth: button1.width
 	property int buttonheight: button1.height
-
 	property int swipecount: swipe.count
 	property int swipeindex: swipe.currentIndex
 
 	id: keyboard
 	clip: true
-
 	SwipeView
 	{
 		id: swipe
 		anchors.fill: parent
-
 		Page
 		{
 			Rectangle
 			{
 				anchors.fill: parent
 				color: backgroundcolor
-
 				Grid
 				{
 					anchors { fill: parent; margins: itemspacing }
 					columns: buttoncols
 					spacing: itemspacing
-
 					CalcButton { id: button7; text: "7" } CalcButton { id: button8; text: "8" }
 					CalcButton { id: button9; text: "9"; value: "9"; secondary: "j" }
 					CalcButton { text: "/" } CalcButton { text: "x²"; value: "^2" }
@@ -44,7 +39,6 @@ Rectangle
 					CalcButton { text: "0" } CalcButton { text: "." } CalcButton { text: ";" } CalcButton { text: "+" }
 					// long press: 0 -> °(degree), . -> '(minute), ; -> :(minute), where to put "(second)?
 					CalcButton { id: buttonbase; text: "0x"; value: "0x"; secondary: "0b"  }
-
 					CalcButton { text: "(" } CalcButton { text: ")" }
 					CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
 					CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
@@ -58,35 +52,28 @@ Rectangle
 				}
 			}
 		}
-
 		Page
 		{
 			Rectangle
 			{
 				anchors.fill: parent
 				color: backgroundcolor
-
 				Grid
 				{
 					anchors { fill: parent; margins: itemspacing }
 					columns: buttoncols
 					spacing: itemspacing
-
 					CalcButton { text: "sin"; value: "sin()" } CalcButton { text: "cos"; value: "cos()" }
 					CalcButton { text: "tan"; value: "tan()" } CalcButton { text: "ln"; value: "ln()" }
 					CalcButton { text: "Xⁿ"; value:"^" }
-
 					CalcButton { text: "asin"; value: "arcsin()" } CalcButton { text: "acos"; value: "arccos()" }
 					CalcButton { text: "atan"; value: "arctan()" } CalcButton { text: "exp"; value: "exp()" }
 					CalcButton { image: "cuberoot.png"; value:"cbrt()" }
 //					CalcButton { text: "∛"; value:"cbrt()" }
-
 					CalcButton { text: "π"; value: "pi" } CalcButton { text: "e" } CalcButton { text: "x"; secondary: "y" }
 					CalcButton { text: "X="; value: "="; secondary: "(x)=" } CalcButton { text: "!" }
-
 					CalcButton { text: "&&" } CalcButton { text: "|" } CalcButton { text: "<<" } CalcButton { text: ">>" }
 					CalcButton { text: "➔"; value: "->" }
-
 					CalcButton { text: "(" } CalcButton { text: ")" }
 					CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
 					CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
@@ -101,7 +88,6 @@ Rectangle
 			}
 		}
 	}
-
 	function setButtonLabels()
 	{
 		var format = manager.getResultFormat()
@@ -125,4 +111,3 @@ Rectangle
 			button9.text = "9"
 	}
 }
-

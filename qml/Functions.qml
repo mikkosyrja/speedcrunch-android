@@ -107,6 +107,7 @@ Page
 					property int updatemodel: 0
 					id: functionlist
 					anchors.fill: parent
+					snapMode: "SnapOneItem"
 					highlight: highlight; highlightFollowsCurrentItem: false
 					model: { eval(manager.getFunctions(searchfield.text, filtertype, updatemodel)) }
 					delegate: Component
@@ -170,7 +171,7 @@ Page
 								id: popupmenu
 								modal: true
 								y: functionitem.height; width: parent.width
-								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
+								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutside
 								MenuItem
 								{
 									text: qsTr("Insert: ") + modelData.label;

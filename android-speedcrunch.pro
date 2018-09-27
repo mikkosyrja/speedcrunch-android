@@ -71,14 +71,6 @@ SOURCES += \
 	core/sessionhistory.cpp \
 	math/cnumberparser.cpp
 
-OTHER_FILES += \
-	qml/android-speedcrunch.qml \
-	qml/CalcButton.qml \
-	qml/Calculator.qml \
-	qml/Functions.qml \
-	qml/Keyboard.qml \
-	qml/Settings.qml
-
 HEADERS += \
 	math/floatcommon.h \
 	math/floatconfig.h \
@@ -121,24 +113,35 @@ HEADERS += \
 DISTFILES += \
 	CHANGELOG.md \
 	README.md \
+	qml/android-speedcrunch.qml \
 	qml/BackSpace.qml \
 	qml/CalcButton.qml \
 	qml/Functions.qml \
 	qml/Calculator.qml \
 	qml/Settings.qml \
 	qml/Keyboard.qml \
-    qml/pages/cuberoot.svg \
-    qml/pages/back.svg \
-    android/AndroidManifest.xml \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
-    android/res/values/libs.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat \
-    qml/Landscape.qml
+	qml/Landscape.qml \
+	icons/android-speedcrunch.svg \
+	icons/back.svg \
+	icons/clear.svg \
+	icons/cuberoot.svg \
+	android/AndroidManifest.xml \
+	android/gradle/wrapper/gradle-wrapper.jar \
+	android/gradlew \
+	android/res/values/libs.xml \
+	android/build.gradle \
+	android/gradle/wrapper/gradle-wrapper.properties \
+	android/gradlew.bat \
+	translations/android-speedcrunch-fi.ts
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+	translations.qrc
+
+lupdate_only{
+SOURCES += qml/*.qml
+}
+
+TRANSLATIONS += translations/android-speedcrunch-fi.ts
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

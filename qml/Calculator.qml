@@ -43,6 +43,7 @@ Page
 					property int updatehistory: 0
 					id: historyview
 					anchors { fill: parent; margins: itemspacing }
+					snapMode: "SnapOneItem"
 					highlight: highlight; highlightFollowsCurrentItem: false
 					model: { eval(manager.getHistory(updatehistory)) }
 					delegate: Component
@@ -106,7 +107,7 @@ Page
 								id: popupmenu
 								modal: true
 								y: historyitem.height; width: parent.width
-								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
+								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutside
 								MenuItem
 								{
 									text: qsTr("Insert: ") + modelData.value;

@@ -25,6 +25,7 @@
 #include <QStringList>
 #include <QDebug>
 #include <QClipboard>
+#include <QTranslator>
 
 #include "core/evaluator.h"
 #include "core/settings.h"
@@ -78,11 +79,13 @@ public:
 
 private:
 	bool checkRecent(const QString& name) const;
+	QString& translate(const char* context, QString& name) const;
 
 	Session* session;						//!< Current session.
 	Evaluator* evaluator;					//!< Expression evaluator.
 	Settings* settings;						//!< Settings storage.
 	QClipboard* clipboard;					//!< System clipboard.
+	QTranslator translator;					//!< Language translator.
 
 	QStringList recent;						//!< Recent functions.
 	QStringList identifiers;				//!< Function identifiers.

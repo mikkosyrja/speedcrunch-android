@@ -1,5 +1,6 @@
 <RCC>
-	<qresource prefix="/">
-	<file>translations/android-speedcrunch-fi.qm</file>
-	</qresource>
+    <qresource prefix="/">
+        <file>locale/speedcrunch.fi.qm</file>
+        <file>translations/android-speedcrunch.fi.qm</file>
+    </qresource>
 </RCC>

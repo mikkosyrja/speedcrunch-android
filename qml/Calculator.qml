@@ -184,7 +184,7 @@ Page
 						onTextChanged:
 						{
 							var result = manager.autoCalc(text);
-							if ( manager.autoCalc(text) !== "NaN" )
+							if ( result !== "NaN" )
 								notification = "= " + result
 							else
 								notification = manager.getError()

@@ -47,8 +47,9 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	DMath::complexMode = settings->complexNumbers;
 
 	QDir directory;		// configuration path
+
 	QString configpath = Settings::getConfigPath();
-	directory.mkpath(configpath);
+	directory.mkpath(configpath);	// /data/data/org.syrja.speedcrunch/files/settings/libandroid-speedcrunch.so
 
 	if ( settings->sessionSave )
 	{
@@ -82,7 +83,14 @@ Manager::Manager(QObject* parent) : QObject(parent)
 
 	clipboard = QGuiApplication::clipboard();
 
-//	translator.load("/usr/share/harbour-speedcrunch/locale/speedcrunch-fi");
+	QLocale locale;
+	if ( uiTranslator.load(locale, ":/translations/android-speedcrunch.") )
+		QGuiApplication::installTranslator(&uiTranslator);
+	if ( engineTranslator.load(locale, ":/locale/speedcrunch.") )
+		QGuiApplication::installTranslator(&engineTranslator);
+
+	FunctionRepo::instance()->retranslateText();
+	Constants::instance()->retranslateText();
 
 	identifiers = FunctionRepo::instance()->getIdentifiers();
 	for ( int index = 0; index < identifiers.count(); ++index )
@@ -250,11 +258,10 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 		if ( filter.isEmpty() || function->name().contains(filter, Qt::CaseInsensitive)
 			|| function->identifier().contains(filter, Qt::CaseInsensitive) )
 		{
-			QString name = function->name();
 			QString usage = function->identifier() + "(" + function->usage() + ")";
 			usage.remove("<sub>").remove("</sub>");
 			result += "{value:\"" + function->identifier() + "()\""
-				+ ",name:\"" + translate("FunctionRepo", name) + "\",usage:\"" + usage
+				+ ",name:\"" + function->name() + "\",usage:\"" + usage
 				+ "\",label:\"" + usage + "\",user:false," + "recent:" + (recent ? "true" : "false") + "},";
 		}
 	};
@@ -294,8 +301,7 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 		if ( filter.isEmpty() || constant.value.contains(filter, Qt::CaseInsensitive)
 			|| constant.name.contains(filter, Qt::CaseInsensitive))
 		{
-			QString name = constant.name;
-			result += "{value:\"" + constant.value + "\",name:\"" + translate("Constants", name)
+			result += "{value:\"" + constant.value + "\",name:\"" + constant.name
 				+ "\",usage:\"\",label:\"" + constant.value + "\",user:false,"
 				+ "recent:" + (recent ? "true" : "false") + "},";
 		}
@@ -706,16 +712,3 @@ bool Manager::checkRecent(const QString& name) const
 	}
 	return false;
 }
-
-//
-QString& Manager::translate(const char* context, QString& name) const
-{
-	if ( !translator.isEmpty() )
-	{
-		QString text = translator.translate(context, name.toStdString().c_str());
-		if ( !text.isEmpty() )
-			name = text;
-	}
-	return name;
-}
-

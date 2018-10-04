@@ -21,8 +21,8 @@
 #include <QtQuick>
 #endif
 
-#include "engine/core/evaluator.h"
-#include "engine/manager.h"
+#include "core/evaluator.h"
+#include "manager.h"
 
 #include <QQmlContext>
 #include <QGuiApplication>

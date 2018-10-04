@@ -79,13 +79,14 @@ public:
 
 private:
 	bool checkRecent(const QString& name) const;
-	QString& translate(const char* context, QString& name) const;
 
 	Session* session;						//!< Current session.
 	Evaluator* evaluator;					//!< Expression evaluator.
 	Settings* settings;						//!< Settings storage.
 	QClipboard* clipboard;					//!< System clipboard.
-	QTranslator translator;					//!< Language translator.
+
+	QTranslator uiTranslator;				//!< UI translator.
+	QTranslator engineTranslator;			//!< Engine translator.
 
 	QStringList recent;						//!< Recent functions.
 	QStringList identifiers;				//!< Function identifiers.

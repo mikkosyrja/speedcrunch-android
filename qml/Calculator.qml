@@ -110,19 +110,19 @@ Page
 								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutside
 								MenuItem
 								{
-									text: qsTr("Insert: ") + modelData.value;
+									text: qsTrId("id-insert-item") + modelData.value;
 									height: menuheight; font.pixelSize: fontsizemenu
 									onTriggered: insertitem()
 								}
 								MenuItem
 								{
-									text: qsTr("Edit: ") + modelData.expression
+									text: qsTrId("id-edit-item") + modelData.expression
 									height: menuheight; font.pixelSize: fontsizemenu
 									onTriggered: { textfield.text = modelData.expression }
 								}
 								MenuItem
 								{
-									text: qsTr("Remove from history")
+									text: qsTrId("id-remove-from-history")
 									height: menuheight; font.pixelSize: fontsizemenu
 									onTriggered: removeHistory()
 								}
@@ -170,7 +170,7 @@ Page
 						background: Rectangle { radius: cornerradius; color: settingscolor }
 						font.pixelSize: fontsize
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
-						placeholderText: qsTr("expression")
+						placeholderText: qsTrId("id-expression")
 						cursorVisible: true
 						ToolTip
 						{

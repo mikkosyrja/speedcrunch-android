@@ -134,7 +134,11 @@ DISTFILES += \
 	android/build.gradle \
 	android/gradle/wrapper/gradle-wrapper.properties \
 	android/gradlew.bat \
-    translations/android-speedcrunch.fi.ts
+    translations/android-speedcrunch.fi.ts \
+    translations/android-speedcrunch.en.ts \
+    CHANGELOG.md \
+    lrelease.sh \
+    lupdate.sh
 
 RESOURCES += qml.qrc \
 	translations.qrc
@@ -143,7 +147,11 @@ lupdate_only{
 SOURCES += qml/*.qml
 }
 
-TRANSLATIONS += translations/android-speedcrunch.fi.ts
+# lupdate-qt5 -locations none android-speedcrunch.pro
+# lupdate-qt5 -locations none qml/*.qml -ts translations/android-speedcrunch.fi.ts
+# lrelease-qt5 -idbased translations/android-speedcrunch.fi.ts
+# lrelease-qt5 -idbased translations/android-speedcrunch.*.ts
+# TRANSLATIONS += translations/android-speedcrunch.fi.ts
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

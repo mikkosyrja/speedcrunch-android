@@ -21,7 +21,7 @@ Page
 					width: settings.labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font.pixelSize: fontsize
-					text: qsTr("Type Filter")
+					text: qsTrId("id-type-filter")
 				}
 				ComboBox
 				{
@@ -29,7 +29,8 @@ Page
 					width: settings.combowidth; height: settings.comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ qsTr("All"), qsTr("Functions"), qsTr("Units"), qsTr("Constants"), qsTr("User defined") ]
+					model: [ qsTrId("id-all"), qsTrId("id-functions"), qsTrId("id-units"),
+						qsTrId("id-constants"), qsTrId("id-user-defined") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -174,13 +175,13 @@ Page
 								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutside
 								MenuItem
 								{
-									text: qsTr("Insert: ") + modelData.label;
+									text: qsTrId("id-insert-item") + modelData.label;
 									height: menuheight; font.pixelSize: fontsizemenu
 									onTriggered: insertitem()
 								}
 								MenuItem
 								{
-									text: qsTr("Remove from Recent")
+									text: qsTrId("id-remove-from-recent")
 									id: removerecent
 									height: (modelData.recent ? menuheight : 0)
 									font.pixelSize: fontsizemenu; visible: modelData.recent
@@ -188,7 +189,7 @@ Page
 								}
 								MenuItem
 								{
-									text: qsTr("Delete User Defined")
+									text: qsTrId("id-delete-user-defined")
 									id: deleteuserdefined
 									height: (modelData.user ? menuheight : 0)
 									font.pixelSize: fontsizemenu; visible: modelData.user

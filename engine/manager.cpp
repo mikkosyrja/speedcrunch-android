@@ -86,6 +86,8 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	QLocale locale;
 	if ( uiTranslator.load(locale, ":/translations/android-speedcrunch.") )
 		QGuiApplication::installTranslator(&uiTranslator);
+	else if ( uiTranslator.load(":/translations/android-speedcrunch.en.qm") )
+		QGuiApplication::installTranslator(&uiTranslator);
 	if ( engineTranslator.load(locale, ":/locale/speedcrunch.") )
 		QGuiApplication::installTranslator(&engineTranslator);
 

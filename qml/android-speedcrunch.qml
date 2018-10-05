@@ -33,7 +33,6 @@ ApplicationWindow
 	id: window
 	visible: true
 	color: backgroundcolor
-	title: qsTr("Tabs")
 
 	header: Row
 	{
@@ -97,19 +96,19 @@ ApplicationWindow
 					closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
 					MenuItem
 					{
-						text: qsTr("Copy result")
+						text: qsTrId("id-copy-result")
 						height: menuheight; font.pixelSize: fontsizemenu
 						onTriggered: { manager.setClipboard(latestResult) }
 					}
 					MenuItem
 					{
-						text: qsTr("Copy expression")
+						text: qsTrId("id-copy-expression")
 						height: menuheight; font.pixelSize: fontsizemenu
 						onTriggered: { manager.setClipboard(latestExpression + " = " + latestResult) }
 					}
 					MenuItem
 					{
-						text: qsTr("Paste")
+						text: qsTrId("id-paste")
 						height: menuheight; font.pixelSize: fontsizemenu
 						onTriggered:
 						{
@@ -121,7 +120,7 @@ ApplicationWindow
 //					MenuSeparator { }
 					MenuItem
 					{
-						text: qsTr("Clear history")
+						text: qsTrId("id-clear-history")
 						height: menuheight
 						font.pixelSize: fontsizemenu
 						onTriggered:

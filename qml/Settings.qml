@@ -27,7 +27,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font.pixelSize: fontsize
-					text: qsTr("Result Format")
+					text: qsTrId("id-result-format")
 				}
 				ComboBox
 				{
@@ -35,10 +35,10 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ qsTr("General decimal"), qsTr("Fixed decimal"), qsTr("Engineering decimal"),
-						qsTr("Scientific decimal"), qsTr("Binary"), qsTr("Octal"), qsTr("Hexadecimal") ]
-//					model: [ "General decimal", "Fixed decimal", "Engineering decimal",
-//						"Scientific decimal", "Binary", "Octal", "Hexadecimal", "Sexagesimal" ]
+					model: [ qsTrId("id-general-decimal"), qsTrId("id-fixed-decimal"),
+						qsTrId("id-engineering-decimal"), qsTrId("id-scientific-decimal"),
+						qsTrId("id-binary"), qsTrId("id-octal"), qsTrId("id-hexadecimal") ]
+//						qsTrId("id-sexagesimal") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -82,7 +82,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font.pixelSize: fontsize
-					text: qsTr("Precision")
+					text: qsTrId("id-precision")
 				}
 				ComboBox
 				{
@@ -90,7 +90,7 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ qsTr("Automatic"), "0", "1", "2", "3", "4", "6", "8", "12", "16", "20" ]
+					model: [ qsTrId("id-automatic"), "0", "1", "2", "3", "4", "6", "8", "12", "16", "20" ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -139,7 +139,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font.pixelSize: fontsize
-					text: qsTr("Angle Unit")
+					text: qsTrId("id-angle-Unit")
 				}
 				ComboBox
 				{
@@ -147,8 +147,8 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ qsTr("Degree"), qsTr("Radian") ]
-//					model: [ "Degree", "Radian", "Gradian" ]
+					model: [ qsTrId("id-degree"), qsTrId("id-radian") ]
+//						qsTrId("id-gradian") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -180,7 +180,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font.pixelSize: fontsize
-					text: qsTr("Complex Numbers")
+					text: qsTrId("id-complex-numbers")
 				}
 				ComboBox
 				{
@@ -188,7 +188,7 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ qsTr("Disabled"), qsTr("Cartesian"), qsTr("Polar") ]
+					model: [ qsTrId("id-disabled"), qsTrId("id-cartesian"), qsTrId("id-polar") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -218,9 +218,9 @@ Page
 			CheckBox
 			{
 				id: historysavesetting
-				width: combowidth; height: comboheight
+				width: parent.width; height: comboheight
 				font.pixelSize: fontsize
-				text: qsTr("Save History on Exit")
+				text: qsTrId("id-save-history-on-exit")
 				checked: true
 				onCheckedChanged: { manager.setSessionSave(checked) }
 				function setHistorySave(save) { checked = save }
@@ -228,9 +228,9 @@ Page
 			CheckBox
 			{
 				id: clickinsertsetting
-				width: combowidth; height: comboheight
+				width: parent.width; height: comboheight
 				font.pixelSize: fontsize
-				text: qsTr("One Click Insert")
+				text: qsTrId("id-direct-insert-from-lists")
 				checked: true
 				onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
 				function setClickInsert(click) { oneclickinsert = click; checked = click }
@@ -242,7 +242,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font.pixelSize: fontsize
-					text: qsTr("List Font Size")
+					text: qsTrId("id-list-font-size")
 				}
 				ComboBox
 				{
@@ -250,7 +250,7 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ qsTr("Small"), qsTr("Medium"), qsTr("Large") ]
+					model: [ qsTrId("id-small"), qsTrId("id-medium"), qsTrId("id-large") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;

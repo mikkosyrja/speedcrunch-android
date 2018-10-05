@@ -139,7 +139,7 @@ Page
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
 					font.pixelSize: fontsize
-					text: qsTrId("id-angle-Unit")
+					text: qsTrId("id-angle-unit")
 				}
 				ComboBox
 				{

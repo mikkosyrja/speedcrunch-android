@@ -65,7 +65,7 @@ Page
 						background: Rectangle { radius: cornerradius; color: settingscolor }
 						font.pixelSize: fontsize
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
-						placeholderText: "search"
+						placeholderText: qsTrId("id-search")
 						Keys.onReturnPressed: { setDefaultFocus() }
 					}
 					Rectangle

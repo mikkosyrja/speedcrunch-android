@@ -1,2 +1,2 @@
-lrelease-qt5 -idbased translations/android-speedcrunch.*.ts
+lrelease-qt5 -idbased locale/mobile.*.ts
  

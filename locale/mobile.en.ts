@@ -9,18 +9,22 @@
     </message>
     <message id="id-insert-item">
         <source></source>
+        <extracomment>Popup menu item</extracomment>
         <translation>Insert: </translation>
     </message>
     <message id="id-edit-item">
         <source></source>
+        <extracomment>Popup menu item</extracomment>
         <translation>Edit: </translation>
     </message>
     <message id="id-remove-from-history">
         <source></source>
+        <extracomment>Popup menu item</extracomment>
         <translation>Remove from history</translation>
     </message>
     <message id="id-result-format">
         <source></source>
+        <extracomment>Setting title</extracomment>
         <translation>Result Format</translation>
     </message>
     <message id="id-general-decimal">
@@ -53,14 +57,16 @@
     </message>
     <message id="id-precision">
         <source></source>
+        <extracomment>Setting title</extracomment>
         <translation>Precision</translation>
     </message>
     <message id="id-automatic">
         <source></source>
         <translation>Automatic</translation>
     </message>
-    <message id="id-angle-Unit">
+    <message id="id-angle-unit">
         <source></source>
+        <extracomment>Setting title</extracomment>
         <translation>Angle Unit</translation>
     </message>
     <message id="id-degree">
@@ -73,6 +79,7 @@
     </message>
     <message id="id-complex-numbers">
         <source></source>
+        <extracomment>Setting title</extracomment>
         <translation>Complex Numbers</translation>
     </message>
     <message id="id-disabled">
@@ -89,14 +96,17 @@
     </message>
     <message id="id-save-history-on-exit">
         <source></source>
+        <extracomment>Setting title</extracomment>
         <translation>Save History on Exit</translation>
     </message>
-	<message id="id-direct-insert-from-lists">
+    <message id="id-direct-insert-from-lists">
         <source></source>
-		<translation>Direct Insert from Lists</translation>
+        <extracomment>Setting title</extracomment>
+        <translation>Direct Insert from Lists</translation>
     </message>
     <message id="id-list-font-size">
         <source></source>
+        <extracomment>Setting title</extracomment>
         <translation>List Font Size</translation>
     </message>
     <message id="id-small">
@@ -137,27 +147,57 @@
     </message>
     <message id="id-remove-from-recent">
         <source></source>
+        <extracomment>Popup menu item</extracomment>
         <translation>Remove from Recent</translation>
     </message>
-	<message id="id-delete-user-defined">
+    <message id="id-delete-user-defined">
         <source></source>
+        <extracomment>Popup menu item</extracomment>
         <translation>Delete User Defined</translation>
     </message>
     <message id="id-copy-result">
         <source></source>
+        <extracomment>Menu item</extracomment>
         <translation>Copy Result</translation>
     </message>
     <message id="id-copy-expression">
         <source></source>
+        <extracomment>Menu item</extracomment>
         <translation>Copy Expression</translation>
     </message>
     <message id="id-paste">
         <source></source>
+        <extracomment>Menu item</extracomment>
         <translation>Paste</translation>
     </message>
     <message id="id-clear-history">
         <source></source>
+        <extracomment>Menu item</extracomment>
         <translation>Clear History</translation>
+    </message>
+    <message id="id-search">
+        <source></source>
+        <translation>search</translation>
+    </message>
+    <message id="id-removing">
+        <source></source>
+        <extracomment>Remorse timer title</extracomment>
+        <translation>Removing</translation>
+    </message>
+    <message id="id-deleting">
+        <source></source>
+        <extracomment>Remorse timer title</extracomment>
+        <translation>Deleting</translation>
+    </message>
+    <message id="id-evaluation-error">
+        <source></source>
+        <extracomment>Notification message</extracomment>
+        <translation>Evaluation error</translation>
+    </message>
+    <message id="id-function-added">
+        <source></source>
+        <extracomment>Notification message</extracomment>
+        <translation>Function added</translation>
     </message>
 </context>
 </TS>

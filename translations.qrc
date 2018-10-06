@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>locale/speedcrunch.fi.qm</file>
-		<file>locale/mobile.fi.qm</file>
-		<file>locale/mobile.en.qm</file>
+		<file>locale/mobile.fi_FI.qm</file>
+		<file>locale/mobile.en_GB.qm</file>
     </qresource>
 </RCC>

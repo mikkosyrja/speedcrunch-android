@@ -14,4 +14,6 @@
 	- Third item removes line from history list
 	- Follows One Click Insert setting
 - Compiled with Qt version 5.11.2
-
+- Initial localization support:
+	- Function and constant translations from desktop version.
+	- Currently english and finnish translations.

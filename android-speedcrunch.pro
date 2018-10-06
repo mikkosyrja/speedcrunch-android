@@ -134,14 +134,13 @@ DISTFILES += \
 	android/build.gradle \
 	android/gradle/wrapper/gradle-wrapper.properties \
 	android/gradlew.bat \
-	locale/mobile.fi.ts \
-	locale/mobile.en.ts \
-    CHANGELOG.md \
-    lrelease.sh \
-    lupdate.sh
+	CHANGELOG.md \
+	lrelease.sh \
+	lupdate.sh \
+	locale/mobile.en_GB.ts \
+	locale/mobile.fi_FI.ts
 
-RESOURCES += qml.qrc \
-	translations.qrc
+RESOURCES += qml.qrc translations.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

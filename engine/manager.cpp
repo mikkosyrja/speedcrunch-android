@@ -86,7 +86,7 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	QLocale locale;
 	if ( uiTranslator.load(locale, ":/locale/mobile.") )
 		QGuiApplication::installTranslator(&uiTranslator);
-	else if ( uiTranslator.load(":/locale/mobile.en.qm") )
+	else if ( uiTranslator.load(":/locale/mobile.en_GB.qm") )
 		QGuiApplication::installTranslator(&uiTranslator);
 	if ( engineTranslator.load(locale, ":/locale/speedcrunch.") )
 		QGuiApplication::installTranslator(&engineTranslator);

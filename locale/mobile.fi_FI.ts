@@ -5,6 +5,7 @@
     <name></name>
     <message id="id-expression">
         <source></source>
+        <extracomment>Placeholder</extracomment>
         <translation>lauseke</translation>
     </message>
     <message id="id-insert-item">
@@ -123,6 +124,7 @@
     </message>
     <message id="id-type-filter">
         <source></source>
+        <extracomment>Setting title</extracomment>
         <translation>Tyyppisuodatus</translation>
     </message>
     <message id="id-all">
@@ -177,16 +179,17 @@
     </message>
     <message id="id-search">
         <source></source>
+        <extracomment>Placeholder</extracomment>
         <translation>haku</translation>
     </message>
     <message id="id-removing">
         <source></source>
-        <extracomment>Remorse timer title</extracomment>
+        <extracomment>Remorse timer</extracomment>
         <translation>Poistetaan</translation>
     </message>
     <message id="id-deleting">
         <source></source>
-        <extracomment>Remorse timer title</extracomment>
+        <extracomment>Remorse timer</extracomment>
         <translation>Poistetaan</translation>
     </message>
     <message id="id-evaluation-error">

@@ -85,8 +85,9 @@ private:
 	Settings* settings;						//!< Settings storage.
 	QClipboard* clipboard;					//!< System clipboard.
 
-	QTranslator uiTranslator;				//!< UI translator.
 	QTranslator engineTranslator;			//!< Engine translator.
+	QTranslator backupTranslator;			//!< UI backup translator.
+	QTranslator localeTranslator;			//!< UI locale translator.
 
 	QStringList recent;						//!< Recent functions.
 	QStringList identifiers;				//!< Function identifiers.

@@ -46,9 +46,9 @@ menu items has additional context menu item for removing them from the recent st
 defined functions and variables have context menu item for deleting them.
 
 Rightmost page contains some settings. These are mostly same as desktop version settings and more
-or less self-explanatory. If One Click Insert setting is turned on, pointing item in function or
-history list inserts it directly to the expression edit field. Note that user defined variables and
-functions are saved with the history list.
+or less self-explanatory. If the Direct Insert from Lists setting is turned on, pointing item in
+function or history list inserts it directly to the expression edit field. Note that user defined
+variables and functions are saved with the history list.
 
 #### Expression editing and history list
 

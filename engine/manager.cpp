@@ -84,12 +84,12 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	clipboard = QGuiApplication::clipboard();
 
 	QLocale locale;
-	if ( uiTranslator.load(locale, ":/locale/mobile.") )
-		QGuiApplication::installTranslator(&uiTranslator);
-	else if ( uiTranslator.load(":/locale/mobile.en_GB.qm") )
-		QGuiApplication::installTranslator(&uiTranslator);
 	if ( engineTranslator.load(locale, ":/locale/speedcrunch.") )
 		QGuiApplication::installTranslator(&engineTranslator);
+	if ( backupTranslator.load(":/locale/mobile.en_GB.qm") )
+		QGuiApplication::installTranslator(&backupTranslator);
+	if ( localeTranslator.load(locale, ":/locale/mobile.") )
+		QGuiApplication::installTranslator(&localeTranslator);
 
 	FunctionRepo::instance()->retranslateText();
 	Constants::instance()->retranslateText();

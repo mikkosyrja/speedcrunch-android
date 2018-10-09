@@ -113,8 +113,6 @@ HEADERS += \
 	engine/manager.h
 
 DISTFILES += \
-	CHANGELOG.md \
-	README.md \
 	qml/android-speedcrunch.qml \
 	qml/BackSpace.qml \
 	qml/CalcButton.qml \
@@ -135,10 +133,17 @@ DISTFILES += \
 	android/gradle/wrapper/gradle-wrapper.properties \
 	android/gradlew.bat \
 	CHANGELOG.md \
+	README.md \
 	lrelease.sh \
 	lupdate.sh \
 	locale/mobile.en_GB.ts \
-	locale/mobile.fi_FI.ts
+	locale/mobile.fi_FI.ts \
+	locale/mobile.de_DE.ts \
+	locale/mobile.it_IT.ts \
+	locale/mobile.fr_FR.ts \
+	locale/mobile.ru_RU.ts \
+	locale/mobile.es_ES.ts \
+	locale/mobile.sv_SE.ts
 
 RESOURCES += qml.qrc translations.qrc
 

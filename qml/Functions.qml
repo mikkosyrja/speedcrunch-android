@@ -108,7 +108,7 @@ Page
 					property int updatemodel: 0
 					id: functionlist
 					anchors.fill: parent
-					snapMode: "SnapOneItem"
+					snapMode: "SnapToItem"
 					highlight: highlight; highlightFollowsCurrentItem: false
 					model: { eval(manager.getFunctions(searchfield.text, filtertype, updatemodel)) }
 					delegate: Component
@@ -175,7 +175,7 @@ Page
 								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutside
 								MenuItem
 								{
-									text: qsTrId("id-insert-item") + modelData.label;
+									text: qsTrId("id-insert-item") + " " + modelData.label;
 									height: menuheight; font.pixelSize: fontsizemenu
 									onTriggered: insertitem()
 								}

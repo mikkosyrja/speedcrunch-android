@@ -17,6 +17,8 @@ Features:
 - Built-in functions, constants and units with search
 - User defined variables and functions
 
+Translations in [Transifex](https://www.transifex.com/mikkosyrja/speedcrunch-mobile)
+
 ### Usage
 
 User interface consists three pages and two keyboard panes. Leftmost page has function list,

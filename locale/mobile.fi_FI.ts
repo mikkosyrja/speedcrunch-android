@@ -11,12 +11,12 @@
     <message id="id-insert-item">
         <source></source>
         <extracomment>Popup menu item</extracomment>
-        <translation>Lisää: </translation>
+		<translation>Lisää:</translation>
     </message>
     <message id="id-edit-item">
         <source></source>
         <extracomment>Popup menu item</extracomment>
-        <translation>Muokkaa: </translation>
+		<translation>Muokkaa:</translation>
     </message>
     <message id="id-remove-from-history">
         <source></source>

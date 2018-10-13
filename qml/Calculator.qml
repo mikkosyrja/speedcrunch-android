@@ -43,7 +43,7 @@ Page
 					property int updatehistory: 0
 					id: historyview
 					anchors { fill: parent; margins: itemspacing }
-					snapMode: "SnapOneItem"
+					snapMode: "SnapToItem"
 					highlight: highlight; highlightFollowsCurrentItem: false
 					model: { eval(manager.getHistory(updatehistory)) }
 					delegate: Component
@@ -110,13 +110,13 @@ Page
 								closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutside
 								MenuItem
 								{
-									text: qsTrId("id-insert-item") + modelData.value;
+									text: qsTrId("id-insert-item") + " " + modelData.value;
 									height: menuheight; font.pixelSize: fontsizemenu
 									onTriggered: insertitem()
 								}
 								MenuItem
 								{
-									text: qsTrId("id-edit-item") + modelData.expression
+									text: qsTrId("id-edit-item") + " " + modelData.expression
 									height: menuheight; font.pixelSize: fontsizemenu
 									onTriggered: { textfield.text = modelData.expression }
 								}

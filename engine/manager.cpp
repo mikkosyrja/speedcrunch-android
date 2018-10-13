@@ -286,7 +286,7 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 		if ( filter.isEmpty() || unit.name.contains(filter, Qt::CaseInsensitive))
 		{
 			result += "{value:\"" + unit.name + "\", name:\"" + unit.name
-				+ "\",usage:\"\",label:\"" + unit.name + "\",user:false,"
+				+ R"(",usage:"",label:")" + unit.name + "\",user:false,"
 				+ "recent:" + (recent ? "true" : "false") + "},";
 		}
 	};
@@ -304,7 +304,7 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 			|| constant.name.contains(filter, Qt::CaseInsensitive))
 		{
 			result += "{value:\"" + constant.value + "\",name:\"" + constant.name
-				+ "\",usage:\"\",label:\"" + constant.value + "\",user:false,"
+				+ R"(",usage:"",label:")" + constant.value + "\",user:false,"
 				+ "recent:" + (recent ? "true" : "false") + "},";
 		}
 	};
@@ -323,7 +323,7 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 		{
 			QString value = DMath::format(variable.value(), HNumber::Format::Fixed());
 			result += "{value:\"" + variable.identifier() + "\",name:\"" + variable.identifier()
-				+ "\",usage:\"\",label:\"" + variable.identifier() + " = " + value
+				+ R"(",usage:"",label:")" + variable.identifier() + " = " + value
 				+ "\",user:true,recent:" + (recent ? "true" : "false") + "},";
 		}
 	};

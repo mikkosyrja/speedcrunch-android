@@ -2,7 +2,7 @@
 
 - Initial version
 
-### 0.2 (2018-10-xx)
+### 0.2 (2018-10-20)
 
 - Fixed Save History on Exit setting behavior
 - New setting Direct Insert from Lists:
@@ -20,3 +20,4 @@
 	- https://www.transifex.com/mikkosyrja/speedcrunch-mobile/
 	- Currently en_GB (source) and fi_FI translations.
 	- Added languages de_DE, it_IT, fr_FR, es_ES, ru_RU and sv_SE
+- Moved system settings to the bottom of settings page.

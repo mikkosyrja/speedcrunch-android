@@ -215,6 +215,12 @@ Page
 					}
 				}
 			}
+			Rectangle
+			{
+				id: settingseparator
+				width: parent.width; height: parent.height - (comboheight + itemspacing) * 7 - fontsize * 1.5
+				color: backgroundcolor
+			}
 			CheckBox
 			{
 				id: historysavesetting

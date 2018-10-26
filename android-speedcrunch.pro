@@ -144,6 +144,7 @@ DISTFILES += \
 	locale/mobile.ru_RU.ts \
 	locale/mobile.es_ES.ts \
 	locale/mobile.sv_SE.ts \
+	locale/mobile.pt_PT.ts \
 	locale/mobile.ts
 
 RESOURCES += qml.qrc translations.qrc

@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>locale/speedcrunch.fi_FI.qm</file>
         <file>locale/mobile.fi_FI.qm</file>
         <file>locale/mobile.en_GB.qm</file>
         <file>locale/mobile.de_DE.qm</file>
@@ -9,11 +8,14 @@
         <file>locale/mobile.it_IT.qm</file>
         <file>locale/mobile.ru_RU.qm</file>
         <file>locale/mobile.sv_SE.qm</file>
-        <file>locale/speedcrunch.de_DE.qm</file>
+		<file>locale/mobile.pt_PT.qm</file>
+		<file>locale/speedcrunch.fi_FI.qm</file>
+		<file>locale/speedcrunch.de_DE.qm</file>
         <file>locale/speedcrunch.es_ES.qm</file>
         <file>locale/speedcrunch.fr_FR.qm</file>
         <file>locale/speedcrunch.it_IT.qm</file>
         <file>locale/speedcrunch.ru_RU.qm</file>
         <file>locale/speedcrunch.sv_SE.qm</file>
-    </qresource>
+		<file>locale/speedcrunch.pt_PT.qm</file>
+	</qresource>
 </RCC>

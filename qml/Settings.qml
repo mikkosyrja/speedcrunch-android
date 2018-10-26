@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 
 Page
 {
-	property int labelwidth: window.width * 2 / 5 - itemspacing
+	property int labelwidth: window.width / 2  - itemspacing
 	property int combowidth: window.width - labelwidth - itemspacing * 2
 //	property int comboheight: fontsize * 2.5
 	property int comboheight: menuheight

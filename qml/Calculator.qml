@@ -219,19 +219,26 @@ Page
 					}
 				}
 			}
-			Keyboard
-			{
-				id: keyboard
-				width: parent.width; height: keyboardheight
-			}
-/*
 			Rectangle
 			{
+				property int buttonwidth: landscape ? landscapekeyboard.buttonwidth : portraitkeyboard.buttonwidth
+				property int buttonheight: landscape ? landscapekeyboard.buttonheight : portraitkeyboard.buttonheight
+				property alias swipecount: portraitkeyboard.swipecount
+				property alias swipeindex: portraitkeyboard.swipeindex
+
+				id: keyboard
 				width: parent.width; height: keyboardheight
-				Keyboard { id: keyboard; anchors.fill: parent }
-//				Landscape { id: keyboard; anchors.fill: parent }
+
+				Keyboard { id: portraitkeyboard; anchors.fill: parent; visible: !landscape }
+				Landscape { id: landscapekeyboard; anchors.fill: parent; visible: landscape }
+
+				function setButtonLabels()
+				{
+					portraitkeyboard.setButtonLabels()
+					landscapekeyboard.setButtonLabels()
+				}
 			}
-*/
+
 			Component.onCompleted: { historytimer.start() }
 		}
 	}

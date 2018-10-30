@@ -17,10 +17,8 @@ ApplicationWindow
 	property int lineheight: fontsizelist * 1.5
 	property int menuheight: fontsizemenu * 2
 
-//	property int buttoncols: landscape ? 10 : 5
-//	property int buttonrows: landscape ? 4 : 5
-	property int buttoncols: 5
-	property int buttonrows: 5
+	property int buttoncols: landscape ? 10 : 5
+	property int buttonrows: landscape ? 4 : 5
 	property int cornerradius: width / buttoncols / 15
 	property int itemspacing: width / buttoncols / 15
 

@@ -3,14 +3,13 @@ import QtQuick.Controls 2.3
 
 Rectangle
 {
-/*
 	property int buttonwidth: button1.width
 	property int buttonheight: button1.height
 	property int swipecount: 1
 	property int swipeindex: 0
 
 	clip: true
-//	color: backgroundcolor
+	color: backgroundcolor
 
 	Grid
 	{
@@ -45,13 +44,7 @@ Rectangle
 		CalcButton { text: "sin"; value: "sin()" }
 		CalcButton { text: "cos"; value: "cos()" }
 		CalcButton { text: "tan"; value: "tan()" }
-		CalcButton { text: "ln"; value: "ln()" }
 		CalcButton { text: "Xⁿ"; value:"^" }
-
-		CalcButton { text: "asin"; value: "arcsin()" }
-		CalcButton { text: "acos"; value: "arccos()" }
-		CalcButton { text: "atan"; value: "arctan()" }
-		CalcButton { text: "exp"; value: "exp()" }
 		CalcButton { image: "cuberoot.png"; value:"cbrt()" }
 
 		CalcButton { text: "π"; value: "pi" }
@@ -94,5 +87,4 @@ Rectangle
 		else
 			button9.text = "9"
 	}
-*/
 }

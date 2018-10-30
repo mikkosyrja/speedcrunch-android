@@ -8,8 +8,9 @@ Rectangle
 	property int swipecount: swipe.count
 	property int swipeindex: swipe.currentIndex
 
-	id: keyboard
 	clip: true
+	color: backgroundcolor
+
 	SwipeView
 	{
 		id: swipe

@@ -245,6 +245,7 @@ Page
 	footer: Row
 	{
 		width: parent.width; height: fontsize * 1.5
+		visible: !landscape
 		Rectangle
 		{
 			width: keyboard.buttonwidth * 2 + itemspacing * 2; height: parent.height; color: backgroundcolor

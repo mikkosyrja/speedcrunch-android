@@ -28,43 +28,27 @@ Rectangle
 		CalcButton { id: button9; text: "9"; value: "9"; secondary: "j" }
 		CalcButton { text: "0" }
 
-		CalcButton { text: "/" }
-		CalcButton { text: "×"; value: "×" }
-		CalcButton { text: "-" }
 		CalcButton { text: "+" }
-
+		CalcButton { text: "-" }
+		CalcButton { text: "×"; value: "×" }
+		CalcButton { text: "/" }
+		CalcButton { text: "x²"; value: "^2" }
+		CalcButton { text: "Xⁿ"; value:"^" }
+		CalcButton { text: "√"; value: "sqrt()" }
+		CalcButton { text: "1/x"; value: "1/" }
 		CalcButton { text: "." }
 		CalcButton { text: ";" }
 
-		CalcButton { text: "x²"; value: "^2" }
-		CalcButton { text: "√"; value: "sqrt()" }
-		CalcButton { text: "1/x"; value: "1/" }
-		CalcButton { id: buttonbase; text: "0x"; value: "0x"; secondary: "0b"  }
-
-		CalcButton { text: "sin"; value: "sin()" }
-		CalcButton { text: "cos"; value: "cos()" }
-		CalcButton { text: "tan"; value: "tan()" }
-		CalcButton { text: "Xⁿ"; value:"^" }
-		CalcButton { image: "cuberoot.png"; value:"cbrt()" }
-
+		CalcButton { text: "(" } CalcButton { text: ")" }
 		CalcButton { text: "π"; value: "pi" }
 		CalcButton { text: "e" }
-		CalcButton { text: "x"; secondary: "y" }
-		CalcButton { text: "X="; value: "="; secondary: "(x)=" }
 		CalcButton { text: "!" }
-
-		CalcButton { text: "&&" }
-		CalcButton { text: "|" }
-		CalcButton { text: "<<" }
-		CalcButton { text: ">>" }
 		CalcButton { text: "➔"; value: "->" }
-
-		CalcButton { text: "(" } CalcButton { text: ")" }
+		CalcButton { id: buttonbase; text: "0x"; value: "0x"; secondary: "0b"  }
 		CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
 		CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
 		BackSpace { }
 	}
-
 	function setButtonLabels()
 	{
 		var format = manager.getResultFormat()

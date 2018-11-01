@@ -225,6 +225,7 @@ Page
 			{
 				id: historysavesetting
 				width: parent.width; height: comboheight
+				visible: !landscape
 				font.pixelSize: fontsize
 				text: qsTrId("id-save-history-on-exit")
 				checked: true
@@ -235,6 +236,7 @@ Page
 			{
 				id: clickinsertsetting
 				width: parent.width; height: comboheight
+				visible: !landscape
 				font.pixelSize: fontsize
 				text: qsTrId("id-direct-insert-from-lists")
 				checked: true
@@ -247,6 +249,7 @@ Page
 				{
 					width: labelwidth
 					anchors.verticalCenter: parent.verticalCenter
+					visible: !landscape
 					font.pixelSize: fontsize
 					text: qsTrId("id-list-font-size")
 				}
@@ -254,6 +257,7 @@ Page
 				{
 					id: fontsizesetting
 					width: combowidth; height: comboheight
+					visible: !landscape
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
 					model: [ qsTrId("id-small"), qsTrId("id-medium"), qsTrId("id-large") ]

@@ -24,5 +24,12 @@
 
 ### 0.3 (2018-11-xx)
 
-- Added spanish translations.
+- Added spanish translations (thanks @carmenfdezb)
+- Added support for portuguese language
 - Adjusted settings page control widths for different languages
+- Initial landscape mode support:
+	- Uses single 3x10 button keyboard in landscape mode
+	- Status bar is hidden in landscape mode
+	- System settings at bottom are hidden in landscape mode
+	- xxx
+

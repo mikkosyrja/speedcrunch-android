@@ -76,6 +76,8 @@ row arrow keys and backspace are for expression field editing.
 Some keys have secondary function available with long press:
 - Keys 1-6 produce hexadecimal values A-F
 - Key 9 produces j for complex number imaginary part
+- Key x² produces generic exponent ^
+- Key √ produces cubic root function
 - Key 0x produces 0b for binary values (0b1010)
 - Key x produces character y for another variable name
 - Key X= produces (x)= for function definition (foo(x)=)

@@ -24,12 +24,17 @@
 
 ### 0.3 (2018-11-xx)
 
-- Added spanish translations (thanks @carmenfdezb)
+- Added spanish UI translations (thanks @carmenfdezb)
 - Added support for portuguese language
 - Adjusted settings page control widths for different languages
 - Initial landscape mode support:
 	- Uses single 3x10 button keyboard in landscape mode
 	- Status bar is hidden in landscape mode
-	- System settings at bottom are hidden in landscape mode
+	- System settings at the bottom of settings page are hidden
 	- xxx
-
+- Some keyboard modifications:
+	- Long press with square (x²) produces generic exponent
+	- Long press with square root (√) produces cubic root
+- Added new menu items for home pages:
+	- Item SpeedCruch Android opens application home page
+	- Item SpeedCruch opens SpeedCruch engine home page

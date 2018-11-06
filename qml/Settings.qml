@@ -272,29 +272,16 @@ Page
 					{
 						if ( initialized )
 						{
-							if ( currentIndex == 0 )
-							{
-								setGlobalFontSize("s")
-								manager.setFontSize("s")
-							}
-							else if ( currentIndex == 1 )
-							{
-								setGlobalFontSize("m")
-								manager.setFontSize("m")
-							}
-							else if ( currentIndex == 2 )
-							{
-								setGlobalFontSize("l")
-								manager.setFontSize("l")
-							}
+							if ( currentIndex == 0 ) { fontscale = 1.0; manager.setFontSize("s") }
+							else if ( currentIndex == 1 ) { fontscale = 1.2; manager.setFontSize("m") }
+							else if ( currentIndex == 2 ) { fontscale = 1.5; manager.setFontSize("l") }
 						}
 					}
 					function setFontSize(size)
 					{
-						setGlobalFontSize(size)
-						if ( size === "s" ) currentIndex = 0
-						else if ( size === "m" ) currentIndex = 1
-						else if ( size === "l" ) currentIndex = 2
+						if ( size === "s" ) { fontscale = 1.0; currentIndex = 0 }
+						else if ( size === "m" ) { fontscale = 1.2; currentIndex = 1 }
+						else if ( size === "l" ) { fontscale = 1.5; currentIndex = 2 }
 					}
 				}
 			}
@@ -311,11 +298,5 @@ Page
 			keyboard.setButtonLabels()
 			initialized = true;
 		}
-	}
-	function setGlobalFontSize(size)
-	{
-		if ( size === "s" ) fontsizelist = fontsize
-		else if ( size === "m" ) fontsizelist = fontsize * 1.2
-		else if ( size === "l" ) fontsizelist = fontsize * 1.5
 	}
 }

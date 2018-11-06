@@ -11,8 +11,10 @@ ApplicationWindow
 	property bool landscape: height < width
 	property bool oneclickinsert: false
 
-	property int fontsize: (height / (landscape ? 24 : 36))
-	property int fontsizelist: fontsize
+	property real fontsize: (height / (landscape ? 24 : 36))
+	property real fontscale: 1.0
+	property real fontsizelist: fontsize * fontscale
+
 	property int fontsizemenu: fontsize * 1.3
 	property int lineheight: fontsizelist * 1.5
 	property int menuheight: fontsizemenu * 2
@@ -28,6 +30,8 @@ ApplicationWindow
 	property alias keyboard: calculator.keyboard
 	property alias settings: settings
 
+	onLandscapeChanged: { history.updateHistory() }
+
 	id: window
 	visible: true
 	color: backgroundcolor
@@ -37,7 +41,9 @@ ApplicationWindow
 		width: parent.width; height: fontsize * 3
 		Rectangle
 		{
-			width: fontsize * 5; height: parent.height; color: backgroundcolor
+			id: titleindicator
+			width: (keyboard.buttonwidth + itemspacing) * 2
+			height: parent.height; color: backgroundcolor
 			PageIndicator
 			{
 				id: pageindicator
@@ -56,9 +62,39 @@ ApplicationWindow
 		}
 		Rectangle
 		{
-			width: parent.width - pageindicator.width - menuButton.width
-			height: parent.height
-			color: backgroundcolor
+			id: titlestatus
+			width: (landscape ? (keyboard.buttonwidth + itemspacing) * 5 : 0);
+			height: parent.height; color: backgroundcolor
+			clip: true
+			Label
+			{
+				id: resultformat
+				width: parent.width * 3 / 5; height: parent.height
+				anchors { bottom: parent.bottom; left: parent.left; leftMargin: itemspacing }
+				verticalAlignment: Text.AlignVCenter
+				font { pixelSize: fontsize }
+				text: settings.resultformat
+			}
+			Label
+			{
+				id: angleunit
+				width: parent.width * 2 / 5; height: parent.height
+				anchors { bottom: parent.bottom; right: parent.right; rightMargin: itemspacing }
+				verticalAlignment: Text.AlignVCenter
+				font { pixelSize: fontsize }
+				text: settings.angleunit
+			}
+		}
+		Rectangle
+		{
+			width: parent.width - titleindicator.width - titlestatus.width - speedcrunch.width - menubutton.width
+			height: parent.height; color: backgroundcolor
+		}
+		Rectangle
+		{
+			id: speedcrunch
+			width: (keyboard.buttonwidth + itemspacing) * 3
+			height: parent.height; color: backgroundcolor
 			Label
 			{
 				anchors	{ fill: parent; margins: itemspacing }
@@ -70,7 +106,7 @@ ApplicationWindow
 		}
 		Rectangle
 		{
-			id: menuButton
+			id: menubutton
 			width: parent.height; height: parent.height
 			color: backgroundcolor
 			Button
@@ -78,7 +114,7 @@ ApplicationWindow
 				anchors	{ fill: parent; margins: 5 }
 				background: Rectangle { radius: cornerradius }
 				font.pixelSize: fontsize * 2
-				text: "\u2261"
+				text: "\u2261"	// hamburger
 				onClicked:
 				{
 					if ( menu.opened )
@@ -89,25 +125,25 @@ ApplicationWindow
 				Menu
 				{
 					id: menu
-					width: window.width / 2
-					x: window.width / 2; y: menuButton.height - itemspacing
+					width: window.width * 2 / 3
+					x: window.width / 3; y: menubutton.height - itemspacing
 					closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
 					MenuItem
 					{
 						text: qsTrId("id-copy-result")
-						height: menuheight; font.pixelSize: fontsizemenu
+						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
 						onTriggered: { manager.setClipboard(latestResult) }
 					}
 					MenuItem
 					{
 						text: qsTrId("id-copy-expression")
-						height: menuheight; font.pixelSize: fontsizemenu
+						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
 						onTriggered: { manager.setClipboard(latestExpression + " = " + latestResult) }
 					}
 					MenuItem
 					{
 						text: qsTrId("id-paste")
-						height: menuheight; font.pixelSize: fontsizemenu
+						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
 						onTriggered:
 						{
 							var text = editor.text; var pos = editor.cursorPosition
@@ -115,17 +151,28 @@ ApplicationWindow
 							editor.cursorPosition = pos + value.length
 						}
 					}
-//					MenuSeparator { }
 					MenuItem
 					{
 						text: qsTrId("id-clear-history")
-						height: menuheight
-						font.pixelSize: fontsizemenu
+						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
 						onTriggered:
 						{
 							manager.clearHistory(-1)
 							history.updateHistory()
 						}
+					}
+					MenuSeparator { }
+					MenuItem
+					{
+						text: "SpeedCrunch Android 0.3"
+						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
+						onTriggered: { Qt.openUrlExternally("https://openrepos.net/content/syrja/speedcrunch") }
+					}
+					MenuItem
+					{
+						text: "SpeedCrunch 0.12"
+						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
+						onTriggered: { Qt.openUrlExternally("http://speedcrunch.org/") }
 					}
 				}
 			}

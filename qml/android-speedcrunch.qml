@@ -29,6 +29,7 @@ ApplicationWindow
 	property alias editor: calculator.editor
 	property alias keyboard: calculator.keyboard
 	property alias settings: settings
+	property alias interactive: swipe.interactive
 
 	onLandscapeChanged: { history.updateHistory() }
 

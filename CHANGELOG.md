@@ -31,10 +31,13 @@
 	- Uses single 3x10 button keyboard in landscape mode
 	- Status bar is hidden in landscape mode
 	- System settings at the bottom of settings page are hidden
-	- xxx
 - Some keyboard modifications:
 	- Long press with square (x²) produces generic exponent
 	- Long press with square root (√) produces cubic root
 - Added new menu items for home pages:
 	- Item SpeedCruch Android opens application home page
 	- Item SpeedCruch opens SpeedCruch engine home page
+- Added some flicking resistance to buttons:
+	- Drag within button does not flick keyboard or page
+	- Reduces unwanted flicks when pressing buttons
+

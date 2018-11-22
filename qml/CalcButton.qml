@@ -38,20 +38,27 @@ Button
 		if ( value.slice(-2) === "()" )
 			textfield.cursorPosition--
 	}
-	onClicked:
+	MouseArea
 	{
-		if ( special )
-			runFunction();
-		else
-			insertValue(value)
-	}
-	onPressAndHold:
-	{
-		if ( text == "←" )
-			textfield.cursorPosition = 0
-		else if ( text == "→" )
-			textfield.cursorPosition = textfield.text.length
-		else
-			insertValue(secondary)
+		anchors { fill: parent }
+		onPressed: { window.interactive = false; keyboard.interactive = false }
+		onReleased: { window.interactive = true; keyboard.interactive = true }
+		onExited: { window.interactive = true; keyboard.interactive = true }
+		onClicked:
+		{
+			if ( special )
+				parent.runFunction();
+			else
+				parent.insertValue(value)
+		}
+		onPressAndHold:
+		{
+			if ( text == "←" )
+				textfield.cursorPosition = 0
+			else if ( text == "→" )
+				textfield.cursorPosition = textfield.text.length
+			else
+				parent.insertValue(secondary)
+		}
 	}
 }

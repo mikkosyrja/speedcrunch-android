@@ -206,6 +206,9 @@ Page
 						{
 							id: cleararea
 							anchors.fill: parent
+							onPressed: { window.interactive = false; keyboard.interactive = false }
+							onReleased: { window.interactive = true; keyboard.interactive = true }
+							onExited: { window.interactive = true; keyboard.interactive = true }
 							onClicked: { textfield.text = "" }
 						}
 					}
@@ -225,6 +228,7 @@ Page
 				property int buttonheight: landscape ? landscapekeyboard.buttonheight : portraitkeyboard.buttonheight
 				property alias swipecount: portraitkeyboard.swipecount
 				property alias swipeindex: portraitkeyboard.swipeindex
+				property alias interactive: portraitkeyboard.interactive
 
 				id: keyboard
 				width: parent.width; height: keyboardheight

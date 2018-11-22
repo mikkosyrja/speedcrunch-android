@@ -7,6 +7,7 @@ Rectangle
 	property int buttonheight: button1.height
 	property int swipecount: swipe.count
 	property int swipeindex: swipe.currentIndex
+	property alias interactive: swipe.interactive
 
 	clip: true
 	color: backgroundcolor

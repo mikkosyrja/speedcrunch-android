@@ -21,13 +21,21 @@ Translations in [Transifex](https://www.transifex.com/mikkosyrja/speedcrunch-mob
 
 ### Usage
 
-User interface consists three pages and two keyboard panes. Leftmost page has function list,
-central page is the calculator itself and rightmost page contains some settings. Sideways swiping
-on the upper side of screen switches between pages and swiping on the keyboard switches either
-between pages or between keyboard panes.
+User interface consists three pages. Leftmost page has function list, initial central page is the
+calculator itself and rightmost page contains some settings. Sideways swiping switches between
+pages.
+
+In portrait mode sideways swiping within keyboard swithces also between two keyboard panes. Left
+pane has number keys and common calculation operations. Right pane has some function keys and
+additional operators.
+
+In Landscape mode there is only one three-row keyboard. Trigonometric and logarithmic functions are
+not available as keys, but can be found from function list. Cubic root and generic exponent are
+available as long press secondary options. Bitwise operators are currently not available.
 
 Top right menu has functions for copying latest result or expression to clipboard, pasting
-clipboard contents to the expression field and clearing the history list.
+clipboard contents to the expression field and clearing the history list. Bottom two menu items
+open Sailfish Speedcrunch and Desktop Speedcrunch home pages in browser.
 
 #### Function and settings pages
 

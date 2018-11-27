@@ -168,7 +168,7 @@ Page
 						width: parent.width - evaluatebutton.width - cleartext.width - itemspacing * 4
 						height: keyboard.buttonheight
 						background: Rectangle { radius: cornerradius; color: settingscolor }
-						font.pixelSize: fontsize
+						font.pixelSize: fontsizeedit
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 						placeholderText: qsTrId("id-expression")
 						cursorVisible: true
@@ -209,6 +209,7 @@ Page
 							onPressed: { window.interactive = false; keyboard.interactive = false }
 							onReleased: { window.interactive = true; keyboard.interactive = true }
 							onExited: { window.interactive = true; keyboard.interactive = true }
+							onCanceled: { window.interactive = true; keyboard.interactive = true }
 							onClicked: { textfield.text = "" }
 						}
 					}

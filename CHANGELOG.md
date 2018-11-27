@@ -22,9 +22,10 @@
 	- Added languages de_DE, it_IT, fr_FR, es_ES, ru_RU and sv_SE
 - Moved system settings to the bottom of settings page
 
-### 0.3 (2018-11-xx)
+### 0.3 (2018-11-27)
 
 - Added spanish UI translations (thanks @carmenfdezb)
+- Added french UI translations (thanks @JeanDeLaMouche)
 - Added support for portuguese language
 - Adjusted settings page control widths for different languages
 - Initial landscape mode support:

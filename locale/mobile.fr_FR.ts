@@ -1,206 +1,204 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr_FR" version="2.1">
 <context>
-    <name></name>
+    <name/>
     <message id="id-expression">
-        <source></source>
+        <source/>
         <extracomment>Placeholder</extracomment>
-		<translation type="unfinished"></translation>
+        <translation>expression</translation>
     </message>
     <message id="id-insert-item">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Insérer:</translation>
     </message>
     <message id="id-edit-item">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Modifier:</translation>
     </message>
     <message id="id-remove-from-history">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Retirer de l&apos;historique</translation>
     </message>
     <message id="id-result-format">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Format des résultats</translation>
     </message>
     <message id="id-general-decimal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Décimale générale</translation>
     </message>
     <message id="id-fixed-decimal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Décimale fixe</translation>
     </message>
     <message id="id-engineering-decimal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Décimale d&apos;ingénierie</translation>
     </message>
     <message id="id-scientific-decimal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Décimale scientifique</translation>
     </message>
     <message id="id-binary">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Binaire</translation>
     </message>
     <message id="id-octal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Octal</translation>
     </message>
     <message id="id-hexadecimal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Hexadécimal</translation>
     </message>
     <message id="id-precision">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Précision</translation>
     </message>
     <message id="id-automatic">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Automatique</translation>
     </message>
     <message id="id-angle-unit">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Unité d&apos;angle</translation>
     </message>
     <message id="id-degree">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Degré</translation>
     </message>
     <message id="id-radian">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Radian</translation>
     </message>
     <message id="id-complex-numbers">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Nombres complexes</translation>
     </message>
     <message id="id-disabled">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Désactivé</translation>
     </message>
     <message id="id-cartesian">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Cartésienne</translation>
     </message>
     <message id="id-polar">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Polaire</translation>
     </message>
     <message id="id-save-history-on-exit">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder l&apos;historique à la sortie de l&apos;application</translation>
     </message>
     <message id="id-direct-insert-from-lists">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Insertion directe à partir des listes</translation>
     </message>
     <message id="id-list-font-size">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Liste des tailles de police</translation>
     </message>
     <message id="id-small">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Petit</translation>
     </message>
     <message id="id-medium">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Moyen</translation>
     </message>
     <message id="id-large">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Grand</translation>
     </message>
     <message id="id-type-filter">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Type de filtre</translation>
     </message>
     <message id="id-all">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Tous</translation>
     </message>
     <message id="id-functions">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Fonctions</translation>
     </message>
     <message id="id-units">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Unités</translation>
     </message>
     <message id="id-constants">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Constantes</translation>
     </message>
     <message id="id-user-defined">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Utilisateur défini</translation>
     </message>
     <message id="id-remove-from-recent">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer de la liste Récente</translation>
     </message>
     <message id="id-delete-user-defined">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Suppression de l&apos;utilisateur défini</translation>
     </message>
     <message id="id-copy-result">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Copier le résultat</translation>
     </message>
     <message id="id-copy-expression">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Copie de l&apos;expression</translation>
     </message>
     <message id="id-paste">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Collez</translation>
     </message>
     <message id="id-clear-history">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Effacer l&apos;historique</translation>
     </message>
     <message id="id-search">
-        <source></source>
+        <source/>
         <extracomment>Placeholder</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Chercher</translation>
     </message>
     <message id="id-removing">
-        <source></source>
+        <source/>
         <extracomment>Remorse timer</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer</translation>
     </message>
     <message id="id-deleting">
-        <source></source>
+        <source/>
         <extracomment>Remorse timer</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Suppression</translation>
     </message>
     <message id="id-evaluation-error">
-        <source></source>
+        <source/>
         <extracomment>Notification message</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Erreur d&apos;évaluation</translation>
     </message>
     <message id="id-function-added">
-        <source></source>
+        <source/>
         <extracomment>Notification message</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Fonction ajoutée</translation>
     </message>
 </context>
 </TS>

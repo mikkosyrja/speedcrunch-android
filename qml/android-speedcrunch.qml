@@ -14,6 +14,7 @@ ApplicationWindow
 	property real fontsize: (height / (landscape ? 24 : 36))
 	property real fontscale: 1.0
 	property real fontsizelist: fontsize * fontscale
+	property real fontsizeedit: fontsize * 1.1
 
 	property int fontsizemenu: fontsize * 1.3
 	property int lineheight: fontsizelist * 1.5
@@ -22,7 +23,7 @@ ApplicationWindow
 	property int buttoncols: landscape ? 10 : 5
 	property int buttonrows: landscape ? 3 : 5
 	property int cornerradius: width / buttoncols / 15
-	property int itemspacing: width / buttoncols / 15
+	property int itemspacing: width / buttoncols / 12
 
 	property alias functions: functions
 	property alias history: calculator.history
@@ -167,7 +168,7 @@ ApplicationWindow
 					{
 						text: "SpeedCrunch Android 0.3"
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
-						onTriggered: { Qt.openUrlExternally("https://openrepos.net/content/syrja/speedcrunch") }
+						onTriggered: { Qt.openUrlExternally("https://github.com/mikkosyrja/speedcrunch-android") }
 					}
 					MenuItem
 					{

@@ -26,7 +26,7 @@
 
 - Added spanish UI translations (thanks @carmenfdezb)
 - Added french UI translations (thanks @JeanDeLaMouche)
-- Added support for portuguese language
+- Added support for portuguese language pt_PT
 - Adjusted settings page control widths for different languages
 - Initial landscape mode support:
 	- Uses single 3x10 button keyboard in landscape mode
@@ -41,4 +41,10 @@
 - Added some flicking resistance to buttons:
 	- Drag within button does not flick keyboard or page
 	- Reduces unwanted flicks when pressing buttons
+
+### 0.4 (2018-12-xx)
+
+- Added support for slovenian language sl_SL
+- Added slovenian UI translations (thanks @sponka)
+- Compiled with Qt version 5.12.0 and Android NDK r18b
 

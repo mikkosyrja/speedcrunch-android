@@ -143,6 +143,7 @@ DISTFILES += \
 	locale/mobile.fr_FR.ts \
 	locale/mobile.ru_RU.ts \
 	locale/mobile.es_ES.ts \
+	locale/mobile.sl_SI.ts \
 	locale/mobile.sv_SE.ts \
 	locale/mobile.pt_PT.ts \
 	locale/mobile.ts

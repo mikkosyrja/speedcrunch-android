@@ -17,21 +17,21 @@ Rectangle
 		columns: buttoncols
 		spacing: itemspacing
 
-		CalcButton { id: button1; text: "1"; value: "1"; secondary: "A" }
-		CalcButton { id: button2; text: "2"; value: "2"; secondary: "B" }
-		CalcButton { id: button3; text: "3"; value: "3"; secondary: "C" }
-		CalcButton { id: button4; text: "4"; value: "4"; secondary: "D" }
-		CalcButton { id: button5; text: "5"; value: "5"; secondary: "E" }
-		CalcButton { id: button6; text: "6"; value: "6"; secondary: "F" }
+		CalcButton { id: button1; text: "1"; secondary: "A" }
+		CalcButton { id: button2; text: "2"; secondary: "B" }
+		CalcButton { id: button3; text: "3"; secondary: "C" }
+		CalcButton { id: button4; text: "4"; secondary: "D" }
+		CalcButton { id: button5; text: "5"; secondary: "E" }
+		CalcButton { id: button6; text: "6"; secondary: "F" }
 		CalcButton { id: button7; text: "7" }
 		CalcButton { id: button8; text: "8" }
-		CalcButton { id: button9; text: "9"; value: "9"; secondary: "j" }
+		CalcButton { id: button9; text: "9"; secondary: "j" }
 		CalcButton { text: "0" }	// secondary: ° (degree)
 
 		CalcButton { text: "+" }
 		CalcButton { text: "-" }
-		CalcButton { text: "×"; value: "×" }
-		CalcButton { text: "/" }
+		CalcButton { text: "×" }
+		CalcButton { text: "÷"; value: "/" }
 		CalcButton { text: "x²"; value: "^2"; secondary: "^" }
 		CalcButton { text: "√"; value: "sqrt()"; secondary: "cbrt()" }
 		CalcButton { text: "!" }
@@ -43,8 +43,8 @@ Rectangle
 		CalcButton { text: "π"; value: "pi" }
 		CalcButton { text: "e" }
 		CalcButton { text: "x"; secondary: "y" }
-		CalcButton { text: "X="; value: "="; secondary: "(x)=" }
-		CalcButton { id: buttonbase; text: "0x"; value: "0x"; secondary: "0b"  }
+		CalcButton { text: "x="; value: "="; secondary: "(x)=" }
+		CalcButton { id: buttonbase; text: "0x"; secondary: "0b"  }
 		CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
 		CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
 		BackSpace { }

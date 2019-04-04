@@ -42,9 +42,13 @@
 	- Drag within button does not flick keyboard or page
 	- Reduces unwanted flicks when pressing buttons
 
-### 0.4 (2018-12-xx)
+### 0.4 (2019-03-xx)
 
 - Added support for slovenian language sl_SL
 - Added slovenian UI translations (thanks @sponka)
-- Compiled with Qt version 5.12.0 and Android NDK r18b
+- Compiled with Qt version 5.12.2 and Android NDK r18b
+- Some keyboard modifications:
+	- Long press with equals (=) produces previous result (ans)
+	- Long press with ln produces lg()
+	- Long press with exp produces 10^
 

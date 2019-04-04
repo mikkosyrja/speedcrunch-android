@@ -217,8 +217,7 @@ Page
 					{
 						id: evaluatebutton
 						width: keyboard.buttonwidth; height: keyboard.buttonheight
-						text: "="
-						special: true
+						text: "="; special: true; secondary: "ans"
 						onRunFunction: { evaluate(); setDefaultFocus() }
 					}
 				}

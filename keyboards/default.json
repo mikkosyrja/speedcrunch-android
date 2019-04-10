@@ -1,0 +1,177 @@
+{
+	"editkey":
+	{
+		"rows":
+		[
+			{
+				"keys":
+				[
+					{ "label": "=", "value": "<evaluate>", "second": "", "tooltip": "", "color": true, "bold": false }
+				]
+			}
+		]
+	},
+	"leftpad":
+	{
+		"rows":
+		[
+			{
+				"keys":
+				[
+					{ "label": "7", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "8", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "9", "value": "", "second": "j", "tooltip": "", "color": false, "bold": false },
+					{ "label": "÷", "value": "/", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "x²", "value": "^2", "second": "^", "tooltip": "", "color": false, "bold": false }
+				]
+			},
+			{
+				"keys":
+				[
+					{ "label": "4", "value": "", "second": "D", "tooltip": "", "color": false, "bold": false },
+					{ "label": "5", "value": "", "second": "E", "tooltip": "", "color": false, "bold": false },
+					{ "label": "6", "value": "", "second": "F", "tooltip": "", "color": false, "bold": false },
+					{ "label": "×", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "√", "value": "sqrt()", "second": "cbrt()", "tooltip": "", "color": false, "bold": false }
+				]
+			},
+			{
+				"keys":
+				[
+					{ "label": "1", "value": "", "second": "A", "tooltip": "", "color": false, "bold": false },
+					{ "label": "2", "value": "", "second": "B", "tooltip": "", "color": false, "bold": false },
+					{ "label": "3", "value": "", "second": "C", "tooltip": "", "color": false, "bold": false },
+					{ "label": "-", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "1/x", "value": "1/x", "second": "", "tooltip": "", "color": false, "bold": false }
+				]
+			},
+			{
+				"keys":
+				[
+					{ "label": "0", "value": "", "second": "°", "tooltip": "", "color": false, "bold": false },
+					{ "label": ".", "value": "", "second": "'", "tooltip": "", "color": false, "bold": false },
+					{ "label": ";", "value": "", "second": ":", "tooltip": "", "color": false, "bold": false },
+					{ "label": "+", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "0x", "value": "", "second": "0b", "tooltip": "", "color": false, "bold": false }
+				]
+			},
+			{
+				"keys":
+				[
+					{ "label": "(", "value": "", "second": "", "tooltip": "", "color": true, "bold": false },
+					{ "label": ")", "value": "", "second": "", "tooltip": "", "color": true, "bold": false },
+					{ "label": "←", "value": "<left>", "second": "", "tooltip": "", "color": true, "bold": false },
+					{ "label": "→", "value": "<right>", "second": "", "tooltip": "", "color": true, "bold": false },
+					{ "label": "", "value": "<back>", "second": "", "tooltip": "", "color": true, "bold": false }
+				]
+			}
+		]
+	},
+	"rightpad":
+	{
+		"rows":
+		[
+			{
+				"keys":
+				[
+					{ "label": "sin", "value": "sin()", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "cos", "value": "cos()", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "tan", "value": "tan()", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "ln", "value": "ln()", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "xⁿ", "value": "^", "second": "^2", "tooltip": "", "color": false, "bold": false }
+				]
+			},
+			{
+				"keys":
+				[
+					{ "label": "asin", "value": "arcsin()", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "acos", "value": "arccos()", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "atan", "value": "arctan()", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "exp", "value": "exp()", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "∛", "value": "cbrt()", "second": "sqrt()", "tooltip": "", "color": false, "bold": false }
+				]
+			},
+			{
+				"keys":
+				[
+					{ "label": "π", "value": "pi", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "e", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "x", "value": "", "second": "y", "tooltip": "", "color": false, "bold": false },
+					{ "label": "x=", "value": "=", "second": "(x)=", "tooltip": "", "color": false, "bold": false },
+					{ "label": "!", "value": "", "second": "", "tooltip": "", "color": false, "bold": false }
+				]
+			},
+			{
+				"keys":
+				[
+					{ "label": "&", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "|", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "<<", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": ">>", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "➔", "value": "->", "second": "", "tooltip": "", "color": false, "bold": false }
+				]
+			},
+			{
+				"keys":
+				[
+					{ "label": "(", "value": "", "second": "", "tooltip": "", "color": true, "bold": false },
+					{ "label": ")", "value": "", "second": "", "tooltip": "", "color": true, "bold": false },
+					{ "label": "←", "value": "<left>", "second": "", "tooltip": "", "color": true, "bold": false },
+					{ "label": "→", "value": "<right>", "second": "", "tooltip": "", "color": true, "bold": false },
+					{ "label": "", "value": "<back>", "second": "", "tooltip": "", "color": true, "bold": false }
+				]
+			}
+		]
+	},
+	"landscape":
+	{
+		"rows":
+		[
+			{
+				"keys":
+				[
+					{ "label": "1", "value": "", "second": "A", "tooltip": "", "color": false, "bold": false },
+					{ "label": "2", "value": "", "second": "B", "tooltip": "", "color": false, "bold": false },
+					{ "label": "3", "value": "", "second": "C", "tooltip": "", "color": false, "bold": false },
+					{ "label": "4", "value": "", "second": "D", "tooltip": "", "color": false, "bold": false },
+					{ "label": "5", "value": "", "second": "E", "tooltip": "", "color": false, "bold": false },
+					{ "label": "6", "value": "", "second": "F", "tooltip": "", "color": false, "bold": false },
+					{ "label": "7", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "8", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "9", "value": "", "second": "j", "tooltip": "", "color": false, "bold": false },
+					{ "label": "0", "value": "", "second": "°", "tooltip": "", "color": false, "bold": false }
+				]
+			},
+			{
+				"keys":
+				[
+					{ "label": "+", "value": "", "second": "A", "tooltip": "", "color": false, "bold": false },
+					{ "label": "-", "value": "", "second": "B", "tooltip": "", "color": false, "bold": false },
+					{ "label": "×", "value": "", "second": "C", "tooltip": "", "color": false, "bold": false },
+					{ "label": "÷", "value": "/", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "x²", "value": "^2", "second": "^", "tooltip": "", "color": false, "bold": false },
+					{ "label": "√", "value": "sqrt()", "second": "cbrt()", "tooltip": "Square root", "color": false },
+					{ "label": "!", "value": "", "second": "'", "tooltip": "", "color": false, "bold": false },
+					{ "label": "1/x", "value": "1/", "second": ":", "tooltip": "", "color": false, "bold": false },
+					{ "label": ".", "value": "", "second": "'", "tooltip": "", "color": false, "bold": false },
+					{ "label": ";", "value": "", "second": ";", "tooltip": "", "color": false, "bold": false }
+				]
+			},
+			{
+				"keys":
+				[
+					{ "label": "(", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": ")", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "π", "value": "pi", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "e", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "x", "value": "", "second": "y", "tooltip": "The variable x", "color": false, "bold": false },
+					{ "label": "X=", "value": "=", "second": "(x)=", "tooltip": "Assign variable x", "color": false, "bold": false },
+					{ "label": "0x", "value": "", "second": "0b", "tooltip": "", "color": false, "bold": false },
+					{ "label": "←", "value": "<left>", "second": "", "tooltip": "", "color": true, "bold": false },
+					{ "label": "→", "value": "<right>", "second": "", "tooltip": "", "color": true, "bold": false },
+					{ "label": "", "value": "<back>", "second": "", "tooltip": "", "color": true, "bold": false }
+				]
+			}
+		]
+	}
+}	

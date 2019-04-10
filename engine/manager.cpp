@@ -33,7 +33,7 @@
 /*!
 	\param parent		//!< Optional parent.
 */
-Manager::Manager(QObject* parent) : QObject(parent)
+Manager::Manager(QObject* parent) : QObject(parent), keyboard("default")
 {
 	session = new Session;
 
@@ -698,6 +698,20 @@ void Manager::setClipboard(const QString& text) const
 QString Manager::getClipboard() const
 {
 	return clipboard->text();
+}
+
+//
+QSize Manager::getKeyboardSize(const QString& name) const
+{
+	if ( name == "leftpad" || name == "rightpad" )
+		return QSize(5, 5);
+	return QSize(10, 3);
+}
+
+//
+QString Manager::getKeyScript(const QString& name, int row, int col) const
+{
+	return keyboard.getKeyScript(name, row, col);
 }
 
 //! Check if the name is in recent list.

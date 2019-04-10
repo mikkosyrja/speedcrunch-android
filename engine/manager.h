@@ -32,6 +32,8 @@
 #include "core/constants.h"
 #include "math/units.h"
 
+#include "keypad.h"
+
 class Manager : public QObject
 {
 	Q_OBJECT
@@ -77,6 +79,9 @@ public:
 	Q_INVOKABLE void setClipboard(const QString& text) const;
 	Q_INVOKABLE QString getClipboard() const;
 
+	Q_INVOKABLE QSize getKeyboardSize(const QString& name) const;
+	Q_INVOKABLE QString getKeyScript(const QString& name, int row, int col) const;
+
 private:
 	bool checkRecent(const QString& name) const;
 
@@ -95,6 +100,9 @@ private:
 
 	QList<Unit> units;						//!< Available units.
 	QList<Constant> constants;				//!< Available constants.
+
+	QJsonParseError parseError;				//!< Parse error handling.
+	Keyboard keyboard;						//!< Current keyboard.
 };
 
 #endif

@@ -71,7 +71,8 @@ SOURCES += \
 	engine/core/userfunction.cpp \
 	engine/core/variable.cpp \
 	engine/manager.cpp \
-	src/android-speedcrunch.cpp
+	src/android-speedcrunch.cpp \
+    engine/keypad.cpp
 
 HEADERS += \
 	engine/math/cmath.h \
@@ -110,7 +111,8 @@ HEADERS += \
 	engine/core/settings.h \
 	engine/core/userfunction.h \
 	engine/core/variable.h \
-	engine/manager.h
+	engine/manager.h \
+    engine/keypad.h
 
 DISTFILES += \
 	qml/android-speedcrunch.qml \

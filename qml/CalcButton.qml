@@ -5,10 +5,11 @@ Button
 {
 	signal runFunction
 
-	property bool special: false
+	property bool special
+	property bool highlight
 	property string value: text
-	property string secondary: value
-	property string image: ""
+	property string second: value
+	property string image: (value == "<back>" ? "back.png" : (value == "cbrt()" ? "cuberoot.png" : ""))
 
 	width: parent.width / buttoncols - parent.spacing + parent.spacing / buttoncols
 	height: parent.height / buttonrows - parent.spacing + parent.spacing / buttonrows
@@ -23,6 +24,7 @@ Button
 		visible: image.length
 		source: image
 	}
+
 	function insertValue(value)
 	{
 		var pos = textfield.cursorPosition
@@ -38,6 +40,25 @@ Button
 		if ( value.slice(-2) === "()" )
 			textfield.cursorPosition--
 	}
+
+	function backspace()
+	{
+		var pos = textfield.cursorPosition;
+		if ( textfield.text == "" || pos == 0 )
+			return;
+		if ( textfield.selectionStart - textfield.selectionEnd != 0 )
+		{
+			var firstpart = textfield.text.slice(0, textfield.selectionStart);
+			var lastpart = textfield.text.slice(textfield.selectionEnd);
+			textfield.text = firstpart + lastpart
+		}
+		else
+		{
+			textfield.text = textfield.text.slice(0, pos - 1) + textfield.text.slice(pos)
+			textfield.cursorPosition = pos - 1
+		}
+	}
+
 	MouseArea
 	{
 		anchors { fill: parent }
@@ -47,19 +68,28 @@ Button
 		onCanceled: { window.interactive = true; keyboard.interactive = true }
 		onClicked:
 		{
-			if ( special )
-				parent.runFunction();
+			if ( value == "<left>" )
+				textfield.cursorPosition--
+			else if ( value == "<right>" )
+				textfield.cursorPosition++
+			else if ( value == "<back>" )
+				parent.backspace()
+			else if ( value == "<evaluate>" )
+			{
+				evaluate()
+				setDefaultFocus()
+			}
 			else
 				parent.insertValue(value)
 		}
 		onPressAndHold:
 		{
-			if ( text == "←" )
+			if ( value == "<left>" )
 				textfield.cursorPosition = 0
-			else if ( text == "→" )
+			else if ( value == "<right>" )
 				textfield.cursorPosition = textfield.text.length
 			else
-				parent.insertValue(secondary)
+				parent.insertValue(second)
 		}
 	}
 }

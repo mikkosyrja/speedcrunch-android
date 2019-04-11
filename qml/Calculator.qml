@@ -217,15 +217,17 @@ Page
 					{
 						id: evaluatebutton
 						width: keyboard.buttonwidth; height: keyboard.buttonheight
-						text: "="; special: true; secondary: "ans"
-						onRunFunction: { evaluate(); setDefaultFocus() }
+						text: "="; value: "<evaluate>"; second: "ans"
 					}
 				}
 			}
 			Rectangle
 			{
-				property int buttonwidth: landscape ? landscapekeyboard.buttonwidth : portraitkeyboard.buttonwidth
-				property int buttonheight: landscape ? landscapekeyboard.buttonheight : portraitkeyboard.buttonheight
+				property int buttoncols: landscape ? landscapekeyboard.buttoncols : portraitkeyboard.buttoncols
+				property int buttonrows: landscape ? landscapekeyboard.buttonrows : portraitkeyboard.buttonrows
+				property int buttonwidth: (width - itemspacing) / buttoncols - itemspacing
+				property int buttonheight: (keyboardheight - itemspacing) / buttonrows - itemspacing
+
 				property alias swipecount: portraitkeyboard.swipecount
 				property alias swipeindex: portraitkeyboard.swipeindex
 				property alias interactive: portraitkeyboard.interactive

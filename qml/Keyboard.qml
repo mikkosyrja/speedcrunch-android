@@ -3,8 +3,9 @@ import QtQuick.Controls 2.3
 
 Rectangle
 {
-	property int buttonwidth: button1.width
-	property int buttonheight: button1.height
+	property int buttoncols: 5
+	property int buttonrows: 5
+
 	property int swipecount: swipe.count
 	property int swipeindex: swipe.currentIndex
 	property alias interactive: swipe.interactive
@@ -24,34 +25,10 @@ Rectangle
 				color: backgroundcolor
 				Grid
 				{
+					id: leftpanel
 					anchors { fill: parent; margins: itemspacing }
 					columns: buttoncols
 					spacing: itemspacing
-					CalcButton { id: button7; text: "7" }
-					CalcButton { id: button8; text: "8" }
-					CalcButton { id: button9; text: "9"; secondary: "j" }
-					CalcButton { text: "÷"; value: "/" }
-					CalcButton { text: "x²"; value: "^2" }
-					CalcButton { id: button4; text: "4"; secondary: "D" }
-					CalcButton { id: button5; text: "5"; secondary: "E" }
-					CalcButton { id: button6; text: "6"; secondary: "F" }
-					CalcButton { text: "×"; value: "×" }
-					CalcButton { text: "√"; value: "sqrt()"; secondary: "cbrt()" }
-					CalcButton { id: button1; text: "1"; secondary: "A" }
-					CalcButton { id: button2; text: "2"; secondary: "B" }
-					CalcButton { id: button3; text: "3"; secondary: "C" }
-					CalcButton { text: "-" }
-					CalcButton { text: "1/x"; value: "1/" }
-					CalcButton { text: "0" }	// secondary: ° (degree)
-					CalcButton { text: "." }	// secondary: ' (minute)
-					CalcButton { text: ";" }	// secondary: : (time)
-					CalcButton { text: "+" }
-					CalcButton { id: buttonbase; text: "0x"; secondary: "0b"  }
-					CalcButton { text: "(" }
-					CalcButton { text: ")" }
-					CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
-					CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
-					BackSpace { }
 /*
 					CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
 					CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
@@ -69,35 +46,10 @@ Rectangle
 				color: backgroundcolor
 				Grid
 				{
+					id: rightpanel
 					anchors { fill: parent; margins: itemspacing }
 					columns: buttoncols
 					spacing: itemspacing
-					CalcButton { text: "sin"; value: "sin()" }
-					CalcButton { text: "cos"; value: "cos()" }
-					CalcButton { text: "tan"; value: "tan()" }
-					CalcButton { text: "ln"; value: "ln()"; secondary: "lg()" }
-					CalcButton { text: "xⁿ"; value:"^"; secondary: "^2" }
-					CalcButton { text: "asin"; value: "arcsin()" }
-					CalcButton { text: "acos"; value: "arccos()" }
-					CalcButton { text: "atan"; value: "arctan()" }
-					CalcButton { text: "exp"; value: "exp()"; secondary: "10^" }
-					CalcButton { image: "cuberoot.png"; value:"cbrt()"; secondary: "sqrt()" }
-//					CalcButton { text: "∛"; value:"cbrt()" }
-					CalcButton { text: "π"; value: "pi" }
-					CalcButton { text: "e" }
-					CalcButton { text: "x"; secondary: "y" }
-					CalcButton { text: "x="; value: "="; secondary: "(x)=" }
-					CalcButton { text: "!" }
-					CalcButton { text: "&&" }
-					CalcButton { text: "|" }
-					CalcButton { text: "<<" }
-					CalcButton { text: ">>" }
-					CalcButton { text: "➔"; value: "->" }
-					CalcButton { text: "(" }
-					CalcButton { text: ")" }
-					CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
-					CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
-					BackSpace { }
 /*
 					CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
 					CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
@@ -108,8 +60,27 @@ Rectangle
 			}
 		}
 	}
+
+	Component.onCompleted:
+	{
+		var row, col, script
+		for ( row = 0; row < buttonrows; ++row )
+		{
+			for ( col = 0; col < buttoncols; ++col )
+			{
+				script = manager.getKeyScript("leftpad", row, col)
+				Qt.createQmlObject(script, leftpanel);
+				script = manager.getKeyScript("rightpad", row, col)
+				Qt.createQmlObject(script, rightpanel);
+			}
+		}
+
+//		goToPage(0);
+	}
+
 	function setButtonLabels()
 	{
+/*
 		var format = manager.getResultFormat()
 		if ( format === "h" )
 		{
@@ -129,5 +100,6 @@ Rectangle
 			button9.text = "9 j"
 		else
 			button9.text = "9"
+*/
 	}
 }

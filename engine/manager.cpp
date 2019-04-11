@@ -33,7 +33,7 @@
 /*!
 	\param parent		//!< Optional parent.
 */
-Manager::Manager(QObject* parent) : QObject(parent), keyboard("default")
+Manager::Manager(QObject* parent) : QObject(parent)
 {
 	session = new Session;
 
@@ -109,6 +109,10 @@ Manager::Manager(QObject* parent) : QObject(parent), keyboard("default")
 	constants = Constants::instance()->list();
 	std::sort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
+
+//	QString keyboardpath = configpath + "/keyboards/default.json";
+	QString keyboardpath = ":/keyboards/Classic.json";
+	keyboard.load(keyboardpath, parseError);
 }
 
 //! Save session on exit.
@@ -700,15 +704,27 @@ QString Manager::getClipboard() const
 	return clipboard->text();
 }
 
-//
+//! Get keyboard size.
+/*!
+	\param name			Keyboard name.
+	\return				Keyboard size.
+*/
 QSize Manager::getKeyboardSize(const QString& name) const
 {
 	if ( name == "leftpad" || name == "rightpad" )
 		return QSize(5, 5);
-	return QSize(10, 3);
+	if ( name == "landscape" )
+		return QSize(10, 3);
+	return QSize(1, 1);		// editkey
 }
 
-//
+//! Get QML script for a key.
+/*!
+	\param name			Keyboard name.
+	\param row			Row index.
+	\param col			Column index.
+	\return				QML script string.
+*/
 QString Manager::getKeyScript(const QString& name, int row, int col) const
 {
 	return keyboard.getKeyScript(name, row, col);

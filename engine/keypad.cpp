@@ -24,6 +24,9 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+//
+//	key functions
+//
 //! Get QML script for a key.
 /*!
 	\return				QML script string.
@@ -43,6 +46,9 @@ QString Keyboard::Panel::Key::getScript() const
 	return script;
 }
 
+//
+//	panel functions
+//
 //! Load panel from JSON file.
 /*!
 	\param root			JSON file root object .
@@ -96,7 +102,12 @@ bool Keyboard::Panel::load(QJsonObject& root)
 	return false;
 }
 
-//
+//! Get QML script for a key.
+/*!
+	\param row			Row index.
+	\param col			Column index.
+	\return				QML script string.
+*/
 QString Keyboard::Panel::getKeyScript(int row, int col) const
 {
 	if ( row < static_cast<int>(keys.size()) )
@@ -105,6 +116,15 @@ QString Keyboard::Panel::getKeyScript(int row, int col) const
 			return keys.at(row).at(col).getScript();
 	}
 	return QString();
+}
+
+//
+//	keyboard functions
+//
+//! Constructor.
+Keyboard::Keyboard() : editkey("editkey"), leftpad("leftpad"), rightpad("rightpad"), landscape("landscape")
+{
+
 }
 
 //! Load keyboard from JSON file.
@@ -127,20 +147,20 @@ bool Keyboard::load(const QString& path, QJsonParseError& error)
 	return false;
 }
 
-//
-QString Keyboard::getKeyScript(const QString& panelname, int row, int col) const
-{
-	const Panel& panel = (panelname == "leftpad" ? leftpad : (panelname == "rightpad" ? rightpad
-		: (panelname == "landscape" ? landscape : editkey)));
-	return panel.getKeyScript(row, col);
-}
-
-//! Constructor.
+//! Get QML script for a key.
 /*!
-	\param keyboardname	Keyboard name.
+	\param name			Keyboard name.
+	\param row			Row index.
+	\param col			Column index.
+	\return				QML script string.
 */
-Keyboard::Keyboard(const QString& keyboardname) : name(keyboardname),
-	editkey("editkey"), leftpad("leftpad"), rightpad("rightpad"), landscape("landscape")
+QString Keyboard::getKeyScript(const QString& name, int row, int col) const
 {
-
+	if ( name == "leftpad" )
+		return leftpad.getKeyScript(row, col);
+	if ( name == "rightpad" )
+		return rightpad.getKeyScript(row, col);
+	if ( name == "landscape" )
+		return landscape.getKeyScript(row, col);
+	return editkey.getKeyScript(row, col);
 }

@@ -110,9 +110,19 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	std::sort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
 
-//	QString keyboardpath = configpath + "/keyboards/default.json";
-	QString keyboardpath = ":/keyboards/Classic.json";
-	keyboard.load(keyboardpath, parseError);
+	std::vector<QString> paths;
+	paths.push_back(configpath + "/keyboards/");
+	paths.push_back(":/keyboards/");
+	for ( const auto& path : paths )
+	{
+		directory.setPath(path);
+		directory.setFilter(QDir::Files | QDir::Readable);
+		directory.setNameFilters(QStringList("*.json"));
+		const auto infos = directory.entryInfoList();
+		for ( const auto& info : infos )
+			keyboards.insert(info.completeBaseName(), info.absoluteFilePath());
+	}
+	setKeyboard(settings->keyboard);
 }
 
 //! Save session on exit.
@@ -702,6 +712,55 @@ void Manager::setClipboard(const QString& text) const
 QString Manager::getClipboard() const
 {
 	return clipboard->text();
+}
+
+//! Set and load keyboard.
+/*!
+	\param name			Keyboard name.
+	return				True for success.
+*/
+bool Manager::setKeyboard(const QString& name)
+{
+	auto iter = keyboards.find(name);
+	if ( iter != keyboards.end() )
+	{
+		QString path = iter.value();
+		if ( keyboard.load(path, parseError) )
+		{
+			settings->keyboard = name;
+			settings->save();
+			return true;
+		}
+	}
+
+//	QString keyboardpath = configpath + "/keyboards/default.json";
+//	QString keyboardpath = ":/keyboards/Classic.json";
+//	keyboard.load(keyboardpath, parseError);
+
+	keyboard.load(":/keyboards/Classic.json", parseError);
+	return false;
+}
+
+//! Get current keyboard.
+/*!
+	\return				Keyboard name.
+*/
+QString Manager::getKeyboard() const
+{
+	return settings->keyboard;
+}
+
+//! Get keyboard names as javacript array.
+/*!
+	\return				Keyboard names.
+*/
+QString Manager::getKeyboards() const
+{
+	QStringList names = keyboards.keys();
+	QString result = "[";
+	for ( const auto& name : names )
+		result += "\"" + name + "\",";
+	return result + "]";
 }
 
 //! Get keyboard size.

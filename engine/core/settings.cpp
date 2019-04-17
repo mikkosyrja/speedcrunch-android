@@ -48,8 +48,8 @@
 // releases that don't contain incompatible changes.
 static const int ConfigVersion = 1200;
 
-
 static const char* DefaultColorScheme = "Terminal";
+static const char* DefaultKeyboard = "Classic";
 
 QString Settings::getConfigPath()
 {
@@ -211,6 +211,7 @@ void Settings::load()
 	key = KEY + QLatin1String("/Display/");
 	displayFont = settings->value(key + QLatin1String("DisplayFont"), QFont().toString()).toString();
 	colorScheme = settings->value(key + QLatin1String("ColorSchemeName"), DefaultColorScheme).toString();
+	keyboard = settings->value(key + QLatin1String("KeyboardName"), DefaultKeyboard).toString();
 
 	delete settings;
 }
@@ -271,7 +272,7 @@ void Settings::save()
 
 	settings->setValue(key + QLatin1String("DisplayFont"), displayFont);
 	settings->setValue(key + QLatin1String("ColorSchemeName"), colorScheme);
-
+	settings->setValue(key + QLatin1String("KeyboardName"), keyboard);
 
 	delete settings;
 }

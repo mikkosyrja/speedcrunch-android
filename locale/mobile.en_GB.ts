@@ -1,204 +1,205 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="en_GB">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="en_GB" version="2.1">
 <context>
-    <name></name>
+    <name/>
     <message id="id-expression">
-        <source></source>
+        <source/>
         <extracomment>Placeholder</extracomment>
         <translation>expression</translation>
     </message>
     <message id="id-insert-item">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-		<translation>Insert:</translation>
+        <translation>Insert:</translation>
     </message>
     <message id="id-edit-item">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-		<translation>Edit:</translation>
+        <translation>Edit:</translation>
     </message>
     <message id="id-remove-from-history">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
         <translation>Remove from history</translation>
     </message>
     <message id="id-result-format">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
         <translation>Result Format</translation>
     </message>
     <message id="id-general-decimal">
-        <source></source>
+        <source/>
         <translation>General decimal</translation>
     </message>
     <message id="id-fixed-decimal">
-        <source></source>
+        <source/>
         <translation>Fixed decimal</translation>
     </message>
     <message id="id-engineering-decimal">
-        <source></source>
+        <source/>
         <translation>Engineering decimal</translation>
     </message>
     <message id="id-scientific-decimal">
-        <source></source>
+        <source/>
         <translation>Scientific decimal</translation>
     </message>
     <message id="id-binary">
-        <source></source>
+        <source/>
         <translation>Binary</translation>
     </message>
     <message id="id-octal">
-        <source></source>
+        <source/>
         <translation>Octal</translation>
     </message>
     <message id="id-hexadecimal">
-        <source></source>
+        <source/>
         <translation>Hexadecimal</translation>
     </message>
     <message id="id-precision">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
         <translation>Precision</translation>
     </message>
     <message id="id-automatic">
-        <source></source>
+        <source/>
         <translation>Automatic</translation>
     </message>
     <message id="id-angle-unit">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
         <translation>Angle Unit</translation>
     </message>
     <message id="id-degree">
-        <source></source>
+        <source/>
         <translation>Degree</translation>
     </message>
     <message id="id-radian">
-        <source></source>
+        <source/>
         <translation>Radian</translation>
     </message>
     <message id="id-complex-numbers">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
         <translation>Complex Numbers</translation>
     </message>
     <message id="id-disabled">
-        <source></source>
+        <source/>
         <translation>Disabled</translation>
     </message>
     <message id="id-cartesian">
-        <source></source>
+        <source/>
         <translation>Cartesian</translation>
     </message>
     <message id="id-polar">
-        <source></source>
+        <source/>
         <translation>Polar</translation>
     </message>
     <message id="id-save-history-on-exit">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
         <translation>Save History on Exit</translation>
     </message>
     <message id="id-direct-insert-from-lists">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
         <translation>Direct Insert from Lists</translation>
     </message>
-    <message id="id-list-font-size">
-        <source></source>
+	<message id="id-keyboard">
+		<source/>
+		<extracomment>Setting title</extracomment>
+		<translation>Keyboard</translation>
+	</message>
+	<message id="id-list-font-size">
+        <source/>
         <extracomment>Setting title</extracomment>
         <translation>List Font Size</translation>
     </message>
     <message id="id-small">
-        <source></source>
+        <source/>
         <translation>Small</translation>
     </message>
     <message id="id-medium">
-        <source></source>
+        <source/>
         <translation>Medium</translation>
     </message>
     <message id="id-large">
-        <source></source>
+        <source/>
         <translation>Large</translation>
     </message>
     <message id="id-type-filter">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
         <translation>Type Filter</translation>
     </message>
     <message id="id-all">
-        <source></source>
+        <source/>
         <translation>All</translation>
     </message>
     <message id="id-functions">
-        <source></source>
+        <source/>
         <translation>Functions</translation>
     </message>
     <message id="id-units">
-        <source></source>
+        <source/>
         <translation>Units</translation>
     </message>
     <message id="id-constants">
-        <source></source>
+        <source/>
         <translation>Constants</translation>
     </message>
     <message id="id-user-defined">
-        <source></source>
+        <source/>
         <translation>User defined</translation>
     </message>
     <message id="id-remove-from-recent">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
         <translation>Remove from Recent</translation>
     </message>
     <message id="id-delete-user-defined">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
         <translation>Delete User Defined</translation>
     </message>
     <message id="id-copy-result">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
         <translation>Copy Result</translation>
     </message>
     <message id="id-copy-expression">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
         <translation>Copy Expression</translation>
     </message>
     <message id="id-paste">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
         <translation>Paste</translation>
     </message>
     <message id="id-clear-history">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
         <translation>Clear History</translation>
     </message>
     <message id="id-search">
-        <source></source>
+        <source/>
         <extracomment>Placeholder</extracomment>
         <translation>search</translation>
     </message>
     <message id="id-removing">
-        <source></source>
-        <extracomment>Remorse timer</extracomment>
+        <source/>
         <translation>Removing</translation>
     </message>
     <message id="id-deleting">
-        <source></source>
-        <extracomment>Remorse timer</extracomment>
+        <source/>
         <translation>Deleting</translation>
     </message>
     <message id="id-evaluation-error">
-        <source></source>
+        <source/>
         <extracomment>Notification message</extracomment>
         <translation>Evaluation error</translation>
     </message>
     <message id="id-function-added">
-        <source></source>
+        <source/>
         <extracomment>Notification message</extracomment>
         <translation>Function added</translation>
     </message>

@@ -59,6 +59,27 @@ Button
 		}
 	}
 
+	function checkmacro(macro)
+	{
+		if ( macro === "<left>" )
+			textfield.cursorPosition--
+		else if ( macro === "<start>" )
+			textfield.cursorPosition = 0
+		else if ( macro === "<right>" )
+			textfield.cursorPosition++
+		else if ( macro === "<end>" )
+			textfield.cursorPosition = textfield.text.length
+		else if ( macro === "<back>" )
+			backspace()
+		else if ( macro === "<clear>" )
+			textfield.text = "";
+		else if ( macro === "<evaluate>" )
+			evaluate()
+		else
+			return false
+		return true
+	}
+
 	MouseArea
 	{
 		anchors { fill: parent }
@@ -68,27 +89,12 @@ Button
 		onCanceled: { window.interactive = true; keyboard.interactive = true }
 		onClicked:
 		{
-			if ( value == "<left>" )
-				textfield.cursorPosition--
-			else if ( value == "<right>" )
-				textfield.cursorPosition++
-			else if ( value == "<back>" )
-				parent.backspace()
-			else if ( value == "<evaluate>" )
-			{
-				evaluate()
-				setDefaultFocus()
-			}
-			else
+			if ( !checkmacro(value) )
 				parent.insertValue(value)
 		}
 		onPressAndHold:
 		{
-			if ( value == "<left>" )
-				textfield.cursorPosition = 0
-			else if ( value == "<right>" )
-				textfield.cursorPosition = textfield.text.length
-			else
+			if ( !checkmacro(second) )
 				parent.insertValue(second)
 		}
 	}

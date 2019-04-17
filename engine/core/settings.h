@@ -74,8 +74,8 @@ public:
 
     QString colorScheme;
     QString displayFont;
-
-    QString language;
+	QString keyboard;
+	QString language;
 
     QByteArray windowState;
     QByteArray windowGeometry;

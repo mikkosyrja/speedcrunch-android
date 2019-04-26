@@ -5,6 +5,7 @@ Rectangle
 {
 	property int buttoncols: 5
 	property int buttonrows: 5
+	property var buttonobjects: [[], []]
 
 	property int swipecount: swipe.count
 	property int swipeindex: swipe.currentIndex
@@ -29,12 +30,6 @@ Rectangle
 					anchors { fill: parent; margins: itemspacing }
 					columns: buttoncols
 					spacing: itemspacing
-/*
-					CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
-					CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
-					CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
-					Backspace { color: Theme.highlightColor }
-*/
 				}
 			}
 		}
@@ -50,12 +45,6 @@ Rectangle
 					anchors { fill: parent; margins: itemspacing }
 					columns: buttoncols
 					spacing: itemspacing
-/*
-					CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
-					CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
-					CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
-					Backspace { color: Theme.highlightColor }
-*/
 				}
 			}
 		}
@@ -63,19 +52,40 @@ Rectangle
 
 	Component.onCompleted:
 	{
-		var row, col, script
+//		goToPage(0);
+	}
+
+	function loadButtons()
+	{
+		var row, col, index, script
+		var size = manager.getKeyboardSize("leftpad")
+		buttoncols = size.width
+		buttonrows = size.height
+
+		for ( index = 0; index < buttonobjects[0].length; ++index )
+			buttonobjects[0][index].destroy()
+		buttonobjects[0].length = 0
+		for ( index = 0; index < buttonobjects[1].length; ++index )
+			buttonobjects[1][index].destroy()
+		buttonobjects[1].length = 0
+
 		for ( row = 0; row < buttonrows; ++row )
 		{
 			for ( col = 0; col < buttoncols; ++col )
 			{
 				script = manager.getKeyScript("leftpad", row, col)
-				Qt.createQmlObject(script, leftpanel);
+				buttonobjects[0].push(Qt.createQmlObject(script, leftpanel));
 				script = manager.getKeyScript("rightpad", row, col)
-				Qt.createQmlObject(script, rightpanel);
+				buttonobjects[1].push(Qt.createQmlObject(script, rightpanel));
 			}
 		}
 
-//		goToPage(0);
+		script = manager.getKeyScript("editkey", 0, 0)
+		var editbutton = Qt.createQmlObject(script, leftpanel);
+		evaluatebutton.text = editbutton.text
+		evaluatebutton.value = editbutton.value
+		evaluatebutton.second = editbutton.second
+		editbutton.destroy()
 	}
 
 	function setButtonLabels()

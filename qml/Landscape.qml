@@ -5,6 +5,7 @@ Rectangle
 {
 	property int buttoncols: 10
 	property int buttonrows: 3
+	property var buttonobjects: []
 
 	property int swipecount: 1
 	property int swipeindex: 0
@@ -20,15 +21,23 @@ Rectangle
 		spacing: itemspacing
 	}
 
-	Component.onCompleted:
+	function loadButtons()
 	{
-		var row, col, script
+		var row, col, index, script
+		var size = manager.getKeyboardSize("landscape")
+		buttoncols = size.width
+		buttonrows = size.height
+
+		for ( index = 0; index < buttonobjects.length; ++index )
+			buttonobjects[index].destroy()
+		buttonobjects.length = 0
+
 		for ( row = 0; row < buttonrows; ++row )
 		{
 			for ( col = 0; col < buttoncols; ++col )
 			{
 				script = manager.getKeyScript("landscape", row, col)
-				Qt.createQmlObject(script, panel);
+				buttonobjects.push(Qt.createQmlObject(script, panel));
 			}
 		}
 	}

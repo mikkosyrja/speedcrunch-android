@@ -52,6 +52,7 @@ QString Keyboard::Panel::Key::getScript() const
 //! Load panel from JSON file.
 /*!
 	\param root			JSON file root object .
+	\return				True for change.
 */
 bool Keyboard::Panel::load(QJsonObject& root)
 {
@@ -61,6 +62,7 @@ bool Keyboard::Panel::load(QJsonObject& root)
 		QJsonValue rows = value.toObject().value("rows");
 		if ( rows != QJsonValue::Undefined )
 		{
+			keys.clear();
 			int rowCount = 0;
 			for ( auto row : rows.toArray() )
 			{
@@ -131,6 +133,7 @@ Keyboard::Keyboard() : editkey("editkey"), leftpad("leftpad"), rightpad("rightpa
 /*!
 	\param path			JSON file path.
 	\param error		Error object.
+	\return				True for change.
 */
 bool Keyboard::load(const QString& path, QJsonParseError& error)
 {

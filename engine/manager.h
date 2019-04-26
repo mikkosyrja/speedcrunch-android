@@ -81,6 +81,7 @@ public:
 
 	Q_INVOKABLE bool setKeyboard(const QString& text);
 	Q_INVOKABLE QString getKeyboard() const;
+	Q_INVOKABLE int getKeyboardIndex() const;
 
 	Q_INVOKABLE QString getKeyboards() const;
 	Q_INVOKABLE QSize getKeyboardSize(const QString& name) const;

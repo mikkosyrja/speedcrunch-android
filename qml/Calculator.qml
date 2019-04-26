@@ -238,6 +238,11 @@ Page
 				Keyboard { id: portraitkeyboard; anchors.fill: parent; visible: !landscape }
 				Landscape { id: landscapekeyboard; anchors.fill: parent; visible: landscape }
 
+				function loadButtons()
+				{
+					portraitkeyboard.loadButtons()
+					landscapekeyboard.loadButtons()
+				}
 				function setButtonLabels()
 				{
 					portraitkeyboard.setButtonLabels()

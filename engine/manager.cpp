@@ -732,12 +732,7 @@ bool Manager::setKeyboard(const QString& name)
 			return true;
 		}
 	}
-
-//	QString keyboardpath = configpath + "/keyboards/default.json";
-//	QString keyboardpath = ":/keyboards/Classic.json";
-//	keyboard.load(keyboardpath, parseError);
-
-	keyboard.load(":/keyboards/Classic.json", parseError);
+	keyboard.load(":/keyboards/Current.json", parseError);
 	return false;
 }
 
@@ -748,6 +743,16 @@ bool Manager::setKeyboard(const QString& name)
 QString Manager::getKeyboard() const
 {
 	return settings->keyboard;
+}
+
+//! Get current keyboard index.
+/*!
+	\return				Keyboard index.
+*/
+int Manager::getKeyboardIndex() const
+{
+	QStringList names = keyboards.keys();
+	return names.indexOf(settings->keyboard);
 }
 
 //! Get keyboard names as javacript array.
@@ -771,9 +776,23 @@ QString Manager::getKeyboards() const
 QSize Manager::getKeyboardSize(const QString& name) const
 {
 	if ( name == "leftpad" || name == "rightpad" )
+	{
+		if ( size_t rows = keyboard.leftpad.keys.size() )
+		{
+			size_t cols = keyboard.leftpad.keys[0].size();
+			return QSize(static_cast<int>(cols), static_cast<int>(rows));
+		}
 		return QSize(5, 5);
+	}
 	if ( name == "landscape" )
+	{
+		if ( size_t rows = keyboard.landscape.keys.size() )
+		{
+			size_t cols = keyboard.landscape.keys[0].size();
+			return QSize(static_cast<int>(cols), static_cast<int>(rows));
+		}
 		return QSize(10, 3);
+	}
 	return QSize(1, 1);		// editkey
 }
 

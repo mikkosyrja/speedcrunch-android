@@ -249,12 +249,12 @@ Page
 					{
 						if ( initialized )
 							manager.setKeyboard(textAt(currentIndex));
+						keyboard.loadButtons()
 					}
-					function setKeyboard(keyboard)
+					function setKeyboard(index)
 					{
-						var index = find(keyboard)
-						if ( index >= 0 )
-							currentIndex = index
+						currentIndex = index
+						keyboard.loadButtons()
 					}
 				}
 			}
@@ -326,7 +326,7 @@ Page
 			precisionsetting.setPrecision(manager.getPrecision())
 			angleunitsetting.setAngleUnit(manager.getAngleUnit())
 			complexnumbersetting.setComplexNumber(manager.getComplexNumber())
-			keyboardsetting.setKeyboard(manager.getKeyboard())
+			keyboardsetting.setKeyboard(manager.getKeyboardIndex())
 			fontsizesetting.setFontSize(manager.getFontSize())
 			historysavesetting.setHistorySave(manager.getSessionSave())
 			clickinsertsetting.setClickInsert(manager.getClickInsert())

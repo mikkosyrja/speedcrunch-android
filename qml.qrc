@@ -13,5 +13,6 @@
         <file>qml/cuberoot.png</file>
         <file>keyboards/Classic.json</file>
         <file>keyboards/Current.json</file>
+        <file>keyboards/Tablet.json</file>
     </qresource>
 </RCC>

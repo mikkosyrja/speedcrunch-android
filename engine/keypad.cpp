@@ -35,7 +35,15 @@ QString Keyboard::Panel::Key::getScript() const
 {
 	QString script = "CalcButton { ";
 	if ( !label.isEmpty() )
-		script += "text: \"" + label + "\"; ";
+	{
+		script += "text: \"";
+		if ( bold )
+			script += "<b>";
+		script += label;
+		if ( bold )
+			script += "</b>";
+		script += "\"; ";
+	}
 	if ( !value.isEmpty() )
 		script += "value: \"" + value + "\"; ";
 	if ( !second.isEmpty() )

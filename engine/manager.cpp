@@ -775,7 +775,7 @@ QString Manager::getKeyboards() const
 */
 QSize Manager::getKeyboardSize(const QString& name) const
 {
-	if ( name == "leftpad" || name == "rightpad" )
+	if ( name == "leftpad" || name == "rightpad"  || name == "portrait" )
 	{
 		if ( size_t rows = keyboard.leftpad.keys.size() )
 		{

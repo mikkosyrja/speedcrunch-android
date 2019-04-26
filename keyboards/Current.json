@@ -18,9 +18,9 @@
 			{
 				"keys":
 				[
-					{ "label": "7", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
-					{ "label": "8", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
-					{ "label": "9", "value": "", "second": "j", "tooltip": "", "color": false, "bold": false },
+					{ "label": "7", "value": "", "second": "", "tooltip": "", "color": false, "bold": true },
+					{ "label": "8", "value": "", "second": "", "tooltip": "", "color": false, "bold": true },
+					{ "label": "9", "value": "", "second": "j", "tooltip": "", "color": false, "bold": true },
 					{ "label": "÷", "value": "/", "second": "", "tooltip": "", "color": false, "bold": false },
 					{ "label": "x²", "value": "^2", "second": "^", "tooltip": "", "color": false, "bold": false }
 				]
@@ -28,9 +28,9 @@
 			{
 				"keys":
 				[
-					{ "label": "4", "value": "", "second": "D", "tooltip": "", "color": false, "bold": false },
-					{ "label": "5", "value": "", "second": "E", "tooltip": "", "color": false, "bold": false },
-					{ "label": "6", "value": "", "second": "F", "tooltip": "", "color": false, "bold": false },
+					{ "label": "4", "value": "", "second": "D", "tooltip": "", "color": false, "bold": true },
+					{ "label": "5", "value": "", "second": "E", "tooltip": "", "color": false, "bold": true },
+					{ "label": "6", "value": "", "second": "F", "tooltip": "", "color": false, "bold": true },
 					{ "label": "×", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
 					{ "label": "√", "value": "sqrt()", "second": "cbrt()", "tooltip": "", "color": false, "bold": false }
 				]
@@ -38,9 +38,9 @@
 			{
 				"keys":
 				[
-					{ "label": "1", "value": "", "second": "A", "tooltip": "", "color": false, "bold": false },
-					{ "label": "2", "value": "", "second": "B", "tooltip": "", "color": false, "bold": false },
-					{ "label": "3", "value": "", "second": "C", "tooltip": "", "color": false, "bold": false },
+					{ "label": "1", "value": "", "second": "A", "tooltip": "", "color": false, "bold": true },
+					{ "label": "2", "value": "", "second": "B", "tooltip": "", "color": false, "bold": true },
+					{ "label": "3", "value": "", "second": "C", "tooltip": "", "color": false, "bold": true },
 					{ "label": "-", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
 					{ "label": "1/x", "value": "1/x", "second": "", "tooltip": "", "color": false, "bold": false }
 				]
@@ -48,9 +48,9 @@
 			{
 				"keys":
 				[
-					{ "label": "0", "value": "", "second": "°", "tooltip": "", "color": false, "bold": false },
-					{ "label": ".", "value": "", "second": "'", "tooltip": "", "color": false, "bold": false },
-					{ "label": ";", "value": "", "second": ":", "tooltip": "", "color": false, "bold": false },
+					{ "label": "0", "value": "", "second": "°", "tooltip": "", "color": false, "bold": true },
+					{ "label": ".", "value": "", "second": "'", "tooltip": "", "color": false, "bold": true },
+					{ "label": ";", "value": "", "second": ":", "tooltip": "", "color": false, "bold": true },
 					{ "label": "+", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
 					{ "label": "0x", "value": "", "second": "0b", "tooltip": "", "color": false, "bold": false }
 				]

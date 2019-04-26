@@ -14,5 +14,6 @@
         <file>keyboards/Classic.json</file>
         <file>keyboards/Current.json</file>
         <file>keyboards/Tablet.json</file>
+        <file>keyboards/Gemini.json</file>
     </qresource>
 </RCC>

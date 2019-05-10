@@ -1,206 +1,207 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sv_SE">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sv_SE" version="2.1">
 <context>
-    <name></name>
+    <name/>
     <message id="id-expression">
-        <source></source>
+        <source/>
         <extracomment>Placeholder</extracomment>
-		<translation type="unfinished"></translation>
+        <translation>uttryck</translation>
     </message>
     <message id="id-insert-item">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Insättning:</translation>
     </message>
     <message id="id-edit-item">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Ändra:</translation>
     </message>
     <message id="id-remove-from-history">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Avlägsna från historiken</translation>
     </message>
     <message id="id-result-format">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Svarsformat</translation>
     </message>
     <message id="id-general-decimal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Allmänt decimaltal</translation>
     </message>
     <message id="id-fixed-decimal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Fast antal decimaler</translation>
     </message>
     <message id="id-engineering-decimal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Exponentform</translation>
     </message>
     <message id="id-scientific-decimal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Grundpotensform</translation>
     </message>
     <message id="id-binary">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Binära</translation>
     </message>
     <message id="id-octal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Oktala</translation>
     </message>
     <message id="id-hexadecimal">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Hexadecimala</translation>
     </message>
     <message id="id-precision">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Precision</translation>
     </message>
     <message id="id-automatic">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Automatisk</translation>
     </message>
     <message id="id-angle-unit">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Vinkelenhet</translation>
     </message>
     <message id="id-degree">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>grader</translation>
     </message>
     <message id="id-radian">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>radianer</translation>
     </message>
     <message id="id-complex-numbers">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>komplexa tal</translation>
     </message>
     <message id="id-disabled">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>inaktiverad</translation>
     </message>
     <message id="id-cartesian">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>kartesiska</translation>
     </message>
     <message id="id-polar">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>polära</translation>
     </message>
     <message id="id-save-history-on-exit">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Spara historia vid stängning</translation>
     </message>
     <message id="id-direct-insert-from-lists">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Direkt inmatnng från lista</translation>
     </message>
-    <message id="id-list-font-size">
-        <source></source>
+	<message id="id-keyboard">
+		<source/>
+		<extracomment>Setting title</extracomment>
+		<translation>Tangentbord</translation>
+	</message>
+	<message id="id-list-font-size">
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Fontstorlek</translation>
     </message>
     <message id="id-small">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Liten</translation>
     </message>
     <message id="id-medium">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Medium</translation>
     </message>
     <message id="id-large">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Stort</translation>
     </message>
     <message id="id-type-filter">
-        <source></source>
+        <source/>
         <extracomment>Setting title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Typ filter</translation>
     </message>
     <message id="id-all">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Alla</translation>
     </message>
     <message id="id-functions">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Funktioner</translation>
     </message>
     <message id="id-units">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Enheter</translation>
     </message>
     <message id="id-constants">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Konstanter</translation>
     </message>
     <message id="id-user-defined">
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Användardefinierade</translation>
     </message>
     <message id="id-remove-from-recent">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Avlägsna från senaste</translation>
     </message>
     <message id="id-delete-user-defined">
-        <source></source>
+        <source/>
         <extracomment>Popup menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Dela användardefinierat</translation>
     </message>
     <message id="id-copy-result">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Kopiera resultat</translation>
     </message>
     <message id="id-copy-expression">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Kopiera uttryck</translation>
     </message>
     <message id="id-paste">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Klistra in</translation>
     </message>
     <message id="id-clear-history">
-        <source></source>
+        <source/>
         <extracomment>Menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Töm historia</translation>
     </message>
     <message id="id-search">
-        <source></source>
+        <source/>
         <extracomment>Placeholder</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>sök</translation>
     </message>
     <message id="id-removing">
-        <source></source>
-        <extracomment>Remorse timer</extracomment>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Tömma</translation>
     </message>
     <message id="id-deleting">
-        <source></source>
-        <extracomment>Remorse timer</extracomment>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation>Ta bort</translation>
     </message>
     <message id="id-evaluation-error">
-        <source></source>
+        <source/>
         <extracomment>Notification message</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Fel i uträkning</translation>
     </message>
     <message id="id-function-added">
-        <source></source>
+        <source/>
         <extracomment>Notification message</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Funktion tillagd</translation>
     </message>
 </context>
 </TS>

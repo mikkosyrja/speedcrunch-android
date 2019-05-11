@@ -103,7 +103,12 @@
         <extracomment>Setting title</extracomment>
         <translation>Neposredni vnos iz seznamov</translation>
     </message>
-    <message id="id-list-font-size">
+	<message id="id-keyboard">
+		<source/>
+		<extracomment>Setting title</extracomment>
+		<translation>Tipkovnica</translation>
+	</message>
+	<message id="id-list-font-size">
         <source/>
         <extracomment>Setting title</extracomment>
         <translation>Velikost pisave seznamov</translation>
@@ -182,12 +187,10 @@
     </message>
     <message id="id-removing">
         <source/>
-        <extracomment>Remorse timer</extracomment>
         <translation>Odstranjujem</translation>
     </message>
     <message id="id-deleting">
         <source/>
-        <extracomment>Remorse timer</extracomment>
         <translation>Brišem</translation>
     </message>
     <message id="id-evaluation-error">

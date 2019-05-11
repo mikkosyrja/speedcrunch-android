@@ -3,8 +3,10 @@ import QtQuick.Controls 2.3
 
 Rectangle
 {
-	property int buttonwidth: button1.width
-	property int buttonheight: button1.height
+	property int buttoncols: 5
+	property int buttonrows: 5
+	property var buttonobjects: [[], []]
+
 	property int swipecount: swipe.count
 	property int swipeindex: swipe.currentIndex
 	property alias interactive: swipe.interactive
@@ -24,40 +26,10 @@ Rectangle
 				color: backgroundcolor
 				Grid
 				{
+					id: leftpanel
 					anchors { fill: parent; margins: itemspacing }
 					columns: buttoncols
 					spacing: itemspacing
-					CalcButton { id: button7; text: "7" }
-					CalcButton { id: button8; text: "8" }
-					CalcButton { id: button9; text: "9"; secondary: "j" }
-					CalcButton { text: "÷"; value: "/" }
-					CalcButton { text: "x²"; value: "^2" }
-					CalcButton { id: button4; text: "4"; secondary: "D" }
-					CalcButton { id: button5; text: "5"; secondary: "E" }
-					CalcButton { id: button6; text: "6"; secondary: "F" }
-					CalcButton { text: "×"; value: "×" }
-					CalcButton { text: "√"; value: "sqrt()"; secondary: "cbrt()" }
-					CalcButton { id: button1; text: "1"; secondary: "A" }
-					CalcButton { id: button2; text: "2"; secondary: "B" }
-					CalcButton { id: button3; text: "3"; secondary: "C" }
-					CalcButton { text: "-" }
-					CalcButton { text: "1/x"; value: "1/" }
-					CalcButton { text: "0" }	// secondary: ° (degree)
-					CalcButton { text: "." }	// secondary: ' (minute)
-					CalcButton { text: ";" }	// secondary: : (time)
-					CalcButton { text: "+" }
-					CalcButton { id: buttonbase; text: "0x"; secondary: "0b"  }
-					CalcButton { text: "(" }
-					CalcButton { text: ")" }
-					CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
-					CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
-					BackSpace { }
-/*
-					CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
-					CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
-					CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
-					Backspace { color: Theme.highlightColor }
-*/
 				}
 			}
 		}
@@ -69,47 +41,56 @@ Rectangle
 				color: backgroundcolor
 				Grid
 				{
+					id: rightpanel
 					anchors { fill: parent; margins: itemspacing }
 					columns: buttoncols
 					spacing: itemspacing
-					CalcButton { text: "sin"; value: "sin()" }
-					CalcButton { text: "cos"; value: "cos()" }
-					CalcButton { text: "tan"; value: "tan()" }
-					CalcButton { text: "ln"; value: "ln()"; secondary: "lg()" }
-					CalcButton { text: "xⁿ"; value:"^"; secondary: "^2" }
-					CalcButton { text: "asin"; value: "arcsin()" }
-					CalcButton { text: "acos"; value: "arccos()" }
-					CalcButton { text: "atan"; value: "arctan()" }
-					CalcButton { text: "exp"; value: "exp()"; secondary: "10^" }
-					CalcButton { image: "cuberoot.png"; value:"cbrt()"; secondary: "sqrt()" }
-//					CalcButton { text: "∛"; value:"cbrt()" }
-					CalcButton { text: "π"; value: "pi" }
-					CalcButton { text: "e" }
-					CalcButton { text: "x"; secondary: "y" }
-					CalcButton { text: "x="; value: "="; secondary: "(x)=" }
-					CalcButton { text: "!" }
-					CalcButton { text: "&&" }
-					CalcButton { text: "|" }
-					CalcButton { text: "<<" }
-					CalcButton { text: ">>" }
-					CalcButton { text: "➔"; value: "->" }
-					CalcButton { text: "(" }
-					CalcButton { text: ")" }
-					CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
-					CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
-					BackSpace { }
-/*
-					CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
-					CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
-					CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
-					Backspace { color: Theme.highlightColor }
-*/
 				}
 			}
 		}
 	}
+
+	Component.onCompleted:
+	{
+//		goToPage(0);
+	}
+
+	function loadButtons()
+	{
+		var row, col, index, script
+		var size = manager.getKeyboardSize("leftpad")
+		buttoncols = size.width
+		buttonrows = size.height
+
+		for ( index = 0; index < buttonobjects[0].length; ++index )
+			buttonobjects[0][index].destroy()
+		buttonobjects[0].length = 0
+		for ( index = 0; index < buttonobjects[1].length; ++index )
+			buttonobjects[1][index].destroy()
+		buttonobjects[1].length = 0
+
+		for ( row = 0; row < buttonrows; ++row )
+		{
+			for ( col = 0; col < buttoncols; ++col )
+			{
+				script = manager.getKeyScript("leftpad", row, col)
+				buttonobjects[0].push(Qt.createQmlObject(script, leftpanel));
+				script = manager.getKeyScript("rightpad", row, col)
+				buttonobjects[1].push(Qt.createQmlObject(script, rightpanel));
+			}
+		}
+
+		script = manager.getKeyScript("editkey", 0, 0)
+		var editbutton = Qt.createQmlObject(script, leftpanel);
+		evaluatebutton.text = editbutton.text
+		evaluatebutton.value = editbutton.value
+		evaluatebutton.second = editbutton.second
+		editbutton.destroy()
+	}
+
 	function setButtonLabels()
 	{
+/*
 		var format = manager.getResultFormat()
 		if ( format === "h" )
 		{
@@ -129,5 +110,6 @@ Rectangle
 			button9.text = "9 j"
 		else
 			button9.text = "9"
+*/
 	}
 }

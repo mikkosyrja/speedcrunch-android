@@ -6,7 +6,7 @@
 			{
 				"keys":
 				[
-					{ "label": "=", "value": "<evaluate>", "second": "", "tooltip": "", "color": true, "bold": false }
+					{ "label": "=", "value": "<evaluate>", "second": "ans", "tooltip": "", "color": true, "bold": false }
 				]
 			}
 		]
@@ -60,9 +60,9 @@
 				[
 					{ "label": "(", "value": "", "second": "", "tooltip": "", "color": true, "bold": false },
 					{ "label": ")", "value": "", "second": "", "tooltip": "", "color": true, "bold": false },
-					{ "label": "←", "value": "<left>", "second": "", "tooltip": "", "color": true, "bold": false },
-					{ "label": "→", "value": "<right>", "second": "", "tooltip": "", "color": true, "bold": false },
-					{ "label": "", "value": "<back>", "second": "", "tooltip": "", "color": true, "bold": false }
+					{ "label": "←", "value": "<left>", "second": "<start>", "tooltip": "", "color": true, "bold": false },
+					{ "label": "→", "value": "<right>", "second": "<end>", "tooltip": "", "color": true, "bold": false },
+					{ "label": "", "value": "<back>", "second": "<clear>", "tooltip": "", "color": true, "bold": false }
 				]
 			}
 		]
@@ -77,7 +77,7 @@
 					{ "label": "sin", "value": "sin()", "second": "", "tooltip": "", "color": false, "bold": false },
 					{ "label": "cos", "value": "cos()", "second": "", "tooltip": "", "color": false, "bold": false },
 					{ "label": "tan", "value": "tan()", "second": "", "tooltip": "", "color": false, "bold": false },
-					{ "label": "ln", "value": "ln()", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "ln", "value": "ln()", "second": "lg()", "tooltip": "", "color": false, "bold": false },
 					{ "label": "xⁿ", "value": "^", "second": "^2", "tooltip": "", "color": false, "bold": false }
 				]
 			},
@@ -87,7 +87,7 @@
 					{ "label": "asin", "value": "arcsin()", "second": "", "tooltip": "", "color": false, "bold": false },
 					{ "label": "acos", "value": "arccos()", "second": "", "tooltip": "", "color": false, "bold": false },
 					{ "label": "atan", "value": "arctan()", "second": "", "tooltip": "", "color": false, "bold": false },
-					{ "label": "exp", "value": "exp()", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "exp", "value": "exp()", "second": "10^", "tooltip": "", "color": false, "bold": false },
 					{ "label": "∛", "value": "cbrt()", "second": "sqrt()", "tooltip": "", "color": false, "bold": false }
 				]
 			},
@@ -116,9 +116,9 @@
 				[
 					{ "label": "(", "value": "", "second": "", "tooltip": "", "color": true, "bold": false },
 					{ "label": ")", "value": "", "second": "", "tooltip": "", "color": true, "bold": false },
-					{ "label": "←", "value": "<left>", "second": "", "tooltip": "", "color": true, "bold": false },
-					{ "label": "→", "value": "<right>", "second": "", "tooltip": "", "color": true, "bold": false },
-					{ "label": "", "value": "<back>", "second": "", "tooltip": "", "color": true, "bold": false }
+					{ "label": "←", "value": "<left>", "second": "<start>", "tooltip": "", "color": true, "bold": false },
+					{ "label": "→", "value": "<right>", "second": "<end>", "tooltip": "", "color": true, "bold": false },
+					{ "label": "", "value": "<back>", "second": "<clear>", "tooltip": "", "color": true, "bold": false }
 				]
 			}
 		]
@@ -127,21 +127,6 @@
 	{
 		"rows":
 		[
-			{
-				"keys":
-				[
-					{ "label": "1", "value": "", "second": "A", "tooltip": "", "color": false, "bold": false },
-					{ "label": "2", "value": "", "second": "B", "tooltip": "", "color": false, "bold": false },
-					{ "label": "3", "value": "", "second": "C", "tooltip": "", "color": false, "bold": false },
-					{ "label": "4", "value": "", "second": "D", "tooltip": "", "color": false, "bold": false },
-					{ "label": "5", "value": "", "second": "E", "tooltip": "", "color": false, "bold": false },
-					{ "label": "6", "value": "", "second": "F", "tooltip": "", "color": false, "bold": false },
-					{ "label": "7", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
-					{ "label": "8", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
-					{ "label": "9", "value": "", "second": "j", "tooltip": "", "color": false, "bold": false },
-					{ "label": "0", "value": "", "second": "°", "tooltip": "", "color": false, "bold": false }
-				]
-			},
 			{
 				"keys":
 				[
@@ -167,9 +152,9 @@
 					{ "label": "x", "value": "", "second": "y", "tooltip": "The variable x", "color": false, "bold": false },
 					{ "label": "X=", "value": "=", "second": "(x)=", "tooltip": "Assign variable x", "color": false, "bold": false },
 					{ "label": "0x", "value": "", "second": "0b", "tooltip": "", "color": false, "bold": false },
-					{ "label": "←", "value": "<left>", "second": "", "tooltip": "", "color": true, "bold": false },
-					{ "label": "→", "value": "<right>", "second": "", "tooltip": "", "color": true, "bold": false },
-					{ "label": "", "value": "<back>", "second": "", "tooltip": "", "color": true, "bold": false }
+					{ "label": "←", "value": "<left>", "second": "<start>", "tooltip": "", "color": true, "bold": false },
+					{ "label": "→", "value": "<right>", "second": "<end>", "tooltip": "", "color": true, "bold": false },
+					{ "label": "", "value": "<back>", "second": "<clear>", "tooltip": "", "color": true, "bold": false }
 				]
 			}
 		]

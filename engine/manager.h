@@ -79,6 +79,11 @@ public:
 	Q_INVOKABLE void setClipboard(const QString& text) const;
 	Q_INVOKABLE QString getClipboard() const;
 
+	Q_INVOKABLE bool setKeyboard(const QString& text);
+	Q_INVOKABLE QString getKeyboard() const;
+	Q_INVOKABLE int getKeyboardIndex() const;
+
+	Q_INVOKABLE QString getKeyboards() const;
 	Q_INVOKABLE QSize getKeyboardSize(const QString& name) const;
 	Q_INVOKABLE QString getKeyScript(const QString& name, int row, int col) const;
 
@@ -102,6 +107,7 @@ private:
 	QList<Constant> constants;				//!< Available constants.
 
 	QJsonParseError parseError;				//!< Parse error handling.
+	QMap<QString, QString> keyboards;		//!< Keyboard names and paths.
 	Keyboard keyboard;						//!< Current keyboard.
 };
 

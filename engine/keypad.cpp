@@ -24,6 +24,9 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+//
+//	key functions
+//
 //! Get QML script for a key.
 /*!
 	\return				QML script string.
@@ -32,7 +35,15 @@ QString Keyboard::Panel::Key::getScript() const
 {
 	QString script = "CalcButton { ";
 	if ( !label.isEmpty() )
-		script += "text: \"" + label + "\"; ";
+	{
+		script += "text: \"";
+		if ( bold )
+			script += "<b>";
+		script += label;
+		if ( bold )
+			script += "</b>";
+		script += "\"; ";
+	}
 	if ( !value.isEmpty() )
 		script += "value: \"" + value + "\"; ";
 	if ( !second.isEmpty() )
@@ -43,9 +54,13 @@ QString Keyboard::Panel::Key::getScript() const
 	return script;
 }
 
+//
+//	panel functions
+//
 //! Load panel from JSON file.
 /*!
 	\param root			JSON file root object .
+	\return				True for change.
 */
 bool Keyboard::Panel::load(QJsonObject& root)
 {
@@ -55,6 +70,7 @@ bool Keyboard::Panel::load(QJsonObject& root)
 		QJsonValue rows = value.toObject().value("rows");
 		if ( rows != QJsonValue::Undefined )
 		{
+			keys.clear();
 			int rowCount = 0;
 			for ( auto row : rows.toArray() )
 			{
@@ -84,6 +100,9 @@ bool Keyboard::Panel::load(QJsonObject& root)
 						if ( key.tooltip.isEmpty())
 						key.tooltip = key.value;
 
+						if ( key.label == "&" )
+							key.label = "&&";
+
 						keys.back().push_back(key);
 						++keyCount;
 					}
@@ -96,7 +115,12 @@ bool Keyboard::Panel::load(QJsonObject& root)
 	return false;
 }
 
-//
+//! Get QML script for a key.
+/*!
+	\param row			Row index.
+	\param col			Column index.
+	\return				QML script string.
+*/
 QString Keyboard::Panel::getKeyScript(int row, int col) const
 {
 	if ( row < static_cast<int>(keys.size()) )
@@ -107,10 +131,20 @@ QString Keyboard::Panel::getKeyScript(int row, int col) const
 	return QString();
 }
 
+//
+//	keyboard functions
+//
+//! Constructor.
+Keyboard::Keyboard() : editkey("editkey"), leftpad("leftpad"), rightpad("rightpad"), landscape("landscape")
+{
+
+}
+
 //! Load keyboard from JSON file.
 /*!
 	\param path			JSON file path.
 	\param error		Error object.
+	\return				True for change.
 */
 bool Keyboard::load(const QString& path, QJsonParseError& error)
 {
@@ -127,20 +161,20 @@ bool Keyboard::load(const QString& path, QJsonParseError& error)
 	return false;
 }
 
-//
-QString Keyboard::getKeyScript(const QString& panelname, int row, int col) const
-{
-	const Panel& panel = (panelname == "leftpad" ? leftpad : (panelname == "rightpad" ? rightpad
-		: (panelname == "landscape" ? landscape : editkey)));
-	return panel.getKeyScript(row, col);
-}
-
-//! Constructor.
+//! Get QML script for a key.
 /*!
-	\param keyboardname	Keyboard name.
+	\param name			Keyboard name.
+	\param row			Row index.
+	\param col			Column index.
+	\return				QML script string.
 */
-Keyboard::Keyboard(const QString& keyboardname) : name(keyboardname),
-	editkey("editkey"), leftpad("leftpad"), rightpad("rightpad"), landscape("landscape")
+QString Keyboard::getKeyScript(const QString& name, int row, int col) const
 {
-
+	if ( name == "leftpad" )
+		return leftpad.getKeyScript(row, col);
+	if ( name == "rightpad" )
+		return rightpad.getKeyScript(row, col);
+	if ( name == "landscape" )
+		return landscape.getKeyScript(row, col);
+	return editkey.getKeyScript(row, col);
 }

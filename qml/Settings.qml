@@ -218,30 +218,45 @@ Page
 			Rectangle
 			{
 				id: settingseparator
-				width: parent.width; height: parent.height - (comboheight + itemspacing) * 7 - fontsize * 1.5
+				width: parent.width; height: parent.height - (comboheight + itemspacing) * 8 - fontsize * 1.5
 				color: backgroundcolor
 			}
-			CheckBox
+			Row
 			{
-				id: historysavesetting
-				width: parent.width; height: comboheight
-				visible: !landscape
-				font.pixelSize: fontsize
-				text: qsTrId("id-save-history-on-exit")
-				checked: true
-				onCheckedChanged: { manager.setSessionSave(checked) }
-				function setHistorySave(save) { checked = save }
-			}
-			CheckBox
-			{
-				id: clickinsertsetting
-				width: parent.width; height: comboheight
-				visible: !landscape
-				font.pixelSize: fontsize
-				text: qsTrId("id-direct-insert-from-lists")
-				checked: true
-				onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
-				function setClickInsert(click) { oneclickinsert = click; checked = click }
+				Label
+				{
+					width: labelwidth
+					anchors.verticalCenter: parent.verticalCenter
+					visible: !landscape
+					font.pixelSize: fontsize
+					text: qsTrId("id-keyboard")
+				}
+				ComboBox
+				{
+					id: keyboardsetting
+					width: combowidth; height: comboheight; visible: !landscape
+					background: Rectangle { radius: cornerradius; color: settingscolor }
+					font.pixelSize: fontsize
+					model: { eval(manager.getKeyboards()) }
+					delegate: ItemDelegate
+					{
+						text: modelData;
+						width: parent.width
+						font.pixelSize: fontsize
+						highlighted: ListView.isCurrentItem
+					}
+					onCurrentIndexChanged:
+					{
+						if ( initialized )
+							manager.setKeyboard(textAt(currentIndex));
+						keyboard.loadButtons()
+					}
+					function setKeyboard(index)
+					{
+						currentIndex = index
+						keyboard.loadButtons()
+					}
+				}
 			}
 			Row
 			{
@@ -256,8 +271,7 @@ Page
 				ComboBox
 				{
 					id: fontsizesetting
-					width: combowidth; height: comboheight
-					visible: !landscape
+					width: combowidth; height: comboheight; visible: !landscape
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
 					model: [ qsTrId("id-small"), qsTrId("id-medium"), qsTrId("id-large") ]
@@ -285,6 +299,26 @@ Page
 					}
 				}
 			}
+			CheckBox
+			{
+				id: historysavesetting
+				width: parent.width; height: comboheight; visible: !landscape
+				font.pixelSize: fontsize
+				text: qsTrId("id-save-history-on-exit")
+				checked: true
+				onCheckedChanged: { manager.setSessionSave(checked) }
+				function setHistorySave(save) { checked = save }
+			}
+			CheckBox
+			{
+				id: clickinsertsetting
+				width: parent.width; height: comboheight; visible: !landscape
+				font.pixelSize: fontsize
+				text: qsTrId("id-direct-insert-from-lists")
+				checked: true
+				onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
+				function setClickInsert(click) { oneclickinsert = click; checked = click }
+			}
 		}
 		Component.onCompleted:
 		{
@@ -292,9 +326,10 @@ Page
 			precisionsetting.setPrecision(manager.getPrecision())
 			angleunitsetting.setAngleUnit(manager.getAngleUnit())
 			complexnumbersetting.setComplexNumber(manager.getComplexNumber())
+			keyboardsetting.setKeyboard(manager.getKeyboardIndex())
+			fontsizesetting.setFontSize(manager.getFontSize())
 			historysavesetting.setHistorySave(manager.getSessionSave())
 			clickinsertsetting.setClickInsert(manager.getClickInsert())
-			fontsizesetting.setFontSize(manager.getFontSize())
 			keyboard.setButtonLabels()
 			initialized = true;
 		}

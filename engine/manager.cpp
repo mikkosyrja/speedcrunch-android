@@ -33,7 +33,7 @@
 /*!
 	\param parent		//!< Optional parent.
 */
-Manager::Manager(QObject* parent) : QObject(parent), keyboard("default")
+Manager::Manager(QObject* parent) : QObject(parent)
 {
 	session = new Session;
 
@@ -109,6 +109,20 @@ Manager::Manager(QObject* parent) : QObject(parent), keyboard("default")
 	constants = Constants::instance()->list();
 	std::sort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
+
+	std::vector<QString> paths;
+	paths.push_back(configpath + "/keyboards/");
+	paths.push_back(":/keyboards/");
+	for ( const auto& path : paths )
+	{
+		directory.setPath(path);
+		directory.setFilter(QDir::Files | QDir::Readable);
+		directory.setNameFilters(QStringList("*.json"));
+		const auto infos = directory.entryInfoList();
+		for ( const auto& info : infos )
+			keyboards.insert(info.completeBaseName(), info.absoluteFilePath());
+	}
+	setKeyboard(settings->keyboard);
 }
 
 //! Save session on exit.
@@ -700,15 +714,95 @@ QString Manager::getClipboard() const
 	return clipboard->text();
 }
 
-//
-QSize Manager::getKeyboardSize(const QString& name) const
+//! Set and load keyboard.
+/*!
+	\param name			Keyboard name.
+	return				True for success.
+*/
+bool Manager::setKeyboard(const QString& name)
 {
-	if ( name == "leftpad" || name == "rightpad" )
-		return QSize(5, 5);
-	return QSize(10, 3);
+	auto iter = keyboards.find(name);
+	if ( iter != keyboards.end() )
+	{
+		QString path = iter.value();
+		if ( keyboard.load(path, parseError) )
+		{
+			settings->keyboard = name;
+			settings->save();
+			return true;
+		}
+	}
+	keyboard.load(":/keyboards/Current.json", parseError);
+	return false;
 }
 
-//
+//! Get current keyboard.
+/*!
+	\return				Keyboard name.
+*/
+QString Manager::getKeyboard() const
+{
+	return settings->keyboard;
+}
+
+//! Get current keyboard index.
+/*!
+	\return				Keyboard index.
+*/
+int Manager::getKeyboardIndex() const
+{
+	QStringList names = keyboards.keys();
+	return names.indexOf(settings->keyboard);
+}
+
+//! Get keyboard names as javacript array.
+/*!
+	\return				Keyboard names.
+*/
+QString Manager::getKeyboards() const
+{
+	QStringList names = keyboards.keys();
+	QString result = "[";
+	for ( const auto& name : names )
+		result += "\"" + name + "\",";
+	return result + "]";
+}
+
+//! Get keyboard size.
+/*!
+	\param name			Keyboard name.
+	\return				Keyboard size.
+*/
+QSize Manager::getKeyboardSize(const QString& name) const
+{
+	if ( name == "leftpad" || name == "rightpad"  || name == "portrait" )
+	{
+		if ( size_t rows = keyboard.leftpad.keys.size() )
+		{
+			size_t cols = keyboard.leftpad.keys[0].size();
+			return QSize(static_cast<int>(cols), static_cast<int>(rows));
+		}
+		return QSize(5, 5);
+	}
+	if ( name == "landscape" )
+	{
+		if ( size_t rows = keyboard.landscape.keys.size() )
+		{
+			size_t cols = keyboard.landscape.keys[0].size();
+			return QSize(static_cast<int>(cols), static_cast<int>(rows));
+		}
+		return QSize(10, 3);
+	}
+	return QSize(1, 1);		// editkey
+}
+
+//! Get QML script for a key.
+/*!
+	\param name			Keyboard name.
+	\param row			Row index.
+	\param col			Column index.
+	\return				QML script string.
+*/
 QString Manager::getKeyScript(const QString& name, int row, int col) const
 {
 	return keyboard.getKeyScript(name, row, col);

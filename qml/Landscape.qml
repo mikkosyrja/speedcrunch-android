@@ -3,8 +3,10 @@ import QtQuick.Controls 2.3
 
 Rectangle
 {
-	property int buttonwidth: button1.width
-	property int buttonheight: button1.height
+	property int buttoncols: 10
+	property int buttonrows: 3
+	property var buttonobjects: []
+
 	property int swipecount: 1
 	property int swipeindex: 0
 
@@ -13,44 +15,36 @@ Rectangle
 
 	Grid
 	{
+		id: panel
 		anchors { fill: parent; margins: itemspacing }
 		columns: buttoncols
 		spacing: itemspacing
-
-		CalcButton { id: button1; text: "1"; secondary: "A" }
-		CalcButton { id: button2; text: "2"; secondary: "B" }
-		CalcButton { id: button3; text: "3"; secondary: "C" }
-		CalcButton { id: button4; text: "4"; secondary: "D" }
-		CalcButton { id: button5; text: "5"; secondary: "E" }
-		CalcButton { id: button6; text: "6"; secondary: "F" }
-		CalcButton { id: button7; text: "7" }
-		CalcButton { id: button8; text: "8" }
-		CalcButton { id: button9; text: "9"; secondary: "j" }
-		CalcButton { text: "0" }	// secondary: ° (degree)
-
-		CalcButton { text: "+" }
-		CalcButton { text: "-" }
-		CalcButton { text: "×" }
-		CalcButton { text: "÷"; value: "/" }
-		CalcButton { text: "x²"; value: "^2"; secondary: "^" }
-		CalcButton { text: "√"; value: "sqrt()"; secondary: "cbrt()" }
-		CalcButton { text: "!" }
-		CalcButton { text: "1/x"; value: "1/" }
-		CalcButton { text: "." }	// secondary: ' (minute)
-		CalcButton { text: ";" }	// secondary: : (time)
-
-		CalcButton { text: "(" } CalcButton { text: ")" }
-		CalcButton { text: "π"; value: "pi" }
-		CalcButton { text: "e" }
-		CalcButton { text: "x"; secondary: "y" }
-		CalcButton { text: "x="; value: "="; secondary: "(x)=" }
-		CalcButton { id: buttonbase; text: "0x"; secondary: "0b"  }
-		CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
-		CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
-		BackSpace { }
 	}
+
+	function loadButtons()
+	{
+		var row, col, index, script
+		var size = manager.getKeyboardSize("landscape")
+		buttoncols = size.width
+		buttonrows = size.height
+
+		for ( index = 0; index < buttonobjects.length; ++index )
+			buttonobjects[index].destroy()
+		buttonobjects.length = 0
+
+		for ( row = 0; row < buttonrows; ++row )
+		{
+			for ( col = 0; col < buttoncols; ++col )
+			{
+				script = manager.getKeyScript("landscape", row, col)
+				buttonobjects.push(Qt.createQmlObject(script, panel));
+			}
+		}
+	}
+
 	function setButtonLabels()
 	{
+/*
 		var format = manager.getResultFormat()
 		if ( format === "h" )
 		{
@@ -70,5 +64,6 @@ Rectangle
 			button9.text = "9 j"
 		else
 			button9.text = "9"
+*/
 	}
 }

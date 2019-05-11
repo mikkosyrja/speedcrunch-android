@@ -11,6 +11,9 @@
         <file>qml/back.png</file>
         <file>qml/clear.png</file>
         <file>qml/cuberoot.png</file>
-        <file>keyboards/default.json</file>
+        <file>keyboards/Classic.json</file>
+        <file>keyboards/Current.json</file>
+        <file>keyboards/Tablet.json</file>
+        <file>keyboards/Gemini.json</file>
     </qresource>
 </RCC>

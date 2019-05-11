@@ -100,6 +100,9 @@ bool Keyboard::Panel::load(QJsonObject& root)
 						if ( key.tooltip.isEmpty())
 						key.tooltip = key.value;
 
+						if ( key.label == "&" )
+							key.label = "&&";
+
 						keys.back().push_back(key);
 						++keyCount;
 					}

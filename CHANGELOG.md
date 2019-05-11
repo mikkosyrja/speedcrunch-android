@@ -46,14 +46,15 @@
 
 - Added support for slovenian language sl_SL
 - Added slovenian UI translations (thanks @sponka)
+- Added swedish UI translations (thanks @ekrogius)
 - Compiled with Qt version 5.12.3 and Android NDK r19c
 - Initial keyboard configuration:
     - Keyboard layouts are loaded from json files
 	- Initially four different layouts:
 	- Classic layout will stay as version 0.5 keyboard
 	- Current layout will be default keyboard from now on
-	- Table layout has more rows or columns
 	- Gemini layout has only two rows in horizontal mode
+	- Tablet layout has more rows or columns
 	- User defined keyboards are supported
 - Modifications to Current keyboard:
     - Long press with equals (=) produces previous result (ans)

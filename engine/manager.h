@@ -21,7 +21,6 @@
 #define MANAGER_H
 
 #include <QObject>
-#include <QString>
 #include <QStringList>
 #include <QDebug>
 #include <QClipboard>
@@ -34,6 +33,7 @@
 
 #include "keypad.h"
 
+//! Manager class.
 class Manager : public QObject
 {
 	Q_OBJECT

@@ -23,7 +23,6 @@
 #include <QFile>
 #include <QDir>
 #include <QGuiApplication>
-#include <QJsonDocument>
 
 #include "core/session.h"
 #include "core/functions.h"
@@ -31,7 +30,7 @@
 
 //! Constructor.
 /*!
-	\param parent		//!< Optional parent.
+	\param parent		Optional parent.
 */
 Manager::Manager(QObject* parent) : QObject(parent)
 {
@@ -47,7 +46,6 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	DMath::complexMode = settings->complexNumbers;
 
 	QDir directory;		// configuration path
-
 	QString configpath = Settings::getConfigPath();
 	directory.mkpath(configpath);	// /data/data/org.syrja.speedcrunch/files/settings/libandroid-speedcrunch.so
 
@@ -122,7 +120,10 @@ Manager::Manager(QObject* parent) : QObject(parent)
 		for ( const auto& info : infos )
 			keyboards.insert(info.completeBaseName(), info.absoluteFilePath());
 	}
-	setKeyboard(settings->keyboard);
+
+	auto iter = keyboards.find(settings->keyboard);
+	if ( iter == keyboards.end() || !keyboard.load(iter.value(), parseError) )
+		keyboard.load(":/keyboards/Current.json", parseError);
 }
 
 //! Save session on exit.
@@ -207,7 +208,8 @@ QString Manager::calculate(const QString& input)
 		if ( evaluator->isUserFunctionAssign() )
 		{
 			updateRecent(evaluator->getAssignId() + "()");
-			session->addHistoryEntry(HistoryEntry(expression, quantity));
+			if ( evaluator->error().isEmpty() )
+				session->addHistoryEntry(HistoryEntry(expression, quantity));
 			return "0";
 		}
 		return "NaN";
@@ -230,8 +232,6 @@ QString Manager::getError()
 {
 	QString error = evaluator->error();
 	error.remove("<b>").remove("</b>");
-	if ( error.isEmpty() && !evaluator->isValid() )
-		error = "compile error";
 	return error;
 }
 
@@ -245,11 +245,15 @@ QString Manager::getHistory(int)
 {
 	QString result = "[";
 	for ( const auto& entry : session->historyToList() )
-		result += "{expression:\"" + entry.expr() + "\",value:\"" + NumberFormatter::format(entry.result()) + "\"},";
+	{
+		QString expression = entry.expr();
+		expression.replace("\\", "\\\\");
+		result += "{expression:\"" + expression + "\",value:\"" + NumberFormatter::format(entry.result()) + "\"},";
+	}
 	return result += "]";
 }
 
-//! Get functions, constants and units.
+//! Get functions, constants and units as javacript array.
 /*!
 	\param filter		Filter string.
 	\param type			Function type (a, f, u, c, v).
@@ -551,9 +555,9 @@ QString Manager::getComplexNumber() const
 */
 void Manager::setFontSize(const QString& size)
 {
-	int pointsize = 8;
-	if ( size == "m" )
-		pointsize = 10;
+	int pointsize = 10;	// m
+	if ( size == "s" )
+		pointsize = 8;
 	else if ( size == "l" )
 		pointsize = 12;
 	QFont font("Font", pointsize);
@@ -569,11 +573,11 @@ QString Manager::getFontSize() const
 {
 	QFont font;
 	font.fromString(settings->displayFont);
-	if ( font.pointSize() == 10 )
-		return "m";
+	if ( font.pointSize() == 8 )
+		return "s";
 	if ( font.pointSize() == 12 )
 		return "l";
-	return "s";
+	return "m";
 }
 
 //! Set session save setting.
@@ -722,15 +726,11 @@ QString Manager::getClipboard() const
 bool Manager::setKeyboard(const QString& name)
 {
 	auto iter = keyboards.find(name);
-	if ( iter != keyboards.end() )
+	if ( iter != keyboards.end() && keyboard.load(iter.value(), parseError) )
 	{
-		QString path = iter.value();
-		if ( keyboard.load(path, parseError) )
-		{
-			settings->keyboard = name;
-			settings->save();
-			return true;
-		}
+		settings->keyboard = name;
+		settings->save();
+		return true;
 	}
 	keyboard.load(":/keyboards/Current.json", parseError);
 	return false;

@@ -51,7 +51,7 @@ QString Keyboard::Panel::Key::getScript() const
 	if ( color )
 		script += "highlight: true; ";
 	script += "}";
-	return script;
+	return script.replace("\\", "\\\\");
 }
 
 //

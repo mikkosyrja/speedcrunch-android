@@ -61,3 +61,7 @@
 	- Long press with backspace clears all
 	- Long press with ln produces lg()
 	- Long press with exp produces 10^
+	- Long press with division (÷) produces integer division (\)
+	- Long press with trigonometrics produce hyperbolic versions
+- Fixed history list handling with backslash (integer division)
+

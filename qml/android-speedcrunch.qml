@@ -166,7 +166,7 @@ ApplicationWindow
 					MenuSeparator { }
 					MenuItem
 					{
-						text: "SpeedCrunch Android 0.3"
+						text: "SpeedCrunch Android 0.4"
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
 						onTriggered: { Qt.openUrlExternally("https://github.com/mikkosyrja/speedcrunch-android") }
 					}

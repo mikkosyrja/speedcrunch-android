@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 
 Page
 {
-	property int keyboardheight: parent.height * (landscape ? 50 : 45) / 100
+	property int keyboardheight: parent.height * (landscape ? 13 : 9) * keyboard.buttonrows / 100
 	property string notification: ""
 
 	property alias history: historyview

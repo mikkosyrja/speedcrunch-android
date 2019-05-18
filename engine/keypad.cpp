@@ -87,7 +87,7 @@ bool Keyboard::Panel::load(QJsonObject& root)
 						key.label = object.value("label").toString();
 						key.value = object.value("value").toString();
 						key.second = object.value("second").toString();
-						key.tooltip = object.value("tooltip").toString();
+						key.tip = object.value("tip").toString();
 						key.color = object.value("color").toBool();
 						key.bold = object.value("bold").toBool();
 						key.row = rowCount;
@@ -97,8 +97,8 @@ bool Keyboard::Panel::load(QJsonObject& root)
 							key.value = key.label;
 						if ( key.second.isEmpty() )
 							key.second = key.value;
-						if ( key.tooltip.isEmpty())
-						key.tooltip = key.value;
+						if ( key.tip.isEmpty())
+						key.tip = key.value;
 
 						if ( key.label == "&" )
 							key.label = "&&";

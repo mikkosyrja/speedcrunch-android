@@ -51,7 +51,7 @@ public:
 			QString label;					//!< Key label.
 			QString value;					//!< Key primary value.
 			QString second;					//!< Key secondary value.
-			QString tooltip;				//!< Key tooltip text.
+			QString tip;					//!< Key tooltip text.
 			bool color;						//!< True for highlight.
 			bool bold;						//!< True for bold text.
 			int row;						//!< Key row index.

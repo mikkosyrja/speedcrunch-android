@@ -64,10 +64,10 @@
 				[
 					{ "label": "(", "value": "", "second": "", "tip": "", "color": true, "bold": false },
 					{ "label": ")", "value": "", "second": "", "tip": "", "color": true, "bold": false },
-					{ "label": "←", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
-					{ "label": "→", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇦", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇨", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
 					{ "label": "C", "value": "<clear>", "second": "<back>", "tip": "", "color": true, "bold": false },
-					{ "label": "", "value": "<back>", "second": "<clear>", "tip": "", "color": true, "bold": false }
+					{ "label": "⌫", "value": "<back>", "second": "<clear>", "tip": "", "color": true, "bold": false }
 				]
 			}
 		]
@@ -83,8 +83,8 @@
 					{ "label": "cos", "value": "cos()", "second": "cosh()", "tip": "", "color": false, "bold": false },
 					{ "label": "tan", "value": "tan()", "second": "tanh()", "tip": "", "color": false, "bold": false },
 					{ "label": "ln", "value": "ln()", "second": "lg()", "tip": "", "color": false, "bold": false },
-					{ "label": "?", "value": "", "second": "", "tip": "", "color": false, "bold": false },
-					{ "label": "?", "value": "", "second": "", "tip": "", "color": false, "bold": false }
+					{ "label": "avg", "value": "average()", "second": "", "tip": "", "color": false, "bold": false },
+					{ "label": "med", "value": "median()", "second": "", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{
@@ -94,8 +94,8 @@
 					{ "label": "acos", "value": "arccos()", "second": "arcosh()", "tip": "", "color": false, "bold": false },
 					{ "label": "atan", "value": "arctan()", "second": "artanh()", "tip": "", "color": false, "bold": false },
 					{ "label": "exp", "value": "exp()", "second": "10^", "tip": "", "color": false, "bold": false },
-					{ "label": "?", "value": "", "second": "", "tip": "", "color": false, "bold": false },
-					{ "label": "?", "value": "", "second": "", "tip": "", "color": false, "bold": false }
+					{ "label": "var", "value": "variance()", "second": "", "tip": "", "color": false, "bold": false },
+					{ "label": "dev", "value": "stddev()", "second": "", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{
@@ -105,8 +105,8 @@
 					{ "label": "e", "value": "", "second": "", "tip": "", "color": false, "bold": false },
 					{ "label": "x", "value": "", "second": "y", "tip": "", "color": false, "bold": false },
 					{ "label": "x=", "value": "=", "second": "(x)=", "tip": "", "color": false, "bold": false },
-					{ "label": "?", "value": "", "second": "", "tip": "", "color": false, "bold": false },
-					{ "label": "?", "value": "", "second": "", "tip": "", "color": false, "bold": false }
+					{ "label": "real", "value": "real()", "second": "", "tip": "", "color": false, "bold": false },
+					{ "label": "imag", "value": "imag()", "second": "", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{
@@ -114,10 +114,10 @@
 				[
 					{ "label": "&", "value": "", "second": "and()", "tip": "", "color": false, "bold": false },
 					{ "label": "|", "value": "", "second": "or()", "tip": "", "color": false, "bold": false },
-					{ "label": "xor", "value": "xor()", "second": "", "tip": "", "color": false, "bold": false },
-					{ "label": "mod", "value": "mod()", "second": "", "tip": "", "color": false, "bold": false },
 					{ "label": "<<", "value": "", "second": "", "tip": "", "color": false, "bold": false },
-					{ "label": ">>", "value": "", "second": "", "tip": "", "color": false, "bold": false }
+					{ "label": ">>", "value": "", "second": "", "tip": "", "color": false, "bold": false },
+					{ "label": "xor", "value": "xor()", "second": "", "tip": "", "color": false, "bold": false },
+					{ "label": "mod", "value": "mod()", "second": "", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{
@@ -125,10 +125,10 @@
 				[
 					{ "label": "(", "value": "", "second": "", "tip": "", "color": true, "bold": false },
 					{ "label": ")", "value": "", "second": "", "tip": "", "color": true, "bold": false },
-					{ "label": "←", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
-					{ "label": "→", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇦", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇨", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
 					{ "label": "C", "value": "<clear>", "second": "<back>", "tip": "", "color": true, "bold": false },
-					{ "label": "", "value": "<back>", "second": "<clear>", "tip": "", "color": true, "bold": false }
+					{ "label": "⌫", "value": "<back>", "second": "<clear>", "tip": "", "color": true, "bold": false }
 				]
 			}
 		]
@@ -190,10 +190,10 @@
 					{ "label": "π", "value": "pi", "second": "", "tip": "", "color": false, "bold": false },
 					{ "label": "e", "value": "", "second": "", "tip": "", "color": false, "bold": false },
 					{ "label": "x", "value": "", "second": "y", "tip": "The variable x", "color": false, "bold": false },
-					{ "label": "X=", "value": "=", "second": "(x)=", "tip": "Assign variable x", "color": false, "bold": false },
+					{ "label": "x=", "value": "=", "second": "(x)=", "tip": "Assign variable x", "color": false, "bold": false },
 					{ "label": "0x", "value": "", "second": "0b", "tip": "", "color": false, "bold": false },
-					{ "label": "←", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
-					{ "label": "→", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇦", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇨", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
 					{ "label": "", "value": "<back>", "second": "<clear>", "tip": "", "color": true, "bold": false }
 				]
 			}

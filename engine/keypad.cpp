@@ -102,6 +102,8 @@ bool Keyboard::Panel::load(QJsonObject& root)
 
 						if ( key.label == "&" )
 							key.label = "&&";
+						if ( key.value == "<back>" )
+							key.label = "";
 
 						keys.back().push_back(key);
 						++keyCount;

@@ -116,7 +116,6 @@ HEADERS += \
 
 DISTFILES += \
 	qml/android-speedcrunch.qml \
-	qml/BackSpace.qml \
 	qml/CalcButton.qml \
 	qml/Functions.qml \
 	qml/Calculator.qml \

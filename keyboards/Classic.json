@@ -60,8 +60,8 @@
 				[
 					{ "label": "(", "value": "", "second": "", "tip": "", "color": true, "bold": false },
 					{ "label": ")", "value": "", "second": "", "tip": "", "color": true, "bold": false },
-					{ "label": "←", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
-					{ "label": "→", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇦", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇨", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
 					{ "label": "", "value": "<back>", "second": "<clear>", "tip": "", "color": true, "bold": false }
 				]
 			}
@@ -116,8 +116,8 @@
 				[
 					{ "label": "(", "value": "", "second": "", "tip": "", "color": true, "bold": false },
 					{ "label": ")", "value": "", "second": "", "tip": "", "color": true, "bold": false },
-					{ "label": "←", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
-					{ "label": "→", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇦", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇨", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
 					{ "label": "", "value": "<back>", "second": "<clear>", "tip": "", "color": true, "bold": false }
 				]
 			}
@@ -165,10 +165,10 @@
 					{ "label": "π", "value": "pi", "second": "", "tip": "", "color": false, "bold": false },
 					{ "label": "e", "value": "", "second": "", "tip": "", "color": false, "bold": false },
 					{ "label": "x", "value": "", "second": "y", "tip": "The variable x", "color": false, "bold": false },
-					{ "label": "X=", "value": "=", "second": "(x)=", "tip": "Assign variable x", "color": false, "bold": false },
+					{ "label": "x=", "value": "=", "second": "(x)=", "tip": "Assign variable x", "color": false, "bold": false },
 					{ "label": "0x", "value": "", "second": "0b", "tip": "", "color": false, "bold": false },
-					{ "label": "←", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
-					{ "label": "→", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇦", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
+					{ "label": "⇨", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
 					{ "label": "", "value": "<back>", "second": "<clear>", "tip": "", "color": true, "bold": false }
 				]
 			}

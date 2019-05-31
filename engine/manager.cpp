@@ -110,24 +110,18 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	std::sort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
 
+	QString datapath = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation),
+		"Android/data/org.syrja.speedcrunch/files");
 	QtAndroid::requestPermissions(QStringList("android.permission.WRITE_EXTERNAL_STORAGE"), [](QtAndroid::PermissionResultMap result)
 	{
+		QString keyboardpath = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation),
+			"Android/data/org.syrja.speedcrunch/files/keyboards");	//## lambda capture does not work?
 		if ( result["android.permission.WRITE_EXTERNAL_STORAGE"] == QtAndroid::PermissionResult::Granted )
-		{
-//			QString datapath = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::DataLocation),
-//				QCoreApplication::applicationName());
-			QString datapath = "/data/media/0/Android/data/org.syrja.speedcrunch";
-			QDir().mkpath(datapath);
-
-//			QString filePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + extension + "."+ extension;
-//			QAndroidJniObject javaFilenameStr = QAndroidJniObject::fromString(filePath);
-//			QAndroidJniObject javaSendToStr = QAndroidJniObject::fromString(receiver);
-//			QAndroidJniObject::callStaticMethod<void>("app/email/Mailer","sendMail","(Ljava/lang/String;Ljava/lang/String;)V", javaFilenameStr.object<jstring>(), javaSendToStr.object<jstring>());
-		}
+			QDir().mkpath(keyboardpath);
 	});
 
 	std::vector<QString> paths;
-	paths.push_back(configpath + "/keyboards/");
+	paths.push_back(datapath + "/keyboards/");
 	paths.push_back(":/keyboards/");
 	for ( const auto& path : paths )
 	{

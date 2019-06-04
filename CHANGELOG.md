@@ -42,13 +42,13 @@
 	- Drag within button does not flick keyboard or page
 	- Reduces unwanted flicks when pressing buttons
 
-### 0.4 (2019-05-xx)
+### 0.4 (2019-06-04)
 
 - Added support for slovenian language sl_SL
 - Added slovenian UI translations (thanks @sponka)
 - Added swedish UI translations (thanks @ekrogius)
 - Compiled with Qt 5.12.2 and Android NDK r19c:
-    Qt 5.12.3 has problems with android virtual keyboard
+    - Qt 5.12.3 has problems with android virtual keyboard
 - Initial keyboard configuration:
     - Keyboard layouts are loaded from json files
 	- Initially four different layouts:
@@ -58,11 +58,10 @@
 	- Tablet layout has more rows or columns
 	- User defined keyboards are supported
 - Modifications to Current keyboard:
-    -  Long press with equals (=) produces previous result (ans)
+    - Long press with equals (=) produces previous result (ans)
 	- Long press with backspace clears all
 	- Long press with ln produces lg()
 	- Long press with exp produces 10^
 	- Long press with division (÷) produces integer division (\)
 	- Long press with trigonometrics produce hyperbolic versions
 - Fixed history list handling with backslash (integer division)
-

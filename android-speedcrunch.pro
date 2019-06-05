@@ -150,7 +150,8 @@ DISTFILES += \
 	locale/mobile.sl_SI.ts \
 	locale/mobile.sv_SE.ts \
 	locale/mobile.pt_PT.ts \
-	locale/mobile.ts
+	locale/mobile.ts \
+    locale/mobile.zh_CN.ts
 
 RESOURCES += qml.qrc translations.qrc
 

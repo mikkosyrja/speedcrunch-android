@@ -103,7 +103,12 @@
         <extracomment>Setting title</extracomment>
         <translation>Insertar resultado desde la lista</translation>
     </message>
-    <message id="id-list-font-size">
+	<message id="id-keyboard">
+		<source/>
+		<extracomment>Setting title</extracomment>
+		<translation>Teclado</translation>
+	</message>
+	<message id="id-list-font-size">
         <source/>
         <extracomment>Setting title</extracomment>
         <translation>Tamaño de fuente en lista</translation>
@@ -182,12 +187,10 @@
     </message>
     <message id="id-removing">
         <source/>
-        <extracomment>Remorse timer</extracomment>
         <translation>Borrando</translation>
     </message>
     <message id="id-deleting">
         <source/>
-        <extracomment>Remorse timer</extracomment>
         <translation>Borrando</translation>
     </message>
     <message id="id-evaluation-error">

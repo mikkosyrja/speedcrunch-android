@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de_DE">
+<TS version="2.1" language="en_GB">
 <context>
     <name></name>
     <message id="id-expression">
         <source></source>
         <extracomment>Placeholder</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
+         <translation type="unfinished"></translation>
+   </message>
     <message id="id-insert-item">
         <source></source>
         <extracomment>Popup menu item</extracomment>
@@ -105,6 +105,11 @@
         <extracomment>Setting title</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="id-keyboard">
+        <source></source>
+        <extracomment>Setting title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
     <message id="id-list-font-size">
         <source></source>
         <extracomment>Setting title</extracomment>
@@ -184,12 +189,10 @@
     </message>
     <message id="id-removing">
         <source></source>
-        <extracomment>Remorse timer</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message id="id-deleting">
         <source></source>
-        <extracomment>Remorse timer</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message id="id-evaluation-error">

@@ -65,3 +65,9 @@
 	- Long press with division (÷) produces integer division (\)
 	- Long press with trigonometrics produce hyperbolic versions
 - Fixed history list handling with backslash (integer division)
+
+### 0.4.1 (2019-06-xx)
+
+- Updated UI translations
+- Added support for chinese language zh_CN
+

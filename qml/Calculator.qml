@@ -243,11 +243,6 @@ Page
 					portraitkeyboard.loadButtons()
 					landscapekeyboard.loadButtons()
 				}
-				function setButtonLabels()
-				{
-					portraitkeyboard.setButtonLabels()
-					landscapekeyboard.setButtonLabels()
-				}
 			}
 
 			Component.onCompleted: { historytimer.start() }

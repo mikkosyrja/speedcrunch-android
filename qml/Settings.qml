@@ -58,8 +58,8 @@ Page
 							else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
 							else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
 //							else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
-							keyboard.setButtonLabels()
 							history.updateHistory()
+							keyboard.loadButtons()
 						}
 					}
 					function setResultFormat(format)
@@ -203,8 +203,8 @@ Page
 							if ( currentIndex == 0 ) manager.setComplexNumber("d")
 							else if ( currentIndex == 1 ) manager.setComplexNumber("c")
 							else if ( currentIndex == 2 ) manager.setComplexNumber("p")
-							keyboard.setButtonLabels()
 							history.updateHistory()
+							keyboard.loadButtons()
 						}
 					}
 					function setComplexNumber(complex)
@@ -330,7 +330,6 @@ Page
 			fontsizesetting.setFontSize(manager.getFontSize())
 			historysavesetting.setHistorySave(manager.getSessionSave())
 			clickinsertsetting.setClickInsert(manager.getClickInsert())
-			keyboard.setButtonLabels()
 			initialized = true;
 		}
 	}

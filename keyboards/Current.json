@@ -18,9 +18,9 @@
 			{
 				"keys":
 				[
-					{ "label": "7", "value": "", "second": "", "tip": "", "color": false, "bold": true },
-					{ "label": "8", "value": "", "second": "", "tip": "", "color": false, "bold": true },
-					{ "label": "9", "value": "", "second": "j", "tip": "", "color": false, "bold": true },
+					{ "label": "7", "value": "7", "second": "", "tip": "", "color": false, "bold": true },
+					{ "label": "8", "value": "8", "second": "", "tip": "", "color": false, "bold": true },
+					{ "label": "[9C]", "value": "9", "second": "j", "tip": "", "color": false, "bold": true },
 					{ "label": "÷", "value": "/", "second": "\\", "tip": "", "color": false, "bold": true },
 					{ "label": "√", "value": "sqrt()", "second": "cbrt()", "tip": "", "color": false, "bold": false }
 				]
@@ -28,9 +28,9 @@
 			{
 				"keys":
 				[
-					{ "label": "4", "value": "", "second": "D", "tip": "", "color": false, "bold": true },
-					{ "label": "5", "value": "", "second": "E", "tip": "", "color": false, "bold": true },
-					{ "label": "6", "value": "", "second": "F", "tip": "", "color": false, "bold": true },
+					{ "label": "[4H]", "value": "4", "second": "D", "tip": "", "color": false, "bold": true },
+					{ "label": "[5H]", "value": "5", "second": "E", "tip": "", "color": false, "bold": true },
+					{ "label": "[6H]", "value": "6", "second": "F", "tip": "", "color": false, "bold": true },
 					{ "label": "×", "value": "", "second": "", "tip": "", "color": false, "bold": true },
 					{ "label": "x²", "value": "^2", "second": "^", "tip": "", "color": false, "bold": false }
 				]
@@ -38,9 +38,9 @@
 			{
 				"keys":
 				[
-					{ "label": "1", "value": "", "second": "A", "tip": "", "color": false, "bold": true },
-					{ "label": "2", "value": "", "second": "B", "tip": "", "color": false, "bold": true },
-					{ "label": "3", "value": "", "second": "C", "tip": "", "color": false, "bold": true },
+					{ "label": "[1H]", "value": "1", "second": "A", "tip": "", "color": false, "bold": true },
+					{ "label": "[2H]", "value": "2", "second": "B", "tip": "", "color": false, "bold": true },
+					{ "label": "[3H]", "value": "3", "second": "C", "tip": "", "color": false, "bold": true },
 					{ "label": "-", "value": "", "second": "", "tip": "", "color": false, "bold": true },
 					{ "label": "1/x", "value": "1/", "second": "", "tip": "", "color": false, "bold": false }
 				]
@@ -48,11 +48,11 @@
 			{
 				"keys":
 				[
-					{ "label": "0", "value": "", "second": "°", "tip": "", "color": false, "bold": true },
-					{ "label": ".", "value": "", "second": "'", "tip": "", "color": false, "bold": true },
-					{ "label": ";", "value": "", "second": ":", "tip": "", "color": false, "bold": true },
+					{ "label": "[0S]", "value": "0", "second": "°", "tip": "", "color": false, "bold": true },
+					{ "label": "[.S]", "value": ".", "second": "'", "tip": "", "color": false, "bold": true },
+					{ "label": "[;S]", "value": ";", "second": ":", "tip": "", "color": false, "bold": true },
 					{ "label": "+", "value": "", "second": "", "tip": "", "color": false, "bold": true },
-					{ "label": "0x", "value": "", "second": "0b", "tip": "", "color": false, "bold": false }
+					{ "label": "[XO]", "value": "", "second": "0b", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{
@@ -130,16 +130,16 @@
 			{
 				"keys":
 				[
-					{ "label": "1", "value": "", "second": "A", "tip": "", "color": false, "bold": false },
-					{ "label": "2", "value": "", "second": "B", "tip": "", "color": false, "bold": false },
-					{ "label": "3", "value": "", "second": "C", "tip": "", "color": false, "bold": false },
-					{ "label": "4", "value": "", "second": "D", "tip": "", "color": false, "bold": false },
-					{ "label": "5", "value": "", "second": "E", "tip": "", "color": false, "bold": false },
-					{ "label": "6", "value": "", "second": "F", "tip": "", "color": false, "bold": false },
-					{ "label": "7", "value": "", "second": "", "tip": "", "color": false, "bold": false },
-					{ "label": "8", "value": "", "second": "", "tip": "", "color": false, "bold": false },
-					{ "label": "9", "value": "", "second": "j", "tip": "", "color": false, "bold": false },
-					{ "label": "0", "value": "", "second": "°", "tip": "", "color": false, "bold": false }
+					{ "label": "[1H]", "value": "1", "second": "A", "tip": "", "color": false, "bold": false },
+					{ "label": "[2H]", "value": "2", "second": "B", "tip": "", "color": false, "bold": false },
+					{ "label": "[3H]", "value": "3", "second": "C", "tip": "", "color": false, "bold": false },
+					{ "label": "[4H]", "value": "4", "second": "D", "tip": "", "color": false, "bold": false },
+					{ "label": "[5H]", "value": "5", "second": "E", "tip": "", "color": false, "bold": false },
+					{ "label": "[6H]", "value": "6", "second": "F", "tip": "", "color": false, "bold": false },
+					{ "label": "7", "value": "7", "second": "", "tip": "", "color": false, "bold": false },
+					{ "label": "8", "value": "8", "second": "", "tip": "", "color": false, "bold": false },
+					{ "label": "[9C]", "value": "9", "second": "j", "tip": "", "color": false, "bold": false },
+					{ "label": "[0S]", "value": "0", "second": "°", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{
@@ -153,8 +153,8 @@
 					{ "label": "√", "value": "sqrt()", "second": "cbrt()", "tip": "Square root", "color": false },
 					{ "label": "n!", "value": "!", "second": "", "tip": "", "color": false, "bold": false },
 					{ "label": "1/x", "value": "1/", "second": ":", "tip": "", "color": false, "bold": false },
-					{ "label": ".", "value": "", "second": "'", "tip": "", "color": false, "bold": false },
-					{ "label": ";", "value": "", "second": ";", "tip": "", "color": false, "bold": false }
+					{ "label": "[.S]", "value": ".", "second": "'", "tip": "", "color": false, "bold": false },
+					{ "label": "[;S]", "value": ";", "second": ":", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{
@@ -169,7 +169,7 @@
 					{ "label": "0x", "value": "", "second": "0b", "tip": "", "color": false, "bold": false },
 					{ "label": "⇦", "value": "<left>", "second": "<start>", "tip": "", "color": true, "bold": false },
 					{ "label": "⇨", "value": "<right>", "second": "<end>", "tip": "", "color": true, "bold": false },
-					{ "label": "", "value": "<back>", "second": "<clear>", "tip": "", "color": true, "bold": false }
+					{ "label": "⌫", "value": "<back>", "second": "<clear>", "tip": "", "color": true, "bold": false }
 				]
 			}
 		]

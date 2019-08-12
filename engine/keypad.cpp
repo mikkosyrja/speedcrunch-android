@@ -27,6 +27,40 @@
 //
 //	key functions
 //
+//! Relabel single key label.
+/*!
+	\param settings		Current settings.
+*/
+void Keyboard::Panel::Key::relabel(const Settings* settings)
+{
+	if ( label == "[1H]" )
+		label = (settings->resultFormat == 'h' ? "1 A" : "1");
+	else if ( label == "[2H]" )
+		label = (settings->resultFormat == 'h' ? "2 B" : "2");
+	else if ( label == "[3H]" )
+		label = (settings->resultFormat == 'h' ? "3 C" : "3");
+	else if ( label == "[4H]" )
+		label = (settings->resultFormat == 'h' ? "4 D" : "4");
+	else if ( label == "[5H]" )
+		label = (settings->resultFormat == 'h' ? "5 E" : "5");
+	else if ( label == "[6H]" )
+		label = (settings->resultFormat == 'h' ? "6 F" : "6");
+	else if ( label == "[9C]" )
+		label = (settings->complexNumbers ? "9 j" : "9");
+
+	else if ( label == "[0S]" )
+		label = (settings->resultFormat == 's' ? "0 °" : "0");
+	else if ( label == "[.S]" )
+		label = (settings->resultFormat == 's' ? ". '" : ".");
+	else if ( label == "[,S]" )
+		label = (settings->resultFormat == 's' ? ", '" : ",");
+	else if ( label == "[;S]" )
+		label = (settings->resultFormat == 's' ? "; :" : ";");
+
+	else if ( label == "[XO]" )
+		label = (settings->resultFormat == 'o' ? "0o" : "0x");
+}
+
 //! Get QML script for a key.
 /*!
 	\return				QML script string.
@@ -64,6 +98,8 @@ QString Keyboard::Panel::Key::getScript() const
 */
 bool Keyboard::Panel::load(QJsonObject& root)
 {
+	Settings* settings = Settings::instance();
+
 	QJsonValue value = root.value(name);
 	if ( value != QJsonValue::Undefined )
 	{
@@ -92,6 +128,8 @@ bool Keyboard::Panel::load(QJsonObject& root)
 						key.bold = object.value("bold").toBool();
 						key.row = rowCount;
 						key.col = keyCount;
+
+						key.relabel(settings);
 
 						if ( key.value.isEmpty() )
 							key.value = key.label;

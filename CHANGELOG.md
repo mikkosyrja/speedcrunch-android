@@ -48,9 +48,9 @@
 - Added slovenian UI translations (thanks @sponka)
 - Added swedish UI translations (thanks @ekrogius)
 - Compiled with Qt 5.12.2 and Android NDK r19c:
-    - Qt 5.12.3 has problems with android virtual keyboard
+	- Qt 5.12.3 has problems with android virtual keyboard
 - Initial keyboard configuration:
-    - Keyboard layouts are loaded from json files
+	- Keyboard layouts are loaded from json files
 	- Initially four different layouts:
 	- Classic layout will stay as version 0.5 keyboard
 	- Current layout will be default keyboard from now on
@@ -58,7 +58,7 @@
 	- Tablet layout has more rows or columns
 	- User defined keyboards are supported
 - Modifications to Current keyboard:
-    - Long press with equals (=) produces previous result (ans)
+	- Long press with equals (=) produces previous result (ans)
 	- Long press with backspace clears all
 	- Long press with ln produces lg()
 	- Long press with exp produces 10^
@@ -66,8 +66,11 @@
 	- Long press with trigonometrics produce hyperbolic versions
 - Fixed history list handling with backslash (integer division)
 
-### 0.4.1 (2019-06-xx)
+### 0.4.1 (2019-09-07)
 
 - Updated UI translations
 - Added support for chinese language zh_CN
-
+- Compiled with Qt 5.13.1, Android Studio 3.5 and Android NDK r20
+- Function list filtering does not work in real time with Gboard suggestions
+	- Filtering happens only after closing the keyboard
+- Minimum Android version in now 5.0 (API level 21)

@@ -74,3 +74,8 @@
 - Function list filtering does not work in real time with Gboard suggestions
 	- Filtering happens only after closing the keyboard
 - Minimum Android version in now 5.0 (API level 21)
+
+### 0.4.2 (2019-xx-xx)
+
+- Updated UI translations
+

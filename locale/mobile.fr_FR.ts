@@ -103,6 +103,11 @@
         <extracomment>Setting title</extracomment>
         <translation>Insertion directe à partir des listes</translation>
     </message>
+    <message id="id-keyboard">
+        <source/>
+        <extracomment>Setting title</extracomment>
+        <translation>Clavier</translation>
+    </message>
     <message id="id-list-font-size">
         <source/>
         <extracomment>Setting title</extracomment>
@@ -182,12 +187,10 @@
     </message>
     <message id="id-removing">
         <source/>
-        <extracomment>Remorse timer</extracomment>
         <translation>Supprimer</translation>
     </message>
     <message id="id-deleting">
         <source/>
-        <extracomment>Remorse timer</extracomment>
         <translation>Suppression</translation>
     </message>
     <message id="id-evaluation-error">

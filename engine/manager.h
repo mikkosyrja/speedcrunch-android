@@ -66,6 +66,8 @@ public:
 	Q_INVOKABLE bool getSessionSave() const;
 	Q_INVOKABLE void setClickInsert(bool click);
 	Q_INVOKABLE bool getClickInsert() const;
+    Q_INVOKABLE void setHapticFeedback(bool haptic);
+    Q_INVOKABLE bool getHapticFeedback() const;
 
 	Q_INVOKABLE void clearHistory(int index);
 

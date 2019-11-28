@@ -103,12 +103,17 @@
         <extracomment>Setting title</extracomment>
         <translation>Direct Insert from Lists</translation>
     </message>
-	<message id="id-keyboard">
-		<source/>
-		<extracomment>Setting title</extracomment>
-		<translation>Keyboard</translation>
-	</message>
-	<message id="id-list-font-size">
+    <message id="id-haptic-feedback">
+        <source/>
+        <extracomment>Setting title</extracomment>
+        <translation>Haptic Feedback</translation>
+    </message>
+    <message id="id-keyboard">
+        <source/>
+        <extracomment>Setting title</extracomment>
+        <translation>Keyboard</translation>
+    </message>
+    <message id="id-list-font-size">
         <source/>
         <extracomment>Setting title</extracomment>
         <translation>List Font Size</translation>

@@ -218,7 +218,7 @@ Page
 			Rectangle
 			{
 				id: settingseparator
-				width: parent.width; height: parent.height - (comboheight + itemspacing) * 8 - fontsize * 1.5
+				width: parent.width; height: parent.height - (comboheight + itemspacing) * 9 - fontsize * 1.5
 				color: backgroundcolor
 			}
 			Row
@@ -319,6 +319,17 @@ Page
 				onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
 				function setClickInsert(click) { oneclickinsert = click; checked = click }
 			}
+			CheckBox
+			{
+				id: hapticfeedbacksetting
+				width: parent.width; height: comboheight; visible: !landscape
+				font.pixelSize: fontsize
+				text: qsTrId("id-haptic-feedback")
+				checked: true
+				enabled: false
+				onCheckedChanged: { hapticfeedback = checked; manager.setHapticFeedback(checked) }
+				function setHapticFeedback(haptic) { hapticfeedback = haptic; checked = haptic }
+			}
 		}
 		Component.onCompleted:
 		{
@@ -330,6 +341,7 @@ Page
 			fontsizesetting.setFontSize(manager.getFontSize())
 			historysavesetting.setHistorySave(manager.getSessionSave())
 			clickinsertsetting.setClickInsert(manager.getClickInsert())
+			hapticfeedbacksetting.setHapticFeedback(manager.getHapticFeedback())
 			initialized = true;
 		}
 	}

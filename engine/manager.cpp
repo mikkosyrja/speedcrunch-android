@@ -634,6 +634,26 @@ bool Manager::getClickInsert() const
 	return settings->windowAlwaysOnTop;		//##
 }
 
+//! Set haptic feedback setting.
+/*!
+	\param haptic		Haptic feedback setting.
+*/
+void Manager::setHapticFeedback(bool haptic)
+{
+	settings->windowPositionSave = haptic;	//##
+	settings->save();
+}
+
+//! Get haptic feedback setting.
+/*!
+	\return				Haptic feedback setting.
+*/
+bool Manager::getHapticFeedback() const
+{
+//	return settings->windowPositionSave;	//##
+	return false;
+}
+
 //! Clear history item.
 /*!
 	\param index		History item index.

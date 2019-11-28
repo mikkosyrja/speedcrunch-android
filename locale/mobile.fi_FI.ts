@@ -103,12 +103,17 @@
         <extracomment>Setting title</extracomment>
         <translation>Suora lisäys listoista</translation>
     </message>
-	<message id="id-keyboard">
-		<source/>
-		<extracomment>Setting title</extracomment>
-		<translation>Näppäimistö</translation>
-	</message>
-	<message id="id-list-font-size">
+    <message id="id-haptic-feedback">
+        <source/>
+        <extracomment>Setting title</extracomment>
+        <translation>Haptinen palaute</translation>
+    </message>
+    <message id="id-keyboard">
+        <source/>
+        <extracomment>Setting title</extracomment>
+        <translation>Näppäimistö</translation>
+    </message>
+    <message id="id-list-font-size">
         <source/>
         <extracomment>Setting title</extracomment>
         <translation>Listatekstin koko</translation>

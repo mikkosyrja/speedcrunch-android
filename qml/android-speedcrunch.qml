@@ -10,6 +10,7 @@ ApplicationWindow
 	property string settingscolor: "silver"
 	property bool landscape: height < width
 	property bool oneclickinsert: false
+	property bool hapticfeedback: true
 
 	property real fontsize: (height / (landscape ? 24 : 36))
 	property real fontscale: 1.0

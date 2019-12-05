@@ -75,7 +75,10 @@
 	- Filtering happens only after closing the keyboard
 - Minimum Android version in now 5.0 (API level 21)
 
-### 0.4.2 (2019-xx-xx)
+### 0.4.2 (2019-12-05)
 
 - Updated UI translations
+- Added chinese UI translations (thanks @Historyscholar)
+- Compiled with Qt 5.13.2, Android Studio 3.5.3 and Android NDK r20
+- Added setting for haptic feedback (does not work yet)
 

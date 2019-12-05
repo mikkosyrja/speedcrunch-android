@@ -44,7 +44,7 @@ Button
 	function backspace()
 	{
 		var pos = textfield.cursorPosition;
-		if ( textfield.text == "" || pos == 0 )
+		if ( textfield.text == "" || pos === 0 )
 			return;
 		if ( textfield.selectionStart - textfield.selectionEnd != 0 )
 		{

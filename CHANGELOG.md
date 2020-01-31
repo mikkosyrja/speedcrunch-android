@@ -82,3 +82,9 @@
 - Compiled with Qt 5.13.2, Android Studio 3.5.3 and Android NDK r20
 - Added setting for haptic feedback (does not work yet)
 
+### 0.4.3 (2020-02-xx)
+
+- Updated UI translations
+- Compiled with Qt 5.14.1, Android Studio 3.5.3 and Android NDK r20
+
+

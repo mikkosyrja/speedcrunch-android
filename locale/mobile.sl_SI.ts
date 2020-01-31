@@ -103,12 +103,17 @@
         <extracomment>Setting title</extracomment>
         <translation>Neposredni vnos iz seznamov</translation>
     </message>
-	<message id="id-keyboard">
-		<source/>
-		<extracomment>Setting title</extracomment>
-		<translation>Tipkovnica</translation>
-	</message>
-	<message id="id-list-font-size">
+    <message id="id-haptic-feedback">
+        <source/>
+        <extracomment>Setting title</extracomment>
+        <translation>Vibriranje</translation>
+    </message>
+    <message id="id-keyboard">
+        <source/>
+        <extracomment>Setting title</extracomment>
+        <translation>Tipkovnica</translation>
+    </message>
+    <message id="id-list-font-size">
         <source/>
         <extracomment>Setting title</extracomment>
         <translation>Velikost pisave seznamov</translation>

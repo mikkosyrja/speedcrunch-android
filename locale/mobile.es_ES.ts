@@ -103,12 +103,17 @@
         <extracomment>Setting title</extracomment>
         <translation>Insertar resultado desde la lista</translation>
     </message>
-	<message id="id-keyboard">
-		<source/>
-		<extracomment>Setting title</extracomment>
-		<translation>Teclado</translation>
-	</message>
-	<message id="id-list-font-size">
+    <message id="id-haptic-feedback">
+        <source/>
+        <extracomment>Setting title</extracomment>
+        <translation>Vibración al pulsar</translation>
+    </message>
+    <message id="id-keyboard">
+        <source/>
+        <extracomment>Setting title</extracomment>
+        <translation>Teclado</translation>
+    </message>
+    <message id="id-list-font-size">
         <source/>
         <extracomment>Setting title</extracomment>
         <translation>Tamaño de fuente en lista</translation>

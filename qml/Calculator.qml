@@ -9,6 +9,7 @@ Page
 	property alias history: historyview
 	property alias editor: textfield
 	property alias keyboard: keyboard
+	property alias textfield: textfield
 
 	Rectangle
 	{
@@ -189,7 +190,11 @@ Page
 							else
 								notification = manager.getError()
 						}
-						Keys.onReturnPressed: { setDefaultFocus() }
+						Keys.onReturnPressed:
+						{
+							evaluate()
+							setDefaultFocus()
+						}
 					}
 					Rectangle
 					{
@@ -244,8 +249,11 @@ Page
 					landscapekeyboard.loadButtons()
 				}
 			}
-
-			Component.onCompleted: { historytimer.start() }
+			Component.onCompleted:
+			{
+				historytimer.start()
+				setDefaultFocus()
+			}
 		}
 	}
 	footer: Row
@@ -317,7 +325,7 @@ Page
 	function setDefaultFocus()
 	{
 		Qt.inputMethod.hide()
-		cleartext.forceActiveFocus()
 		textfield.cursorVisible = true
+		textfield.forceActiveFocus()
 	}
 }

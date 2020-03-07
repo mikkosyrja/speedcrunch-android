@@ -82,9 +82,9 @@
 - Compiled with Qt 5.13.2, Android Studio 3.5.3 and Android NDK r20
 - Added setting for haptic feedback (does not work yet)
 
-### 0.4.3 (2020-02-xx)
+### 0.5.0 (2020-03-xx)
 
 - Updated UI translations
-- Compiled with Qt 5.14.1, Android Studio 3.5.3 and Android NDK r20
-
+- Compiled with Qt 5.14.1, Android Studio 3.6.1 and Android NDK r20
+- Fixed focus handling with Cosmo Communicator keyboard
 

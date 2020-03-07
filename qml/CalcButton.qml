@@ -91,11 +91,13 @@ Button
 		{
 			if ( !checkmacro(value) )
 				parent.insertValue(value)
+			calculator.setDefaultFocus()
 		}
 		onPressAndHold:
 		{
 			if ( !checkmacro(second) )
 				parent.insertValue(second)
+			calculator.setDefaultFocus()
 		}
 	}
 }

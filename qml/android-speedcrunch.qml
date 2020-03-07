@@ -135,13 +135,21 @@ ApplicationWindow
 					{
 						text: qsTrId("id-copy-result")
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
-						onTriggered: { manager.setClipboard(latestResult) }
+						onTriggered:
+						{
+							manager.setClipboard(latestResult)
+							calculator.setDefaultFocus()
+						}
 					}
 					MenuItem
 					{
 						text: qsTrId("id-copy-expression")
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
-						onTriggered: { manager.setClipboard(latestExpression + " = " + latestResult) }
+						onTriggered:
+						{
+							manager.setClipboard(latestExpression + " = " + latestResult)
+							calculator.setDefaultFocus()
+						}
 					}
 					MenuItem
 					{
@@ -152,6 +160,7 @@ ApplicationWindow
 							var text = editor.text; var pos = editor.cursorPosition
 							editor.text = text.substring(0, pos) + manager.getClipboard() + text.substring(pos, text.length)
 							editor.cursorPosition = pos + value.length
+							calculator.setDefaultFocus()
 						}
 					}
 					MenuItem
@@ -162,20 +171,29 @@ ApplicationWindow
 						{
 							manager.clearHistory(-1)
 							history.updateHistory()
+							calculator.setDefaultFocus()
 						}
 					}
 					MenuSeparator { }
 					MenuItem
 					{
-						text: "SpeedCrunch Android 0.4.3"
+						text: "SpeedCrunch Android 0.5.0"
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
-						onTriggered: { Qt.openUrlExternally("https://github.com/mikkosyrja/speedcrunch-android") }
+						onTriggered:
+						{
+							Qt.openUrlExternally("https://github.com/mikkosyrja/speedcrunch-android")
+							calculator.setDefaultFocus()
+						}
 					}
 					MenuItem
 					{
 						text: "SpeedCrunch 0.12"
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
-						onTriggered: { Qt.openUrlExternally("http://speedcrunch.org/") }
+						onTriggered:
+						{
+							Qt.openUrlExternally("http://speedcrunch.org/")
+							calculator.setDefaultFocus()
+						}
 					}
 				}
 			}

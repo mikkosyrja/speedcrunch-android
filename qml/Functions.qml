@@ -219,7 +219,6 @@ Page
 								if ( manager.updateRecent(modelData.name) )
 									needsupdate = true
 								swipe.currentIndex = 1
-								forceActiveFocus()
 							}
 						}
 					}
@@ -239,6 +238,7 @@ Page
 	function setDefaultFocus()
 	{
 		Qt.inputMethod.hide()
-		cleartext.forceActiveFocus()
+		searchfield.cursorVisible = true
+		searchfield.forceActiveFocus()
 	}
 }

@@ -103,6 +103,11 @@
         <extracomment>Setting title</extracomment>
         <translation>Insertion directe à partir des listes</translation>
     </message>
+    <message id="id-haptic-feedback">
+        <source/>
+        <extracomment>Setting title</extracomment>
+        <translation>Retour</translation>
+    </message>
     <message id="id-keyboard">
         <source/>
         <extracomment>Setting title</extracomment>

@@ -11,6 +11,10 @@ Rectangle
 	property int swipeindex: swipe.currentIndex
 	property alias interactive: swipe.interactive
 
+	property bool leftvirtualkeys: true
+	property bool rightvirtualkeys: true
+	property bool virtualkeys: (swipeindex ? rightvirtualkeys : leftvirtualkeys)
+
 	clip: true
 	color: backgroundcolor
 
@@ -86,5 +90,8 @@ Rectangle
 		evaluatebutton.value = editbutton.value
 		evaluatebutton.second = editbutton.second
 		editbutton.destroy()
+
+		leftvirtualkeys = manager.getVirtualKeyboard("leftpad")
+		rightvirtualkeys = manager.getVirtualKeyboard("rightpad")
 	}
 }

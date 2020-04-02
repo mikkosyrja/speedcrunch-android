@@ -125,6 +125,10 @@
 	},
 	"landscape":
 	{
+		"settings":
+		{
+			"virtual": false
+		},
 		"rows":
 		[
 			{

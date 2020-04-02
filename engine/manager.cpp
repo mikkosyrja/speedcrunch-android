@@ -742,7 +742,7 @@ bool Manager::removeRecent(const QString& name)
 */
 void Manager::setClipboard(const QString& text) const
 {
-	clipboard->setText(text);
+    clipboard->setText(text);
 }
 
 //! Get clipboard text.
@@ -834,7 +834,7 @@ QSize Manager::getKeyboardSize(const QString& name) const
 
 //! Get QML script for a key.
 /*!
-	\param name			Keyboard name.
+	\param name			Keyboard panel name.
 	\param row			Row index.
 	\param col			Column index.
 	\return				QML script string.
@@ -842,6 +842,16 @@ QSize Manager::getKeyboardSize(const QString& name) const
 QString Manager::getKeyScript(const QString& name, int row, int col) const
 {
 	return keyboard.getKeyScript(name, row, col);
+}
+
+//! Get virtual keyboard state for a given panel.
+/*!
+	\param name			Keyboard panel name.
+	\return				True if virtual keyboard is allowed with panel.
+*/
+bool Manager::getVirtualKeyboard(const QString& name) const
+{
+	return keyboard.getVirtualKeyboard(name);
 }
 
 //! Check if the name is in recent list.

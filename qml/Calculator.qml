@@ -237,6 +237,8 @@ Page
 				property alias swipeindex: portraitkeyboard.swipeindex
 				property alias interactive: portraitkeyboard.interactive
 
+				property bool virtualkeys: landscape ? landscapekeyboard.virtualkeys : portraitkeyboard.virtualkeys
+
 				id: keyboard
 				width: parent.width; height: keyboardheight
 
@@ -325,7 +327,12 @@ Page
 	function setDefaultFocus()
 	{
 		Qt.inputMethod.hide()
-		textfield.cursorVisible = true
-		textfield.forceActiveFocus()
+		if ( !keyboard.virtualkeys )
+		{
+			textfield.cursorVisible = true
+			textfield.forceActiveFocus()
+		}
+		else
+			cleartext.forceActiveFocus()
 	}
 }

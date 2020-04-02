@@ -40,7 +40,7 @@ public:
 		/*!
 			\param panelname	Panel name.
 		*/
-		Panel(const QString& panelname) : name(panelname) { }
+		Panel(const QString& panelname) : name(panelname), virtualKeyboard(true) { }
 
 		class Key							//!< Single key data.
 		{
@@ -65,11 +65,13 @@ public:
 		QString getKeyScript(int row, int col) const;
 
 		QString name;						//!< Panel name.
-		std::vector<std::vector<Key>> keys;	//!< Panel keys.
+		bool virtualKeyboard;				//!< Virtual keyboard use with panel.
+		std::vector<std::vector<Key>> keys;	//!< Panel key array.
 	};
 
 	bool load(const QString& path, QJsonParseError& error);
 	QString getKeyScript(const QString& name, int row, int col) const;
+	bool getVirtualKeyboard(const QString& name) const;
 
 	Panel editkey;							//!< Edit row key (mobile).
 	Panel leftpad;							//!< Left key panel (mobile portrait).

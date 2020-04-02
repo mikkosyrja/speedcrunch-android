@@ -81,13 +81,14 @@ public:
 	Q_INVOKABLE void setClipboard(const QString& text) const;
 	Q_INVOKABLE QString getClipboard() const;
 
-	Q_INVOKABLE bool setKeyboard(const QString& text);
+	Q_INVOKABLE bool setKeyboard(const QString& name);
 	Q_INVOKABLE QString getKeyboard() const;
 	Q_INVOKABLE int getKeyboardIndex() const;
-
 	Q_INVOKABLE QString getKeyboards() const;
+
 	Q_INVOKABLE QSize getKeyboardSize(const QString& name) const;
 	Q_INVOKABLE QString getKeyScript(const QString& name, int row, int col) const;
+	Q_INVOKABLE bool getVirtualKeyboard(const QString& name) const;
 
 private:
 	bool checkRecent(const QString& name) const;

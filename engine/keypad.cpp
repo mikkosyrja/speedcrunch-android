@@ -99,14 +99,22 @@ QString Keyboard::Panel::Key::getScript() const
 bool Keyboard::Panel::load(QJsonObject& root)
 {
 	Settings* settings = Settings::instance();
+	virtualKeyboard = true;
+	keys.clear();
 
 	QJsonValue value = root.value(name);
 	if ( value != QJsonValue::Undefined )
 	{
+		QJsonValue panelsettings = value.toObject().value("settings");
+		if ( panelsettings != QJsonValue::Undefined )
+		{
+			QJsonValue virtualkeyboard = panelsettings.toObject().value("virtual");
+			if ( virtualkeyboard != QJsonValue::Undefined )
+				virtualKeyboard = virtualkeyboard.toBool();
+		}
 		QJsonValue rows = value.toObject().value("rows");
 		if ( rows != QJsonValue::Undefined )
 		{
-			keys.clear();
 			int rowCount = 0;
 			for ( auto row : rows.toArray() )
 			{
@@ -217,4 +225,20 @@ QString Keyboard::getKeyScript(const QString& name, int row, int col) const
 	if ( name == "landscape" )
 		return landscape.getKeyScript(row, col);
 	return editkey.getKeyScript(row, col);
+}
+
+//! Get virtual keyboard state for a given panel.
+/*!
+	\param name			Keyboard panel name.
+	\return				True if virtual keyboard is allowed with panel.
+*/
+bool Keyboard::getVirtualKeyboard(const QString& name) const
+{
+	if ( name == "leftpad" )
+		return leftpad.virtualKeyboard;
+	if ( name == "rightpad" )
+		return rightpad.virtualKeyboard;
+	if ( name == "landscape" )
+		return landscape.virtualKeyboard;
+	return true;
 }

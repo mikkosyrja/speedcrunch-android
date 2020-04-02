@@ -191,7 +191,7 @@ ApplicationWindow
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
 						onTriggered:
 						{
-							Qt.openUrlExternally("http://speedcrunch.org/")
+							Qt.openUrlExternally("https://speedcrunch.org/")
 							calculator.setDefaultFocus()
 						}
 					}

@@ -238,7 +238,12 @@ Page
 	function setDefaultFocus()
 	{
 		Qt.inputMethod.hide()
-		searchfield.cursorVisible = true
-		searchfield.forceActiveFocus()
+		if ( !keyboard.virtualkeys )
+		{
+			searchfield.cursorVisible = true
+			searchfield.forceActiveFocus()
+		}
+		else
+			cleartext.forceActiveFocus()
 	}
 }

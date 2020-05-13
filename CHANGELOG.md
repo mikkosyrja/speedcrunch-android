@@ -82,9 +82,12 @@
 - Compiled with Qt 5.13.2, Android Studio 3.5.3 and Android NDK r20
 - Added setting for haptic feedback (does not work yet)
 
-### 0.5.0 (2020-03-xx)
+### 0.5.0 (2020-04-xx)
 
 - Updated UI translations
+- Added support for czech language cs_CZ
 - Compiled with Qt 5.14.1, Android Studio 3.6.1 and Android NDK r20
-- Fixed focus handling with Cosmo Communicator keyboard
+- Added keypad specific virtual keyboard focus handling
+	- Focus is forced to edit fields only if keypad virtual setting is false
+	- Fixes focus handling with Cosmo Communicator physical keyboard
 

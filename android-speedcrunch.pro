@@ -140,6 +140,7 @@ DISTFILES += \
 	README.md \
 	lrelease.sh \
 	lupdate.sh \
+	locale/mobile.cs_CZ.ts \
 	locale/mobile.en_GB.ts \
 	locale/mobile.fi_FI.ts \
 	locale/mobile.de_DE.ts \
@@ -150,8 +151,8 @@ DISTFILES += \
 	locale/mobile.sl_SI.ts \
 	locale/mobile.sv_SE.ts \
 	locale/mobile.pt_PT.ts \
-	locale/mobile.ts \
-    locale/mobile.zh_CN.ts
+	locale/mobile.zh_CN.ts \
+	locale/mobile.ts
 
 RESOURCES += qml.qrc translations.qrc
 

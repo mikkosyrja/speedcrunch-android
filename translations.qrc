@@ -20,5 +20,7 @@
         <file>locale/speedcrunch.pt_PT.qm</file>
         <file>locale/mobile.zh_CN.qm</file>
         <file>locale/speedcrunch.zh_CN.qm</file>
+        <file>locale/mobile.cs_CZ.qm</file>
+        <file>locale/speedcrunch.cs_CZ.qm</file>
     </qresource>
 </RCC>

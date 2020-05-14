@@ -49,7 +49,7 @@
 static const int ConfigVersion = 1200;
 
 static const char* DefaultColorScheme = "Terminal";
-static const char* DefaultKeyboard = "Classic";
+static const char* DefaultKeyboard = "Current";
 
 QString Settings::getConfigPath()
 {

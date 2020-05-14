@@ -144,13 +144,13 @@ bool Keyboard::Panel::load(QJsonObject& root)
 						if ( key.second.isEmpty() )
 							key.second = key.value;
 						if ( key.tip.isEmpty())
-						key.tip = key.value;
-
+							key.tip = key.value;
+#ifdef Q_OS_ANDROID
 						if ( key.label == "&" )
 							key.label = "&&";
 						if ( key.value == "<back>" )
 							key.label = "";
-
+#endif
 						keys.back().push_back(key);
 						++keyCount;
 					}

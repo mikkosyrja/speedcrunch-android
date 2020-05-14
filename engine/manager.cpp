@@ -23,8 +23,11 @@
 #include <QFile>
 #include <QDir>
 #include <QGuiApplication>
+
+#ifdef Q_OS_ANDROID
 #include <QStandardPaths>
 #include <QtAndroid>
+#endif
 
 #include "core/session.h"
 #include "core/functions.h"
@@ -49,7 +52,11 @@ Manager::Manager(QObject* parent) : QObject(parent)
 
 	QDir directory;		// configuration path
 	QString configpath = Settings::getConfigPath();
+#ifdef Q_OS_ANDROID
 	directory.mkpath(configpath);	// /data/data/org.syrja.speedcrunch/files/settings/libandroid-speedcrunch.so
+#else
+	directory.mkpath(configpath);
+#endif
 
 	if ( settings->sessionSave )
 	{
@@ -84,12 +91,21 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	clipboard = QGuiApplication::clipboard();
 
 	QLocale locale;
+#ifdef Q_OS_ANDROID
 	if ( engineTranslator.load(locale, ":/locale/speedcrunch.") )
 		QGuiApplication::installTranslator(&engineTranslator);
 	if ( backupTranslator.load(":/locale/mobile.en_GB.qm") )
 		QGuiApplication::installTranslator(&backupTranslator);
 	if ( localeTranslator.load(locale, ":/locale/mobile.") )
 		QGuiApplication::installTranslator(&localeTranslator);
+#else
+	if ( engineTranslator.load(locale, "/usr/share/harbour-speedcrunch/locale/speedcrunch.") )
+		QGuiApplication::installTranslator(&engineTranslator);
+	if ( backupTranslator.load("/usr/share/harbour-speedcrunch/locale/mobile.en_GB.qm") )
+		QGuiApplication::installTranslator(&backupTranslator);
+	if ( localeTranslator.load(locale, "/usr/share/harbour-speedcrunch/locale/mobile.") )
+		QGuiApplication::installTranslator(&localeTranslator);
+#endif
 
 	FunctionRepo::instance()->retranslateText();
 	Constants::instance()->retranslateText();
@@ -110,6 +126,7 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	std::sort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
 
+#ifdef Q_OS_ANDROID
 	QString datapath = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation),
 		"Android/data/org.syrja.speedcrunch/files");
 	QtAndroid::requestPermissions(QStringList("android.permission.WRITE_EXTERNAL_STORAGE"), [](QtAndroid::PermissionResultMap result)
@@ -119,10 +136,16 @@ Manager::Manager(QObject* parent) : QObject(parent)
 		if ( result["android.permission.WRITE_EXTERNAL_STORAGE"] == QtAndroid::PermissionResult::Granted )
 			QDir().mkpath(keyboardpath);
 	});
+#endif
 
 	std::vector<QString> paths;
+#ifdef Q_OS_ANDROID
 	paths.push_back(datapath + "/keyboards/");
 	paths.push_back(":/keyboards/");
+#else
+	paths.push_back(configpath + "/keyboards/");
+	paths.push_back("/usr/share/harbour-speedcrunch/keyboards/");
+#endif
 	for ( const auto& path : paths )
 	{
 		directory.setPath(path);
@@ -134,8 +157,13 @@ Manager::Manager(QObject* parent) : QObject(parent)
 	}
 
 	auto iter = keyboards.find(settings->keyboard);
+#ifdef Q_OS_ANDROID
 	if ( iter == keyboards.end() || !keyboard.load(iter.value(), parseError) )
 		keyboard.load(":/keyboards/Current.json", parseError);
+#else
+	if ( iter == keyboards.end() || !keyboard.load(iter.value(), parseError) )
+		keyboard.load("/usr/share/harbour-speedcrunch/keyboards/Current.json", parseError);
+#endif
 }
 
 //! Save session on exit.
@@ -650,8 +678,11 @@ void Manager::setHapticFeedback(bool haptic)
 */
 bool Manager::getHapticFeedback() const
 {
-//	return settings->windowPositionSave;	//##
+#ifdef Q_OS_ANDROID
 	return false;
+#else
+	return settings->windowPositionSave;	//##
+#endif
 }
 
 //! Clear history item.
@@ -742,7 +773,7 @@ bool Manager::removeRecent(const QString& name)
 */
 void Manager::setClipboard(const QString& text) const
 {
-    clipboard->setText(text);
+	clipboard->setText(text);
 }
 
 //! Get clipboard text.
@@ -768,7 +799,11 @@ bool Manager::setKeyboard(const QString& name)
 		settings->save();
 		return true;
 	}
+#ifdef Q_OS_ANDROID
 	keyboard.load(":/keyboards/Current.json", parseError);
+#else
+	keyboard.load("/usr/share/harbour-speedcrunch/keyboards/Current.json", parseError);
+#endif
 	return false;
 }
 
@@ -806,7 +841,7 @@ QString Manager::getKeyboards() const
 
 //! Get keyboard size.
 /*!
-	\param name			Keyboard name.
+	\param name			Keyboard panel name.
 	\return				Keyboard size.
 */
 QSize Manager::getKeyboardSize(const QString& name) const

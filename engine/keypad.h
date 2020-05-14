@@ -21,10 +21,7 @@
 #define KEYPAD_H
 
 #include "core/settings.h"
-
-#include <QString>
 #include <QJsonParseError>
-
 #include <vector>
 
 //! Keyboard data.

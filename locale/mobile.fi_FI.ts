@@ -54,6 +54,10 @@
         <source/>
         <translation>Heksadesimaali</translation>
     </message>
+    <message id="id-sexagecimal">
+        <source/>
+        <translation>Seksagesimaali</translation>
+    </message>
     <message id="id-precision">
         <source/>
         <extracomment>Setting title</extracomment>
@@ -75,6 +79,10 @@
     <message id="id-radian">
         <source/>
         <translation>Radiaani</translation>
+    </message>
+    <message id="id-gradian">
+        <source/>
+        <translation>Gooni</translation>
     </message>
     <message id="id-complex-numbers">
         <source/>

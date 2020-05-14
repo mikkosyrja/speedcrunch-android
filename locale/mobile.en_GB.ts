@@ -54,6 +54,10 @@
         <source/>
         <translation>Hexadecimal</translation>
     </message>
+    <message id="id-sexagecimal">
+        <source/>
+        <translation>Sexagecimal</translation>
+    </message>
     <message id="id-precision">
         <source/>
         <extracomment>Setting title</extracomment>
@@ -75,6 +79,10 @@
     <message id="id-radian">
         <source/>
         <translation>Radian</translation>
+    </message>
+    <message id="id-gradian">
+        <source/>
+        <translation>Gradian</translation>
     </message>
     <message id="id-complex-numbers">
         <source/>

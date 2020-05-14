@@ -94,4 +94,8 @@
 - Updated engine to GitHub version 20200514
 	- Supports sexagesimal formatting for times and angles
 	- Supports gradians as angle unit
+- Sexagecimal support in keyboards:
+	- Long press with zero (0) produces degree (°)
+	- Long press with point (.) produces apostrophe (')
+	- Long press with semicolon (;) produces colon (:)
 

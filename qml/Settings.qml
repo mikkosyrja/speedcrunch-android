@@ -37,8 +37,8 @@ Page
 					font.pixelSize: fontsize
 					model: [ qsTrId("id-general-decimal"), qsTrId("id-fixed-decimal"),
 						qsTrId("id-engineering-decimal"), qsTrId("id-scientific-decimal"),
-						qsTrId("id-binary"), qsTrId("id-octal"), qsTrId("id-hexadecimal") ]
-//						qsTrId("id-sexagesimal") ]
+						qsTrId("id-binary"), qsTrId("id-octal"), qsTrId("id-hexadecimal"),
+						qsTrId("id-sexagesimal") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -57,7 +57,7 @@ Page
 							else if ( currentIndex == 4 ) { manager.setResultFormat("b") }
 							else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
 							else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
-//							else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
+							else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
 							history.updateHistory()
 							keyboard.loadButtons()
 						}
@@ -71,7 +71,7 @@ Page
 						else if ( format === "b" ) currentIndex = 4
 						else if ( format === "o" ) currentIndex = 5
 						else if ( format === "h" ) currentIndex = 6
-//						else if ( format === "s" ) currentIndex = 7
+						else if ( format === "s" ) currentIndex = 7
 					}
 				}
 			}
@@ -147,8 +147,7 @@ Page
 					width: combowidth; height: comboheight
 					background: Rectangle { radius: cornerradius; color: settingscolor }
 					font.pixelSize: fontsize
-					model: [ qsTrId("id-degree"), qsTrId("id-radian") ]
-//						qsTrId("id-gradian") ]
+					model: [ qsTrId("id-degree"), qsTrId("id-radian") , qsTrId("id-gradian") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;
@@ -162,14 +161,14 @@ Page
 						{
 							if ( currentIndex == 0 ) manager.setAngleUnit("d")
 							else if ( currentIndex == 1 ) manager.setAngleUnit("r")
-//							else if ( currentIndex == 2 ) manager.setAngleUnit("g")
+							else if ( currentIndex == 2 ) manager.setAngleUnit("g")
 						}
 					}
 					function setAngleUnit(unit)
 					{
 						if ( unit === "d" ) currentIndex = 0
 						else if ( unit === "r" ) currentIndex = 1
-//						else if ( unit === "g" ) currentIndex = 2
+						else if ( unit === "g" ) currentIndex = 2
 					}
 				}
 			}

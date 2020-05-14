@@ -32,8 +32,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 DEFINES += SPEEDCRUNCH_VERSION=\\\"master\\\"
+DEFINES += SPEEDCRUNCH_MOBILE
 
 INCLUDEPATH += engine
+INCLUDEPATH += engine/math
+INCLUDEPATH += engine/core
 
 SOURCES += \
 	engine/math/cmath.cpp \

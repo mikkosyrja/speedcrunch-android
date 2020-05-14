@@ -177,7 +177,7 @@ ApplicationWindow
 					MenuSeparator { }
 					MenuItem
 					{
-						text: "SpeedCrunch Android 0.5.0"
+						text: "SpeedCrunch Android 0.6.1"
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
 						onTriggered:
 						{
@@ -187,7 +187,7 @@ ApplicationWindow
 					}
 					MenuItem
 					{
-						text: "SpeedCrunch 0.12"
+						text: "SpeedCrunch 0.13-git-200514"
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
 						onTriggered:
 						{

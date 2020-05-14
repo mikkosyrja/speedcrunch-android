@@ -82,12 +82,16 @@
 - Compiled with Qt 5.13.2, Android Studio 3.5.3 and Android NDK r20
 - Added setting for haptic feedback (does not work yet)
 
-### 0.5.0 (2020-04-xx)
+### 0.6.1 (2020-05-xx)
 
 - Updated UI translations
 - Added support for czech language cs_CZ
-- Compiled with Qt 5.14.1, Android Studio 3.6.1 and Android NDK r20
+- Compiled with Qt 5.14.2, Android Studio 3.6.3 and Android NDK r20
 - Added keypad specific virtual keyboard focus handling
 	- Focus is forced to edit fields only if keypad virtual setting is false
 	- Fixes focus handling with Cosmo Communicator physical keyboard
+- Combined engine source with Sailfish version
+- Updated engine to GitHub version 20200514
+	- Supports sexagesimal formatting for times and angles
+	- Supports gradians as angle unit
 

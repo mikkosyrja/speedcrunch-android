@@ -38,7 +38,7 @@ Page
 					model: [ qsTrId("id-general-decimal"), qsTrId("id-fixed-decimal"),
 						qsTrId("id-engineering-decimal"), qsTrId("id-scientific-decimal"),
 						qsTrId("id-binary"), qsTrId("id-octal"), qsTrId("id-hexadecimal"),
-						qsTrId("id-sexagesimal") ]
+						qsTrId("id-sexagecimal") ]
 					delegate: ItemDelegate
 					{
 						text: modelData;

@@ -218,9 +218,5 @@
         <extracomment>Notification message</extracomment>
         <translation>Function added</translation>
     </message>
-    <message id="id-sexagesimal">
-        <source></source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 </TS>

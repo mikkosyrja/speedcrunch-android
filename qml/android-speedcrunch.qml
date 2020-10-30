@@ -128,7 +128,7 @@ ApplicationWindow
 				Menu
 				{
 					id: menu
-					width: window.width * 2 / 3
+					width: window.width * 4 / 5
 					x: window.width / 3; y: menubutton.height - itemspacing
 					closePolicy : Popup.NoAutoClose | Popup.CloseOnPressOutsideParent
 					MenuItem
@@ -177,7 +177,7 @@ ApplicationWindow
 					MenuSeparator { }
 					MenuItem
 					{
-						text: "SpeedCrunch Android 0.6.1"
+						text: "SpeedCrunch Android 0.5.1"
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
 						onTriggered:
 						{
@@ -187,7 +187,7 @@ ApplicationWindow
 					}
 					MenuItem
 					{
-						text: "SpeedCrunch 0.13-git-200514"
+						text: "SpeedCrunch 0.13-git-201030"
 						height: menuheight; width: parent.width; font.pixelSize: fontsizemenu
 						onTriggered:
 						{

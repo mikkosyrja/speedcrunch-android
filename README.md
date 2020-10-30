@@ -82,8 +82,11 @@ values (0xFF). Key x is for variable name x and key X= is for user variable or f
 row arrow keys and backspace are for expression field editing.
 
 Some keys have secondary function available with long press:
+- Key 0 produces degree sign °
 - Keys 1-6 produce hexadecimal values A-F
 - Key 9 produces j for complex number imaginary part
+- Key . produces apostrophe ' for minutes
+- Key ; produces colon : for time values
 - Key x² produces generic exponent ^
 - Key √ produces cubic root function
 - Key 0x produces 0b for binary values (0b1010)
